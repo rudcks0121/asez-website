@@ -1,0 +1,167 @@
+---
+/**
+ * Instagram 피드 placeholder — 실제 ASEZ 활동 사진들.
+ * <img> 태그로 직접 — background-image보다 안정적, 캐시/lazy load 친화적.
+ */
+const tiles = [
+  {
+    img: "https://asez.org/wp-content/uploads/2026/04/20260322_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD_C_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD-%ED%94%84%EB%A6%AC%ED%86%A0%EB%A6%AC%EC%95%84_ASEZ-%EB%82%98%EB%AC%B4%EC%8B%AC%EA%B8%B0-100%EA%B7%B8%EB%A3%A8_%EC%B4%88%EC%BD%94%EC%97%90-%EC%B4%88%EB%93%B1%ED%95%99%EA%B5%90-%ED%8F%AC%ED%95%A8-9%EA%B0%9C-%EC%9E%A5%EC%86%8C_0000181_ASEZIUBA.jpg",
+    alt: "Tree planting in Pretoria",
+  },
+  {
+    img: "https://asez.org/wp-content/uploads/2026/03/beautiful-canopy-of-green-trees-looking-upwards-2026-01-11-10-01-30-utc-1.jpg",
+    alt: "Forests as our future",
+  },
+  {
+    img: "https://asez.org/wp-content/uploads/2026/02/%ED%8C%A8%EB%84%90-%EC%95%9E-%EB%8B%A8%EC%B2%B4%EC%82%AC%EC%A7%84-2-1.jpg",
+    alt: "Meeting with leaders",
+  },
+  {
+    img: "https://asez.org/wp-content/uploads/2026/03/20260125_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD_C_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD-%ED%94%84%EB%A6%AC%ED%86%A0%EB%A6%AC%EC%95%84_ASEZ-%EB%82%98%EB%AC%B4%EC%8B%AC%EA%B8%B0-20%EA%B7%B8%EB%A3%A8_%EB%AF%B8%EC%96%B4%EC%8A%A4-%EB%8F%84%EB%A1%9C-%EB%A7%88%ED%81%B4%EB%89%B4%ED%81%AC_0000002_ASEZIUBA.jpg",
+    alt: "Tree planting, second site",
+  },
+  {
+    img: "https://asez.org/wp-content/uploads/2026/04/closeup-image-of-a-couple-people-holding-and-drink-2026-03-17-17-45-23-utc.jpg",
+    alt: "Reusable cups campaign",
+  },
+  {
+    img: "https://asez.org/wp-content/uploads/2024/10/thum_zero_plastic_2040.jpg",
+    alt: "Zero Plastic 2040",
+  },
+];
+
+const sns = [
+  { icon: "ti-brand-instagram", href: "https://www.instagram.com/asezglobal/", label: "Instagram" },
+  { icon: "ti-brand-youtube", href: "https://www.youtube.com/@ASEZ", label: "YouTube" },
+  { icon: "ti-brand-facebook", href: "https://www.facebook.com/asezglobal/", label: "Facebook" },
+  { icon: "ti-brand-x", href: "#", label: "X (Twitter)" },
+];
+---
+
+<section class="section reveal">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="eyebrow">Social</p>
+        <h2>Follow @asezglobal.</h2>
+        <p class="meta">Daily updates from chapters worldwide.</p>
+      </div>
+      <div class="links">
+        {sns.map((s) => (
+          <a href={s.href} class="icon-link" target="_blank" rel="noopener" aria-label={s.label}>
+            <i class={`ti ${s.icon}`}></i>
+          </a>
+        ))}
+      </div>
+    </div>
+    <div class="grid">
+      {tiles.map((t) => (
+        <a
+          href="https://www.instagram.com/asezglobal/"
+          target="_blank"
+          rel="noopener"
+          class="tile"
+          aria-label={t.alt}
+        >
+          <img src={t.img} alt={t.alt} loading="lazy" />
+          <div class="hover">
+            <i class="ti ti-brand-instagram"></i>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-secondary);
+    border-top: 0.5px solid var(--border);
+  }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .head h2 {
+    font-size: var(--fs-h2);
+    margin: 0;
+  }
+  .meta {
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+    margin: 8px 0 0;
+  }
+  .links { display: flex; gap: 8px; }
+  .icon-link {
+    width: 40px;
+    height: 40px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    text-decoration: none;
+    background: var(--bg-primary);
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .icon-link:hover {
+    background: var(--brand);
+    color: white;
+    border-color: var(--brand);
+  }
+  .icon-link i { font-size: 16px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .tile {
+    aspect-ratio: 1;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    background: var(--brand-50);
+  }
+  .tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s;
+  }
+  .tile:hover img { transform: scale(1.05); }
+  .hover {
+    position: absolute;
+    inset: 0;
+    background: rgba(4, 44, 83, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: background 0.2s;
+  }
+  .hover i {
+    font-size: 22px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .tile:hover .hover { background: rgba(4, 44, 83, 0.5); }
+  .tile:hover .hover i { opacity: 1; }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 480px) {
+    .section { padding: 48px 20px; }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

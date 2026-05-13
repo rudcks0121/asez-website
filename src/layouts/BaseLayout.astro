@@ -1,0 +1,79 @@
+---
+/**
+ * 모든 페이지가 공유하는 기본 레이아웃.
+ * - <head> 메타 태그
+ * - 글로벌 CSS 로드
+ * - Tabler Icons (목업에서 사용)
+ *
+ * 사용 예:
+ *   <BaseLayout title="About — ASEZ">
+ *     <h1>About</h1>
+ *   </BaseLayout>
+ */
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: "en" | "kr";
+}
+
+const {
+  title = "ASEZ — Save the Earth from A to Z",
+  description = "A global network of student volunteers tackling climate change, plastic pollution, and community challenges across 175 countries.",
+  lang = "en",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <script is:inline>
+      /* JS 사용 가능 표시 — scroll reveal 등 JS 기반 효과를 켜는 플래그.
+         no-JS 환경에서는 이 클래스가 없어 reveal 요소가 처음부터 보임. */
+      document.documentElement.classList.add("js");
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"
+    />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+    <script>
+      /* IntersectionObserver — .reveal 클래스가 붙은 요소가 화면에 들어오면
+         .in-view 클래스를 추가해 fade-up. 한 번만 트리거(unobserve)해서
+         반복 애니메이션으로 어지럽지 않게. */
+      const targets = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window && targets.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in-view");
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.08, rootMargin: "0px 0px -6% 0px" }
+        );
+        targets.forEach((el) => io.observe(el));
+      } else {
+        // Observer 미지원 환경: 즉시 모두 보이게.
+        targets.forEach((el) => el.classList.add("in-view"));
+      }
+    </script>
+  </body>
+</html>

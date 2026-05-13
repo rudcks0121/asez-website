@@ -1,0 +1,249 @@
+---
+import Logo from "./Logo.astro";
+
+const year = new Date().getFullYear();
+
+const columns = [
+  {
+    title: "About",
+    links: [
+      { label: "Who we are", href: "/about" },
+      { label: "Our story", href: "/about/story" },
+      { label: "S.A.V.E movement", href: "/about/save" },
+      { label: "Awards", href: "/about/awards" },
+      { label: "Partners", href: "/about/partners" },
+    ],
+  },
+  {
+    title: "What we do",
+    links: [
+      { label: "Climate action", href: "/what-we-do/climate-action" },
+      { label: "Plastic-free world", href: "/what-we-do/plastic-free" },
+      { label: "Crime prevention", href: "/what-we-do/crime-prevention" },
+      { label: "Digital human rights", href: "/what-we-do/digital-human-rights" },
+      { label: "Disaster relief", href: "/what-we-do/disaster-relief" },
+    ],
+  },
+  {
+    title: "Get involved",
+    links: [
+      { label: "Join ASEZ", href: "/get-involved/join" },
+      { label: "Start a chapter", href: "/get-involved/start-chapter" },
+      { label: "Volunteer", href: "/get-involved/volunteer" },
+      { label: "Partner with us", href: "/get-involved/partner" },
+      { label: "Upcoming events", href: "/get-involved/events" },
+    ],
+  },
+];
+
+const sns = [
+  { icon: "ti-brand-instagram", href: "https://www.instagram.com/asezglobal/", label: "Instagram" },
+  { icon: "ti-brand-youtube", href: "https://www.youtube.com/@ASEZ", label: "YouTube" },
+  { icon: "ti-brand-facebook", href: "https://www.facebook.com/asezglobal/", label: "Facebook" },
+  { icon: "ti-brand-x", href: "#", label: "X" },
+];
+---
+
+<footer class="footer reveal">
+  <div class="inner">
+    <div class="top">
+      <div class="brand">
+        <Logo height={32} />
+        <p class="tagline">Save the Earth from A to Z.</p>
+        <p class="mission">
+          A global network of university student volunteers working
+          to leave a more livable Earth for the next generation.
+        </p>
+      </div>
+
+      <div class="cols">
+        {columns.map((col) => (
+          <div class="col">
+            <h4>{col.title}</h4>
+            <ul>
+              {col.links.map((l) => (
+                <li><a href={l.href}>{l.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        <div class="col newsletter">
+          <h4>Newsletter</h4>
+          <p>Field stories and reports — once a month.</p>
+          <form class="form" onsubmit="event.preventDefault();">
+            <input type="email" placeholder="your@email.com" required />
+            <button type="submit" aria-label="Subscribe">
+              <i class="ti ti-arrow-right"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="copy">© {year} ASEZ. All rights reserved.</div>
+      <div class="bottom-right">
+        <div class="legal">
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/contact">Contact</a>
+        </div>
+        <div class="sns">
+          {sns.map((s) => (
+            <a href={s.href} class="sns-icon" target="_blank" rel="noopener" aria-label={s.label}>
+              <i class={`ti ${s.icon}`}></i>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--brand-darker);
+    color: white;
+    padding: 72px var(--section-pad-x) 28px;
+  }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+
+  .top {
+    display: grid;
+    grid-template-columns: 1fr 2.6fr;
+    gap: 48px;
+    padding-bottom: 48px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.15);
+  }
+  .brand { color: white; max-width: 320px; }
+  .tagline {
+    margin: 14px 0 16px;
+    font-size: var(--fs-small);
+    opacity: 0.85;
+  }
+  .mission {
+    font-size: var(--fs-small);
+    line-height: 1.6;
+    opacity: 0.6;
+    margin: 0;
+  }
+
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px;
+  }
+  .col h4 {
+    font-size: var(--fs-caption);
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 0 0 16px;
+    opacity: 0.55;
+  }
+  .col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .col li { margin-bottom: 10px; }
+  .col a {
+    color: white;
+    text-decoration: none;
+    font-size: var(--fs-small);
+    opacity: 0.85;
+  }
+  .col a:hover { opacity: 1; }
+
+  .newsletter p {
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    opacity: 0.65;
+    margin: 0 0 14px;
+  }
+  .form {
+    display: flex;
+    align-items: center;
+    border: 0.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: var(--radius-md);
+    padding: 2px 2px 2px 12px;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .form input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 13px;
+    padding: 10px 0;
+    outline: none;
+    font-family: inherit;
+  }
+  .form input::placeholder { color: rgba(255, 255, 255, 0.4); }
+  .form button {
+    border: none;
+    background: var(--brand-400);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .form button:hover { background: var(--brand); }
+  .form button i { font-size: 15px; }
+
+  .bottom {
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .copy {
+    font-size: var(--fs-caption);
+    opacity: 0.55;
+  }
+  .bottom-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .legal { display: flex; gap: 18px; }
+  .legal a {
+    color: white;
+    opacity: 0.6;
+    text-decoration: none;
+    font-size: var(--fs-caption);
+  }
+  .legal a:hover { opacity: 1; }
+  .sns { display: flex; gap: 8px; }
+  .sns-icon {
+    width: 36px;
+    height: 36px;
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    opacity: 0.75;
+  }
+  .sns-icon:hover { opacity: 1; }
+  .sns-icon i { font-size: 15px; }
+
+  @media (max-width: 900px) {
+    .top { grid-template-columns: 1fr; gap: 36px; }
+    .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+  }
+  @media (max-width: 560px) {
+    .footer { padding: 56px 20px 24px; }
+    .cols { grid-template-columns: 1fr; }
+  }
+</style>

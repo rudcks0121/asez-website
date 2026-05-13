@@ -1,0 +1,113 @@
+---
+import IssueCard from "./IssueCard.astro";
+
+const issues = [
+  {
+    icon: "ti-leaf",
+    title: "Climate action",
+    description: "Blue Carbon Movement, global tree planting, carbon neutrality.",
+    href: "/what-we-do/climate-action",
+    bg: "var(--teal-100)",
+    iconColor: "var(--teal-900)",
+  },
+  {
+    icon: "ti-recycle",
+    title: "Plastic-free world",
+    description: "Zero Plastic 2040 campaign to end plastic pollution.",
+    href: "/what-we-do/plastic-free",
+    bg: "var(--brand-100)",
+    iconColor: "var(--brand-900)",
+  },
+  {
+    icon: "ti-shield-check",
+    title: "Crime prevention",
+    description: "Reduce Crime Together — safer communities through engagement.",
+    href: "/what-we-do/crime-prevention",
+    bg: "var(--amber-100)",
+    iconColor: "var(--amber-900)",
+  },
+  {
+    icon: "ti-device-mobile",
+    title: "Digital human rights",
+    description: "Protecting privacy and dignity in the digital age.",
+    href: "/what-we-do/digital-human-rights",
+    bg: "var(--brand-800)",
+    iconColor: "#ffffff",
+  },
+  {
+    icon: "ti-heart-handshake",
+    title: "Disaster relief",
+    description: "Emergency response and recovery in affected regions.",
+    href: "/what-we-do/disaster-relief",
+    bg: "var(--brand-400)",
+    iconColor: "#ffffff",
+  },
+  {
+    icon: "ti-users-group",
+    title: "Community service",
+    description: "Volunteering with neighbors, schools, and local NGOs.",
+    href: "/what-we-do/community-service",
+    bg: "var(--teal-50)",
+    iconColor: "var(--teal-900)",
+  },
+];
+---
+
+<section class="section reveal">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="eyebrow">Our work</p>
+        <h2>Issues we tackle, every day.</h2>
+      </div>
+      <a href="/what-we-do" class="view-all">
+        All issues <i class="ti ti-arrow-right"></i>
+      </a>
+    </div>
+    <div class="grid">
+      {issues.map((i) => <IssueCard {...i} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-secondary);
+    border-top: 0.5px solid var(--border);
+  }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .head h2 {
+    font-size: var(--fs-h2);
+    margin: 0;
+    max-width: 580px;
+  }
+  .view-all {
+    font-size: var(--fs-small);
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .section { padding: 48px 20px; }
+    .grid { grid-template-columns: 1fr; }
+    .head h2 { font-size: 22px; }
+  }
+</style>

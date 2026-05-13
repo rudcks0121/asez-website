@@ -1,0 +1,93 @@
+---
+import StoryCard from "./StoryCard.astro";
+
+const stories = [
+  {
+    category: "Climate action",
+    title: "Planting 1,000 Trees — Sowing the Future in Pretoria, South Africa",
+    date: "March 22, 2026",
+    imgUrl:
+      "https://asez.org/wp-content/uploads/2026/04/20260322_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD_C_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD-%ED%94%84%EB%A6%AC%ED%86%A0%EB%A6%AC%EC%95%84_ASEZ-%EB%82%98%EB%AC%B4%EC%8B%AC%EA%B8%B0-100%EA%B7%B8%EB%A3%A8_%EC%B4%88%EC%BD%94%EC%97%90-%EC%B4%88%EB%93%B1%ED%95%99%EA%B5%90-%ED%8F%AC%ED%95%A8-9%EA%B0%9C-%EC%9E%A5%EC%86%8C_0000181_ASEZIUBA.jpg",
+    pillBg: "var(--brand-50)",
+    pillColor: "var(--brand-900)",
+    href: "#",
+  },
+  {
+    category: "Plastic-free world",
+    title: "Green Concert for a Plastic-Free India in Hyderabad",
+    date: "October 14, 2025",
+    imgUrl: "https://asez.org/wp-content/uploads/2024/10/thum_zero_plastic_2040.jpg",
+    pillBg: "var(--teal-50)",
+    pillColor: "var(--teal-900)",
+    href: "#",
+  },
+  {
+    category: "Diplomacy",
+    title: "Meeting With the President of East Timor",
+    date: "February 5, 2026",
+    imgUrl:
+      "https://asez.org/wp-content/uploads/2026/02/%ED%8C%A8%EB%84%90-%EC%95%9E-%EB%8B%A8%EC%B2%B4%EC%82%AC%EC%A7%84-2-1.jpg",
+    pillBg: "var(--amber-50)",
+    pillColor: "var(--amber-900)",
+    href: "#",
+  },
+];
+---
+
+<section class="section reveal">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="eyebrow">Field stories</p>
+        <h2>Latest from the field.</h2>
+      </div>
+      <a href="/stories" class="view-all">
+        All stories <i class="ti ti-arrow-right"></i>
+      </a>
+    </div>
+    <div class="grid">
+      {stories.map((s) => <StoryCard {...s} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-primary);
+    border-top: 0.5px solid var(--border);
+  }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .head h2 {
+    font-size: var(--fs-h2);
+    margin: 0;
+  }
+  .view-all {
+    font-size: var(--fs-small);
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .section { padding: 48px 20px; }
+    .grid { grid-template-columns: 1fr; }
+    .head h2 { font-size: 22px; }
+  }
+</style>

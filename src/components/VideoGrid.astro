@@ -1,0 +1,209 @@
+---
+const YOUTUBE_CHANNEL = "https://www.youtube.com/@ASEZ";
+
+/**
+ * 실제 ASEZ YouTube 영상 3개.
+ * 썸네일: img.youtube.com/vi/{ID}/maxresdefault.jpg (HD).
+ * onerror로 hqdefault fallback — maxresdefault 없는 영상도 안전.
+ */
+const videos = [
+  {
+    id: "7u65keUX5ws",
+    title: "Global ASEZ Summit 2024",
+    sub: "Strong Solidarity for Earth Recovery",
+  },
+  {
+    id: "8Vk-SscfxUQ",
+    title: "Blue Carbon Movement",
+    sub: "Protecting coastal ecosystems",
+  },
+  {
+    id: "if1P4ybn8KI",
+    title: "UN INC-5.2 highlights",
+    sub: "Plastic treaty negotiations",
+  },
+];
+---
+
+<section class="section reveal">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="eyebrow">Video</p>
+        <h2>Watch our work.</h2>
+        <p class="meta">Stories from the field, in motion.</p>
+      </div>
+      <a href={YOUTUBE_CHANNEL} target="_blank" rel="noopener" class="view-all">
+        YouTube channel <i class="ti ti-external-link"></i>
+      </a>
+    </div>
+    <div class="grid">
+      {videos.map((v) => (
+        <a
+          class="tile"
+          href={`https://youtu.be/${v.id}`}
+          target="_blank"
+          rel="noopener"
+          aria-label={`Watch: ${v.title}`}
+        >
+          <img
+            src={`https://img.youtube.com/vi/${v.id}/maxresdefault.jpg`}
+            data-fallback={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+            alt={v.title}
+            loading="lazy"
+          />
+          <div class="gradient"></div>
+          <div class="play">
+            <div class="play-circle"><i class="ti ti-player-play"></i></div>
+          </div>
+          <div class="overlay">
+            <div class="title">{v.title}</div>
+            <div class="sub">{v.sub}</div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-secondary);
+    border-top: 0.5px solid var(--border);
+  }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .head h2 {
+    font-size: var(--fs-h2);
+    margin: 0;
+  }
+  .meta {
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+    margin: 8px 0 0;
+  }
+  .view-all {
+    font-size: var(--fs-small);
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .tile {
+    aspect-ratio: 16/9;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+    color: white;
+    text-decoration: none;
+    display: block;
+    background: var(--brand-800);
+    transition:
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s ease;
+  }
+  .tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(4, 44, 83, 0.18);
+  }
+  .tile img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tile:hover img { transform: scale(1.05); }
+  .gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(4, 44, 83, 0.1) 0%,
+      rgba(4, 44, 83, 0.4) 60%,
+      rgba(4, 44, 83, 0.78) 100%
+    );
+  }
+  .play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .play-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+  .tile:hover .play-circle {
+    transform: scale(1.1);
+    background: white;
+  }
+  .play-circle i {
+    font-size: 26px;
+    color: var(--brand);
+    margin-left: 3px;
+  }
+  .overlay {
+    position: absolute;
+    left: 18px;
+    bottom: 16px;
+    right: 18px;
+  }
+  .title {
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .sub {
+    font-size: var(--fs-caption);
+    opacity: 0.9;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .section { padding: 48px 20px; }
+    .head h2 { font-size: 22px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  /* YouTube maxresdefault 썸네일이 없는 영상(주로 오래된 SD 업로드)은
+     1x1 placeholder를 반환하지 않고 404를 줘서 onerror가 발동.
+     hqdefault(480x360)로 fallback — 모든 영상에 존재. */
+  document.querySelectorAll<HTMLImageElement>(".tile img[data-fallback]").forEach((img) => {
+    img.addEventListener(
+      "error",
+      () => {
+        const fallback = img.dataset.fallback;
+        if (fallback && img.src !== fallback) img.src = fallback;
+      },
+      { once: true }
+    );
+  });
+</script>

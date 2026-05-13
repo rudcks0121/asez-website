@@ -1,0 +1,91 @@
+---
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  href?: string;
+  bg?: string;
+  iconColor?: string;
+}
+const {
+  icon,
+  title,
+  description,
+  href = "#",
+  bg = "var(--brand-100)",
+  iconColor = "var(--brand-800)",
+} = Astro.props;
+---
+
+<a class="card" href={href}>
+  <div class="visual" style={`background: ${bg};`}>
+    <i class={`ti ${icon}`} style={`color: ${iconColor};`}></i>
+  </div>
+  <div class="body">
+    <h3>{title}</h3>
+    <p>{description}</p>
+    <span class="more">
+      Learn more <i class="ti ti-arrow-right"></i>
+    </span>
+  </div>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 0.5px solid var(--border);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+    height: 100%;
+  }
+  .card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(4, 44, 83, 0.08);
+  }
+  .visual {
+    aspect-ratio: 5/2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .visual i {
+    font-size: 40px;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .card:hover .visual i {
+    transform: scale(1.12);
+  }
+  .body {
+    padding: 20px 22px 22px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  h3 {
+    font-size: var(--fs-h3);
+    margin: 0 0 8px;
+    line-height: var(--lh-snug);
+  }
+  p {
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0 0 16px;
+    flex: 1;
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--brand);
+  }
+</style>
