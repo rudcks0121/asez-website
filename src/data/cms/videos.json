@@ -1,0 +1,50 @@
+{
+  "channelUrl": "https://www.youtube.com/@ASEZ",
+  "en": {
+    "eyebrow": "Video",
+    "title": "Watch our work.",
+    "meta": "Stories from the field, in motion.",
+    "channel": "YouTube channel"
+  },
+  "ko": {
+    "eyebrow": "영상",
+    "title": "ASEZ의 활동.",
+    "meta": "현장에서 보내온 이야기.",
+    "channel": "YouTube 채널"
+  },
+  "items": [
+    {
+      "id": "7u65keUX5ws",
+      "en": {
+        "title": "Global ASEZ Summit 2024",
+        "sub": "Strong Solidarity for Earth Recovery"
+      },
+      "ko": {
+        "title": "Global ASEZ Summit 2024",
+        "sub": "지구 회복을 위한 강한 연대"
+      }
+    },
+    {
+      "id": "8Vk-SscfxUQ",
+      "en": {
+        "title": "Blue Carbon Movement",
+        "sub": "Protecting coastal ecosystems"
+      },
+      "ko": {
+        "title": "Blue Carbon Movement",
+        "sub": "해안 생태계 보호 활동"
+      }
+    },
+    {
+      "id": "if1P4ybn8KI",
+      "en": {
+        "title": "UN INC-5.2 highlights",
+        "sub": "Plastic treaty negotiations"
+      },
+      "ko": {
+        "title": "UN INC-5.2 하이라이트",
+        "sub": "플라스틱 협약 협상"
+      }
+    }
+  ]
+}

@@ -1,78 +1,35 @@
 ---
-import { useTranslations, getLangFromUrl, pathLocalized } from "../i18n/utils";
+import { getLangFromUrl, pathLocalized } from "../i18n/utils";
 import { countriesByContinent, continentViewBox } from "../lib/world-map";
+import regionsData from "../data/cms/regions.json";
 
-const t = useTranslations(Astro.url);
 const lang = getLangFromUrl(Astro.url);
 const p = (path: string) => pathLocalized(path, lang);
+const c = (regionsData as any)[lang] ?? regionsData.en;
 
-// 활동 목록은 짧고 사이트 전반에서 일관됨. 한국어/영문 모두 직관적이라 인라인 매핑.
-const isKo = lang === "ko";
-
-const regions = [
-  {
-    name: t("region.asia"),
-    slug: "asia",
-    countries: 48,
-    img: "/images/zero-plastic-2040.jpg",
-    activities: isKo
-      ? ["Plastic-Free India", "Blue Carbon 한국", "산림 포럼 일본"]
-      : ["Plastic-Free India", "Blue Carbon Korea", "Forest forums Japan"],
-    href: p("/where-we-work") + "#asia",
-  },
-  {
-    name: t("region.americas"),
-    slug: "americas",
-    countries: 35,
-    img: "/images/award-us-president.png",
-    activities: isKo
-      ? ["미국 대통령 봉사상", "아마존 보호 브라질", "해안 정화 활동"]
-      : ["U.S. Presidential Service", "Amazon protection Brazil", "Coastal cleanups"],
-    href: p("/where-we-work") + "#americas",
-  },
-  {
-    name: t("region.europe"),
-    slug: "europe",
-    countries: 44,
-    img: "/images/award-green.png",
-    activities: isKo
-      ? ["Green Apple Awards", "기후 정책 포럼", "플라스틱 감축 영국"]
-      : ["Green Apple Awards", "Climate policy forums", "Plastic reduction UK"],
-    href: p("/where-we-work") + "#europe",
-  },
-  {
-    name: t("region.africa"),
-    slug: "africa",
-    countries: 38,
-    img: "/images/pretoria-1000-trees.jpg",
-    activities: isKo
-      ? ["프리토리아 나무 심기", "UNCCD 파트너십", "케냐 보존 활동"]
-      : ["Pretoria tree planting", "UNCCD partnership", "Kenya conservation"],
-    href: p("/where-we-work") + "#africa",
-  },
-  {
-    name: t("region.oceania"),
-    slug: "oceania",
-    countries: 10,
-    img: "/images/forest-canopy.jpg",
-    activities: isKo
-      ? ["Blue Carbon 태평양", "산호초 보호 호주", "NZ 챕터 네트워크"]
-      : ["Blue Carbon Pacific", "Reef protection AU", "NZ chapter network"],
-    href: p("/where-we-work") + "#oceania",
-  },
-];
+const regions = regionsData.items.map((r: any) => {
+  const rc = r[lang] ?? r.en;
+  return {
+    slug: r.slug,
+    countries: r.countries,
+    img: r.image,
+    name: rc.name,
+    activities: rc.activities,
+    href: p(r.href.split("#")[0]) + (r.href.includes("#") ? "#" + r.href.split("#")[1] : ""),
+  };
+});
 ---
 
 <section class="by-region reveal">
   <div class="inner">
     <div class="head">
       <div class="head-text">
-        <p class="eyebrow">{t("region.eyebrow")}</p>
-        <h2>{t("region.title")}</h2>
-        <p class="intro">{t("region.intro")}</p>
+        <p class="eyebrow">{c.eyebrow}</p>
+        <h2>{c.title}</h2>
+        <p class="intro">{c.intro}</p>
       </div>
       <a href={p("/where-we-work")} class="view-all">
-        {t("region.full-map")} <i class="ti ti-arrow-right"></i>
+        {c.viewAll} <i class="ti ti-arrow-right"></i>
       </a>
     </div>
 
@@ -83,7 +40,7 @@ const regions = [
             <img src={r.img} alt={r.name} loading="lazy" />
             <div class="cnt-badge">
               <span class="cnt">{r.countries}</span>
-              <span class="cnt-lbl">{t("region.countries")}</span>
+              <span class="cnt-lbl">{c.countries}</span>
             </div>
           </div>
           <div class="body">

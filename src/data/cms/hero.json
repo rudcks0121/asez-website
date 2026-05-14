@@ -1,0 +1,21 @@
+{
+  "heroImage": "/images/pretoria-1000-trees.jpg",
+  "ctaPrimaryHref": "/get-involved",
+  "ctaSecondaryHref": "/what-we-do",
+  "en": {
+    "eyebrow": "Save the Earth from A to Z",
+    "titleLine1": "University students,",
+    "titleLine2": "changing the world.",
+    "lead": "A global network of 7,500 campuses across 175 countries — protecting the environment, supporting communities, and shaping a more livable future for the next generation.",
+    "ctaPrimary": "Join ASEZ",
+    "ctaSecondary": "See our impact"
+  },
+  "ko": {
+    "eyebrow": "행복한 세상을 위해 A부터 Z까지",
+    "titleLine1": "세상을 바꾸는",
+    "titleLine2": "대학생들의 이야기.",
+    "lead": "전 세계 175개국 7,500여 캠퍼스에서 활동하는 대학생 봉사 단체 — 환경 보호, 지역사회 지원, 그리고 다음 세대를 위한 더 살기 좋은 지구를 만들어 갑니다.",
+    "ctaPrimary": "ASEZ 참여하기",
+    "ctaSecondary": "활동 보기"
+  }
+}

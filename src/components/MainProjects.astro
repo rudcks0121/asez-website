@@ -1,78 +1,44 @@
 ---
-import { useTranslations, getLangFromUrl, pathLocalized } from "../i18n/utils";
-const t = useTranslations(Astro.url);
-const lang = getLangFromUrl(Astro.url);
-const p = (path: string) => pathLocalized(path, lang);
+import { getLangFromUrl, pathLocalized } from "../i18n/utils";
+import projects from "../data/cms/projects.json";
 
-const projects = [
-  {
-    icon: "ti-shield-check",
-    title: t("projects.crime.title"),
-    tagline: t("projects.crime.tagline"),
-    desc: t("projects.crime.desc"),
-    bg: "var(--amber-100)",
-    iconColor: "var(--amber-900)",
-    href: p("/what-we-do/crime-prevention"),
-  },
-  {
-    icon: "ti-leaf",
-    title: t("projects.climate.title"),
-    tagline: t("projects.climate.tagline"),
-    desc: t("projects.climate.desc"),
-    bg: "var(--teal-100)",
-    iconColor: "var(--teal-900)",
-    href: p("/what-we-do/climate-action"),
-  },
-  {
-    icon: "ti-users-group",
-    title: t("projects.community.title"),
-    tagline: t("projects.community.tagline"),
-    desc: t("projects.community.desc"),
-    bg: "var(--brand-100)",
-    iconColor: "var(--brand-900)",
-    href: p("/what-we-do/community-service"),
-  },
-  {
-    icon: "ti-heart-handshake",
-    title: t("projects.emergency.title"),
-    tagline: t("projects.emergency.tagline"),
-    desc: t("projects.emergency.desc"),
-    bg: "var(--brand-400)",
-    iconColor: "#ffffff",
-    href: p("/what-we-do/disaster-relief"),
-  },
-];
+const lang = getLangFromUrl(Astro.url);
+const c = (projects as any)[lang] ?? projects.en;
+const p = (path: string) => pathLocalized(path, lang);
 ---
 
 <section class="main-projects reveal">
   <div class="inner">
     <div class="head">
       <div class="head-text">
-        <p class="eyebrow">{t("projects.eyebrow")}</p>
-        <h2>{t("projects.title")}</h2>
-        <p class="intro">{t("projects.intro")}</p>
+        <p class="eyebrow">{c.eyebrow}</p>
+        <h2>{c.title}</h2>
+        <p class="intro">{c.intro}</p>
       </div>
       <a href={p("/what-we-do")} class="view-all">
-        {t("projects.all")} <i class="ti ti-arrow-right"></i>
+        {c.viewAll} <i class="ti ti-arrow-right"></i>
       </a>
     </div>
 
     <div class="grid">
-      {projects.map((pr) => (
-        <a class="project" href={pr.href}>
-          <div class="visual" style={`background: ${pr.bg};`}>
-            <i class={`ti ${pr.icon}`} style={`color: ${pr.iconColor};`}></i>
-          </div>
-          <div class="body">
-            <h3>{pr.title}</h3>
-            <p class="tagline">{pr.tagline}</p>
-            <p class="desc">{pr.desc}</p>
-            <span class="more">
-              {t("projects.learn-more")} <i class="ti ti-arrow-right"></i>
-            </span>
-          </div>
-        </a>
-      ))}
+      {projects.items.map((pr: any) => {
+        const pc = pr[lang] ?? pr.en;
+        return (
+          <a class="project" href={p(pr.href)}>
+            <div class="visual" style={`background: ${pr.bg};`}>
+              <i class={`ti ${pr.icon}`} style={`color: ${pr.iconColor};`}></i>
+            </div>
+            <div class="body">
+              <h3>{pc.title}</h3>
+              <p class="tagline">{pc.tagline}</p>
+              <p class="desc">{pc.desc}</p>
+              <span class="more">
+                {c.learnMore} <i class="ti ti-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+        );
+      })}
     </div>
   </div>
 </section>

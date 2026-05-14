@@ -1,0 +1,27 @@
+{
+  "en": {
+    "eyebrow": "Social",
+    "title": "Follow @asezglobal.",
+    "meta": "Daily updates from chapters worldwide."
+  },
+  "ko": {
+    "eyebrow": "소셜",
+    "title": "@asezglobal 팔로우.",
+    "meta": "전 세계 챕터의 일상 업데이트."
+  },
+  "sns": [
+    { "icon": "ti-brand-instagram", "href": "https://www.instagram.com/asezglobal/", "label": "Instagram" },
+    { "icon": "ti-brand-youtube",   "href": "https://www.youtube.com/@ASEZ",         "label": "YouTube" },
+    { "icon": "ti-brand-facebook",  "href": "https://www.facebook.com/asezglobal/",  "label": "Facebook" },
+    { "icon": "ti-brand-x",         "href": "#",                                     "label": "X (Twitter)" }
+  ],
+  "tilesHref": "https://www.instagram.com/asezglobal/",
+  "tiles": [
+    { "image": "/images/pretoria-1000-trees.jpg", "alt": "Tree planting in Pretoria" },
+    { "image": "/images/forest-canopy.jpg",       "alt": "Forests as our future" },
+    { "image": "/images/east-timor-meeting.jpg",  "alt": "Meeting with leaders" },
+    { "image": "/images/pretoria-20-trees.jpg",   "alt": "Tree planting, second site" },
+    { "image": "/images/reusable-cups.jpg",       "alt": "Reusable cups campaign" },
+    { "image": "/images/zero-plastic-2040.jpg",   "alt": "Zero Plastic 2040" }
+  ]
+}

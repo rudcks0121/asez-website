@@ -1,68 +1,51 @@
 ---
-import { useTranslations, getLangFromUrl } from "../i18n/utils";
+import { getLangFromUrl } from "../i18n/utils";
+import videos from "../data/cms/videos.json";
 
-const t = useTranslations(Astro.url);
 const lang = getLangFromUrl(Astro.url);
-const isKo = lang === "ko";
-
-const YOUTUBE_CHANNEL = "https://www.youtube.com/@ASEZ";
-
-const videos = [
-  {
-    id: "7u65keUX5ws",
-    title: isKo ? "Global ASEZ Summit 2024" : "Global ASEZ Summit 2024",
-    sub: isKo ? "지구 회복을 위한 강한 연대" : "Strong Solidarity for Earth Recovery",
-  },
-  {
-    id: "8Vk-SscfxUQ",
-    title: isKo ? "Blue Carbon Movement" : "Blue Carbon Movement",
-    sub: isKo ? "해안 생태계 보호 활동" : "Protecting coastal ecosystems",
-  },
-  {
-    id: "if1P4ybn8KI",
-    title: isKo ? "UN INC-5.2 하이라이트" : "UN INC-5.2 highlights",
-    sub: isKo ? "플라스틱 협약 협상" : "Plastic treaty negotiations",
-  },
-];
+const c = (videos as any)[lang] ?? videos.en;
 ---
 
 <section class="section reveal">
   <div class="inner">
     <div class="head">
       <div>
-        <p class="eyebrow">{t("videos.eyebrow")}</p>
-        <h2>{t("videos.title")}</h2>
-        <p class="meta">{t("videos.meta")}</p>
+        <p class="eyebrow">{c.eyebrow}</p>
+        <h2>{c.title}</h2>
+        <p class="meta">{c.meta}</p>
       </div>
-      <a href={YOUTUBE_CHANNEL} target="_blank" rel="noopener" class="view-all">
-        {t("videos.channel")} <i class="ti ti-external-link"></i>
+      <a href={videos.channelUrl} target="_blank" rel="noopener" class="view-all">
+        {c.channel} <i class="ti ti-external-link"></i>
       </a>
     </div>
     <div class="grid">
-      {videos.map((v) => (
-        <a
-          class="tile"
-          href={`https://youtu.be/${v.id}`}
-          target="_blank"
-          rel="noopener"
-          aria-label={`Watch: ${v.title}`}
-        >
-          <img
-            src={`https://img.youtube.com/vi/${v.id}/maxresdefault.jpg`}
-            data-fallback={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
-            alt={v.title}
-            loading="lazy"
-          />
-          <div class="gradient"></div>
-          <div class="play">
-            <div class="play-circle"><i class="ti ti-player-play"></i></div>
-          </div>
-          <div class="overlay">
-            <div class="title">{v.title}</div>
-            <div class="sub">{v.sub}</div>
-          </div>
-        </a>
-      ))}
+      {videos.items.map((v: any) => {
+        const vc = v[lang] ?? v.en;
+        return (
+          <a
+            class="tile"
+            href={`https://youtu.be/${v.id}`}
+            target="_blank"
+            rel="noopener"
+            aria-label={`Watch: ${vc.title}`}
+          >
+            <img
+              src={`https://img.youtube.com/vi/${v.id}/maxresdefault.jpg`}
+              data-fallback={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+              alt={vc.title}
+              loading="lazy"
+            />
+            <div class="gradient"></div>
+            <div class="play">
+              <div class="play-circle"><i class="ti ti-player-play"></i></div>
+            </div>
+            <div class="overlay">
+              <div class="title">{vc.title}</div>
+              <div class="sub">{vc.sub}</div>
+            </div>
+          </a>
+        );
+      })}
     </div>
   </div>
 </section>

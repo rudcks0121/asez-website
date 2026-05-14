@@ -1,0 +1,88 @@
+{
+  "en": {
+    "eyebrow": "Activity by region",
+    "title": "Local action, global movement.",
+    "intro": "ASEZ chapters are organized regionally. Here's what's happening on each continent right now.",
+    "viewAll": "Full map",
+    "countries": "countries"
+  },
+  "ko": {
+    "eyebrow": "지역별 활동",
+    "title": "지역 활동, 글로벌 무브먼트.",
+    "intro": "ASEZ는 전 세계 5개 지역에서 활동합니다. 각 대륙에서 진행 중인 활동을 한눈에 살펴보세요.",
+    "viewAll": "지도 보기",
+    "countries": "개국"
+  },
+  "items": [
+    {
+      "slug": "asia",
+      "countries": 48,
+      "image": "/images/zero-plastic-2040.jpg",
+      "href": "/where-we-work#asia",
+      "en": {
+        "name": "Asia",
+        "activities": ["Plastic-Free India", "Blue Carbon Korea", "Forest forums Japan"]
+      },
+      "ko": {
+        "name": "아시아",
+        "activities": ["Plastic-Free India", "Blue Carbon 한국", "산림 포럼 일본"]
+      }
+    },
+    {
+      "slug": "americas",
+      "countries": 35,
+      "image": "/images/award-us-president.png",
+      "href": "/where-we-work#americas",
+      "en": {
+        "name": "Americas",
+        "activities": ["U.S. Presidential Service", "Amazon protection Brazil", "Coastal cleanups"]
+      },
+      "ko": {
+        "name": "아메리카",
+        "activities": ["미국 대통령 봉사상", "아마존 보호 브라질", "해안 정화 활동"]
+      }
+    },
+    {
+      "slug": "europe",
+      "countries": 44,
+      "image": "/images/award-green.png",
+      "href": "/where-we-work#europe",
+      "en": {
+        "name": "Europe",
+        "activities": ["Green Apple Awards", "Climate policy forums", "Plastic reduction UK"]
+      },
+      "ko": {
+        "name": "유럽",
+        "activities": ["Green Apple Awards", "기후 정책 포럼", "플라스틱 감축 영국"]
+      }
+    },
+    {
+      "slug": "africa",
+      "countries": 38,
+      "image": "/images/pretoria-1000-trees.jpg",
+      "href": "/where-we-work#africa",
+      "en": {
+        "name": "Africa",
+        "activities": ["Pretoria tree planting", "UNCCD partnership", "Kenya conservation"]
+      },
+      "ko": {
+        "name": "아프리카",
+        "activities": ["프리토리아 나무 심기", "UNCCD 파트너십", "케냐 보존 활동"]
+      }
+    },
+    {
+      "slug": "oceania",
+      "countries": 10,
+      "image": "/images/forest-canopy.jpg",
+      "href": "/where-we-work#oceania",
+      "en": {
+        "name": "Oceania",
+        "activities": ["Blue Carbon Pacific", "Reef protection AU", "NZ chapter network"]
+      },
+      "ko": {
+        "name": "오세아니아",
+        "activities": ["Blue Carbon 태평양", "산호초 보호 호주", "NZ 챕터 네트워크"]
+      }
+    }
+  ]
+}

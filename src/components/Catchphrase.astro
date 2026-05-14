@@ -1,12 +1,15 @@
 ---
-import { useTranslations } from "../i18n/utils";
-const t = useTranslations(Astro.url);
+import { getLangFromUrl } from "../i18n/utils";
+import catchphrase from "../data/cms/catchphrase.json";
+
+const lang = getLangFromUrl(Astro.url);
+const c = (catchphrase as any)[lang] ?? catchphrase.en;
 ---
 
 <section class="catchphrase reveal">
   <div class="inner">
-    <p class="eyebrow">{t("catchphrase.eyebrow")}</p>
-    <p class="line" set:html={t("catchphrase.line")}></p>
+    <p class="eyebrow">{c.eyebrow}</p>
+    <p class="line" set:html={c.line}></p>
   </div>
 </section>
 

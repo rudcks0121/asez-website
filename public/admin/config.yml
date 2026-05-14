@@ -202,3 +202,327 @@ collections:
       - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, hint: "낮을수록 먼저" }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
       - { label: "Body", name: "body", widget: "markdown" }
+
+  # ─────────────────────────────────────────────────────────
+  # HOMEPAGE SECTIONS — 메인 페이지 8개 섹션
+  # 파일: src/data/cms/*.json
+  # ─────────────────────────────────────────────────────────
+  - name: "home"
+    label: "홈페이지 섹션"
+    description: "메인 페이지의 각 섹션 콘텐츠 (영어/한국어)"
+    files:
+      # ── Hero (메인 배너)
+      - name: "hero"
+        label: "1. Hero (메인 배너)"
+        file: "src/data/cms/hero.json"
+        format: "json"
+        fields:
+          - { label: "Hero image URL", name: "heroImage", widget: "string" }
+          - { label: "CTA primary 링크", name: "ctaPrimaryHref", widget: "string", default: "/get-involved" }
+          - { label: "CTA secondary 링크", name: "ctaSecondaryHref", widget: "string", default: "/what-we-do" }
+          - label: "English"
+            name: "en"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title (line 1)", name: "titleLine1", widget: "string" }
+              - { label: "Title (line 2)", name: "titleLine2", widget: "string" }
+              - { label: "Lead text", name: "lead", widget: "text" }
+              - { label: "CTA primary 텍스트", name: "ctaPrimary", widget: "string" }
+              - { label: "CTA secondary 텍스트", name: "ctaSecondary", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title (line 1)", name: "titleLine1", widget: "string" }
+              - { label: "Title (line 2)", name: "titleLine2", widget: "string" }
+              - { label: "Lead text", name: "lead", widget: "text" }
+              - { label: "CTA primary 텍스트", name: "ctaPrimary", widget: "string" }
+              - { label: "CTA secondary 텍스트", name: "ctaSecondary", widget: "string" }
+
+      # ── Catchphrase (메인 메시지)
+      - name: "catchphrase"
+        label: "2. Catchphrase (메인 메시지)"
+        file: "src/data/cms/catchphrase.json"
+        format: "json"
+        fields:
+          - label: "English"
+            name: "en"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Line (HTML, <strong> 사용 가능)", name: "line", widget: "text" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Line (HTML, <strong> 사용 가능)", name: "line", widget: "text" }
+
+      # ── Stats (숫자 4개)
+      - name: "stats"
+        label: "3. Stats (숫자 통계)"
+        file: "src/data/cms/stats.json"
+        format: "json"
+        fields:
+          - label: "English"
+            name: "en"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+          - label: "통계 항목 (4개)"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "표시 숫자", name: "num", widget: "string", hint: "예: 175 / 7,500 / 2.1M+" }
+              - { label: "Count target", name: "target", widget: "number", hint: "애니메이션 카운트업 목표 숫자" }
+              - { label: "Suffix (선택)", name: "suffix", widget: "string", required: false }
+              - { label: "Decimals (선택)", name: "decimals", widget: "number", required: false, value_type: "int" }
+              - { label: "Format (선택)", name: "format", widget: "select", required: false, options: ["comma"] }
+              - { label: "Icon (Tabler)", name: "icon", widget: "string", hint: "예: ti-world" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Label", name: "label", widget: "string" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Label", name: "label", widget: "string" }
+
+      # ── Major projects (4개 카드)
+      - name: "projects"
+        label: "4. Major Projects (주요 활동 4개)"
+        file: "src/data/cms/projects.json"
+        format: "json"
+        fields:
+          - label: "English"
+            name: "en"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Intro", name: "intro", widget: "text" }
+              - { label: "View all 텍스트", name: "viewAll", widget: "string" }
+              - { label: "Learn more 텍스트", name: "learnMore", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Intro", name: "intro", widget: "text" }
+              - { label: "View all 텍스트", name: "viewAll", widget: "string" }
+              - { label: "Learn more 텍스트", name: "learnMore", widget: "string" }
+          - label: "활동 카드"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "Icon (Tabler)", name: "icon", widget: "string" }
+              - { label: "Background color", name: "bg", widget: "string", hint: "예: var(--amber-100)" }
+              - { label: "Icon color", name: "iconColor", widget: "string", hint: "예: var(--amber-900)" }
+              - { label: "Link 경로", name: "href", widget: "string", hint: "예: /what-we-do/climate-action" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Tagline", name: "tagline", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Tagline", name: "tagline", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+
+      # ── Activity by region (5개 대륙)
+      - name: "regions"
+        label: "5. Activity by Region (5개 대륙)"
+        file: "src/data/cms/regions.json"
+        format: "json"
+        fields:
+          - label: "English"
+            name: "en"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Intro", name: "intro", widget: "text" }
+              - { label: "View all 텍스트", name: "viewAll", widget: "string" }
+              - { label: "'countries' 단어", name: "countries", widget: "string", hint: "예: countries" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Intro", name: "intro", widget: "text" }
+              - { label: "View all 텍스트", name: "viewAll", widget: "string" }
+              - { label: "'개국' 단어", name: "countries", widget: "string", hint: "예: 개국" }
+          - label: "대륙 (5개)"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "Slug", name: "slug", widget: "select", options: ["asia", "americas", "europe", "africa", "oceania"] }
+              - { label: "Country 수", name: "countries", widget: "number", value_type: "int" }
+              - { label: "Image URL", name: "image", widget: "string" }
+              - { label: "Link 경로", name: "href", widget: "string", hint: "예: /where-we-work#asia" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+                  - { label: "Activities (3개)", name: "activities", widget: "list", field: { label: "Activity", name: "activity", widget: "string" } }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+                  - { label: "Activities (3개)", name: "activities", widget: "list", field: { label: "Activity", name: "activity", widget: "string" } }
+
+      # ── Recognition (12+ / 80+ + 3개 수상작)
+      - name: "recognition"
+        label: "6. Recognition (수상 및 협력)"
+        file: "src/data/cms/recognition.json"
+        format: "json"
+        fields:
+          - { label: "전체 보기 링크", name: "viewAllHref", widget: "string", default: "/about" }
+          - label: "English"
+            name: "en"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "View all 텍스트", name: "viewAll", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "View all 텍스트", name: "viewAll", widget: "string" }
+          - label: "큰 숫자 2개 (수상 / 협력)"
+            name: "bigStats"
+            widget: "list"
+            fields:
+              - { label: "표시 숫자", name: "num", widget: "string", hint: "예: 12+" }
+              - { label: "Count target", name: "target", widget: "number" }
+              - { label: "Suffix", name: "suffix", widget: "string", default: "+" }
+              - { label: "Icon (Tabler)", name: "icon", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Label", name: "label", widget: "string" }
+                  - { label: "Sub", name: "sub", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Label", name: "label", widget: "string" }
+                  - { label: "Sub", name: "sub", widget: "text" }
+          - label: "수상작 카드 (3개)"
+            name: "awards"
+            widget: "list"
+            fields:
+              - { label: "Year", name: "year", widget: "string" }
+              - { label: "Image URL", name: "image", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Body", name: "body", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Body", name: "body", widget: "text" }
+
+      # ── Video grid (YouTube 영상 3개)
+      - name: "videos"
+        label: "7. Video Grid (YouTube 영상)"
+        file: "src/data/cms/videos.json"
+        format: "json"
+        fields:
+          - { label: "YouTube 채널 URL", name: "channelUrl", widget: "string", default: "https://www.youtube.com/@ASEZ" }
+          - label: "English"
+            name: "en"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Meta", name: "meta", widget: "string" }
+              - { label: "Channel 버튼", name: "channel", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Meta", name: "meta", widget: "string" }
+              - { label: "Channel 버튼", name: "channel", widget: "string" }
+          - label: "영상 (3개)"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "YouTube Video ID", name: "id", widget: "string", hint: "예: 7u65keUX5ws (URL 마지막 부분)" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Sub", name: "sub", widget: "string" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Sub", name: "sub", widget: "string" }
+
+      # ── SNS grid (인스타 타일 6개 + SNS 링크)
+      - name: "sns"
+        label: "8. SNS Grid (소셜 + 사진 타일)"
+        file: "src/data/cms/sns.json"
+        format: "json"
+        fields:
+          - { label: "타일 클릭 시 이동할 URL", name: "tilesHref", widget: "string", default: "https://www.instagram.com/asezglobal/" }
+          - label: "English"
+            name: "en"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Meta", name: "meta", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Meta", name: "meta", widget: "string" }
+          - label: "SNS 링크 (4개)"
+            name: "sns"
+            widget: "list"
+            fields:
+              - { label: "Icon (Tabler)", name: "icon", widget: "string", hint: "예: ti-brand-instagram" }
+              - { label: "URL", name: "href", widget: "string" }
+              - { label: "Label", name: "label", widget: "string" }
+          - label: "사진 타일 (6개)"
+            name: "tiles"
+            widget: "list"
+            fields:
+              - { label: "Image URL", name: "image", widget: "string" }
+              - { label: "Alt text", name: "alt", widget: "string" }

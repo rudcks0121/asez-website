@@ -1,60 +1,36 @@
 ---
-import { useTranslations, getLangFromUrl } from "../i18n/utils";
-const t = useTranslations(Astro.url);
+import { getLangFromUrl } from "../i18n/utils";
+import stats from "../data/cms/stats.json";
+
 const lang = getLangFromUrl(Astro.url);
-
-interface Stat {
-  num: string;
-  label: string;
-  icon: string;
-  target: number;
-  suffix?: string;
-  decimals?: number;
-  format?: "comma";
-}
-
-// 한국어에서는 "175개국"처럼 라벨이 짧음. 영문은 "Countries" 별도.
-const stats: Stat[] = [
-  { num: "175", label: lang === "ko" ? "175" + t("stats.countries") : t("stats.countries"), icon: "ti-world", target: 175 },
-  { num: "7,500", label: t("stats.campuses"), icon: "ti-school", target: 7500, format: "comma" },
-  { num: "2.1M+", label: t("stats.hours"), icon: "ti-clock-hour-4", target: 2.1, suffix: "M+", decimals: 1 },
-  { num: "17", label: t("stats.sdgs"), icon: "ti-target-arrow", target: 17 },
-];
-
-// 한국어 모드의 첫 카드는 라벨이 "175개국"이라 num은 빈 처리 — UI 일관성 위해 별도 라벨 사용
-const isKo = lang === "ko";
-const displayStats = isKo
-  ? [
-      { num: "175", label: t("stats.countries").startsWith("개") ? "개국" : t("stats.countries"), icon: "ti-world", target: 175 },
-      { num: "7,500", label: t("stats.campuses"), icon: "ti-school", target: 7500, format: "comma" as const },
-      { num: "2.1M+", label: t("stats.hours"), icon: "ti-clock-hour-4", target: 2.1, suffix: "M+", decimals: 1 },
-      { num: "17", label: t("stats.sdgs"), icon: "ti-target-arrow", target: 17 },
-    ]
-  : stats;
+const c = (stats as any)[lang] ?? stats.en;
 ---
 
 <section class="stats reveal">
   <div class="inner">
     <div class="head">
-      <p class="eyebrow">{t("stats.eyebrow")}</p>
-      <h2>{t("stats.title")}</h2>
+      <p class="eyebrow">{c.eyebrow}</p>
+      <h2>{c.title}</h2>
     </div>
     <div class="grid">
-      {displayStats.map((s) => (
-        <div class="stat">
-          <i class={`ti ${s.icon} icon`}></i>
-          <div
-            class="num"
-            data-count-target={s.target}
-            data-count-suffix={s.suffix}
-            data-count-decimals={s.decimals}
-            data-count-format={s.format}
-          >
-            {s.num}
+      {stats.items.map((s: any) => {
+        const sc = s[lang] ?? s.en;
+        return (
+          <div class="stat">
+            <i class={`ti ${s.icon} icon`}></i>
+            <div
+              class="num"
+              data-count-target={s.target}
+              data-count-suffix={s.suffix}
+              data-count-decimals={s.decimals}
+              data-count-format={s.format}
+            >
+              {s.num}
+            </div>
+            <div class="label">{sc.label}</div>
           </div>
-          <div class="label">{s.label}</div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   </div>
 </section>

@@ -1,23 +1,21 @@
 ---
-import { useTranslations, getLangFromUrl, pathLocalized } from "../i18n/utils";
+import { getLangFromUrl, pathLocalized } from "../i18n/utils";
+import hero from "../data/cms/hero.json";
 
-const t = useTranslations(Astro.url);
 const lang = getLangFromUrl(Astro.url);
-
-const heroImage =
-  "/images/pretoria-1000-trees.jpg";
+const c = (hero as any)[lang] ?? hero.en;
 ---
 
-<section class="hero" style={`background-image: url('${heroImage}');`}>
+<section class="hero" style={`background-image: url('${hero.heroImage}');`}>
   <div class="overlay"></div>
   <div class="inner">
-    <p class="eyebrow light">{t("hero.eyebrow")}</p>
-    <h1>{t("hero.title.line1")}<br />{t("hero.title.line2")}</h1>
-    <p class="lead">{t("hero.lead")}</p>
+    <p class="eyebrow light">{c.eyebrow}</p>
+    <h1>{c.titleLine1}<br />{c.titleLine2}</h1>
+    <p class="lead">{c.lead}</p>
     <div class="cta">
-      <a href={pathLocalized("/get-involved", lang)} class="btn-primary">{t("hero.cta.primary")}</a>
-      <a href={pathLocalized("/what-we-do", lang)} class="btn-ghost">
-        {t("hero.cta.secondary")} <i class="ti ti-arrow-right"></i>
+      <a href={pathLocalized(hero.ctaPrimaryHref, lang)} class="btn-primary">{c.ctaPrimary}</a>
+      <a href={pathLocalized(hero.ctaSecondaryHref, lang)} class="btn-ghost">
+        {c.ctaSecondary} <i class="ti ti-arrow-right"></i>
       </a>
     </div>
   </div>

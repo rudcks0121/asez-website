@@ -1,0 +1,81 @@
+{
+  "viewAllHref": "/about",
+  "en": {
+    "eyebrow": "Recognition",
+    "title": "Honored globally. Trusted broadly.",
+    "viewAll": "See all recognition"
+  },
+  "ko": {
+    "eyebrow": "수상 및 협력",
+    "title": "세계가 인정한 신뢰.",
+    "viewAll": "전체 보기"
+  },
+  "bigStats": [
+    {
+      "num": "12+",
+      "target": 12,
+      "suffix": "+",
+      "icon": "ti-award",
+      "en": {
+        "label": "International awards",
+        "sub": "UNCCD, U.S. Presidency, Green Apple Awards, and more."
+      },
+      "ko": {
+        "label": "국제 수상",
+        "sub": "UNCCD, 미국 대통령상, Green Apple Awards 등."
+      }
+    },
+    {
+      "num": "80+",
+      "target": 80,
+      "suffix": "+",
+      "icon": "ti-heart-handshake",
+      "en": {
+        "label": "Partnerships & MOUs",
+        "sub": "UN agencies, governments, universities, and global NGOs."
+      },
+      "ko": {
+        "label": "협력 및 MOU",
+        "sub": "UN 기관, 정부, 대학, 글로벌 NGO와 협력."
+      }
+    }
+  ],
+  "awards": [
+    {
+      "year": "2024",
+      "image": "/images/award-unccd.png",
+      "en": {
+        "title": "UNCCD Executive Secretary's Award",
+        "body": "Recognized by the UN Convention to Combat Desertification."
+      },
+      "ko": {
+        "title": "UNCCD 사무총장상",
+        "body": "UN 사막화방지협약(UNCCD)으로부터 받은 표창."
+      }
+    },
+    {
+      "year": "2023",
+      "image": "/images/award-us-president.png",
+      "en": {
+        "title": "U.S. President's Volunteer Service Award",
+        "body": "Awarded to ASEZ chapters in the United States."
+      },
+      "ko": {
+        "title": "미국 대통령 봉사상",
+        "body": "미국 ASEZ 챕터가 수상."
+      }
+    },
+    {
+      "year": "2022",
+      "image": "/images/award-green.png",
+      "en": {
+        "title": "Green Apple & Green World Awards",
+        "body": "International environmental awards."
+      },
+      "ko": {
+        "title": "Green Apple & Green World Awards",
+        "body": "국제 환경 부문 수상."
+      }
+    }
+  ]
+}

@@ -1,94 +1,55 @@
 ---
-import { useTranslations, getLangFromUrl, pathLocalized } from "../i18n/utils";
-const t = useTranslations(Astro.url);
+import { getLangFromUrl, pathLocalized } from "../i18n/utils";
+import recognition from "../data/cms/recognition.json";
+
 const lang = getLangFromUrl(Astro.url);
-
-const bigStats = [
-  {
-    num: t("recognition.awards.num"),
-    target: 12,
-    suffix: "+",
-    label: t("recognition.awards.label"),
-    sub: t("recognition.awards.sub"),
-    icon: "ti-award",
-  },
-  {
-    num: t("recognition.partnerships.num"),
-    target: 80,
-    suffix: "+",
-    label: t("recognition.partnerships.label"),
-    sub: t("recognition.partnerships.sub"),
-    icon: "ti-heart-handshake",
-  },
-];
-
-const isKo = lang === "ko";
-const awards = [
-  {
-    year: "2024",
-    title: isKo ? "UNCCD 사무총장상" : "UNCCD Executive Secretary's Award",
-    body: isKo
-      ? "UN 사막화방지협약(UNCCD)으로부터 받은 표창."
-      : "Recognized by the UN Convention to Combat Desertification.",
-    img: "/images/award-unccd.png",
-  },
-  {
-    year: "2023",
-    title: isKo ? "미국 대통령 봉사상" : "U.S. President's Volunteer Service Award",
-    body: isKo
-      ? "미국 ASEZ 챕터가 수상."
-      : "Awarded to ASEZ chapters in the United States.",
-    img: "/images/award-us-president.png",
-  },
-  {
-    year: "2022",
-    title: isKo ? "Green Apple & Green World Awards" : "Green Apple & Green World Awards",
-    body: isKo
-      ? "국제 환경 부문 수상."
-      : "International environmental awards.",
-    img: "/images/award-green.png",
-  },
-];
+const c = (recognition as any)[lang] ?? recognition.en;
 ---
 
 <section class="recognition reveal">
   <div class="inner">
     <div class="head">
       <div class="head-text">
-        <p class="eyebrow">{t("recognition.eyebrow")}</p>
-        <h2>{t("recognition.title")}</h2>
+        <p class="eyebrow">{c.eyebrow}</p>
+        <h2>{c.title}</h2>
       </div>
-      <a href={pathLocalized("/about", lang)} class="view-all">
-        {t("recognition.see-all")} <i class="ti ti-arrow-right"></i>
+      <a href={pathLocalized(recognition.viewAllHref, lang)} class="view-all">
+        {c.viewAll} <i class="ti ti-arrow-right"></i>
       </a>
     </div>
 
     <div class="big-stats">
-      {bigStats.map((s) => (
-        <div class="big">
-          <i class={`ti ${s.icon} big-icon`}></i>
-          <div class="num" data-count-target={s.target} data-count-suffix={s.suffix}>
-            {s.num}
+      {recognition.bigStats.map((s: any) => {
+        const sc = s[lang] ?? s.en;
+        return (
+          <div class="big">
+            <i class={`ti ${s.icon} big-icon`}></i>
+            <div class="num" data-count-target={s.target} data-count-suffix={s.suffix}>
+              {s.num}
+            </div>
+            <div class="label">{sc.label}</div>
+            <p class="sub">{sc.sub}</p>
           </div>
-          <div class="label">{s.label}</div>
-          <p class="sub">{s.sub}</p>
-        </div>
-      ))}
+        );
+      })}
     </div>
 
     <div class="awards">
-      {awards.map((a) => (
-        <article class="award">
-          <div class="img-wrap">
-            <img src={a.img} alt={a.title} loading="lazy" />
-          </div>
-          <div class="body">
-            <p class="year">{a.year}</p>
-            <h3>{a.title}</h3>
-            <p>{a.body}</p>
-          </div>
-        </article>
-      ))}
+      {recognition.awards.map((a: any) => {
+        const ac = a[lang] ?? a.en;
+        return (
+          <article class="award">
+            <div class="img-wrap">
+              <img src={a.image} alt={ac.title} loading="lazy" />
+            </div>
+            <div class="body">
+              <p class="year">{a.year}</p>
+              <h3>{ac.title}</h3>
+              <p>{ac.body}</p>
+            </div>
+          </article>
+        );
+      })}
     </div>
   </div>
 </section>

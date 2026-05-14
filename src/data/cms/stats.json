@@ -1,0 +1,43 @@
+{
+  "en": {
+    "eyebrow": "Our global footprint",
+    "title": "A movement, in numbers."
+  },
+  "ko": {
+    "eyebrow": "우리의 글로벌 네트워크",
+    "title": "숫자로 보는 ASEZ."
+  },
+  "items": [
+    {
+      "num": "175",
+      "target": 175,
+      "icon": "ti-world",
+      "en": { "label": "Countries" },
+      "ko": { "label": "개국" }
+    },
+    {
+      "num": "7,500",
+      "target": 7500,
+      "format": "comma",
+      "icon": "ti-school",
+      "en": { "label": "Campuses" },
+      "ko": { "label": "캠퍼스" }
+    },
+    {
+      "num": "2.1M+",
+      "target": 2.1,
+      "suffix": "M+",
+      "decimals": 1,
+      "icon": "ti-clock-hour-4",
+      "en": { "label": "Volunteer hours" },
+      "ko": { "label": "자원봉사 시간" }
+    },
+    {
+      "num": "17",
+      "target": 17,
+      "icon": "ti-target-arrow",
+      "en": { "label": "UN SDGs supported" },
+      "ko": { "label": "UN SDGs 기여" }
+    }
+  ]
+}

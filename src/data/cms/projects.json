@@ -1,0 +1,82 @@
+{
+  "en": {
+    "eyebrow": "Major projects",
+    "title": "Four pillars of ASEZ's work.",
+    "intro": "All ASEZ activities are organized around four flagship programs — each addressing a defining challenge of our generation.",
+    "viewAll": "All issues",
+    "learnMore": "Learn more"
+  },
+  "ko": {
+    "eyebrow": "주요 활동",
+    "title": "ASEZ의 4가지 핵심 활동.",
+    "intro": "ASEZ의 모든 활동은 우리 세대가 직면한 4가지 시급한 과제를 중심으로 조직됩니다.",
+    "viewAll": "전체 활동",
+    "learnMore": "자세히 보기"
+  },
+  "items": [
+    {
+      "icon": "ti-shield-check",
+      "bg": "var(--amber-100)",
+      "iconColor": "var(--amber-900)",
+      "href": "/what-we-do/crime-prevention",
+      "en": {
+        "title": "Crime Prevention",
+        "tagline": "We make a safe world.",
+        "desc": "Reduce Crime Together — applying the Broken Windows theory to build safer streets, schools, and campuses."
+      },
+      "ko": {
+        "title": "범죄 예방",
+        "tagline": "우리는 안전한 세상을 만들어 갑니다.",
+        "desc": "Reduce Crime Together — '깨진 유리창 이론'으로 더 안전한 거리, 학교, 캠퍼스를 만들어 갑니다."
+      }
+    },
+    {
+      "icon": "ti-leaf",
+      "bg": "var(--teal-100)",
+      "iconColor": "var(--teal-900)",
+      "href": "/what-we-do/climate-action",
+      "en": {
+        "title": "Climate Change Response",
+        "tagline": "We create a sustainable world.",
+        "desc": "Blue Carbon, tree planting, Zero Plastic 2040, and policy engagement at UN climate forums."
+      },
+      "ko": {
+        "title": "기후변화 대응",
+        "tagline": "우리는 지속가능한 세상을 만들어 갑니다.",
+        "desc": "Blue Carbon, 나무 심기, Zero Plastic 2040, UN 기후 포럼 정책 참여."
+      }
+    },
+    {
+      "icon": "ti-users-group",
+      "bg": "var(--brand-100)",
+      "iconColor": "var(--brand-900)",
+      "href": "/what-we-do/community-service",
+      "en": {
+        "title": "Community Service",
+        "tagline": "We foster an inclusive world.",
+        "desc": "Volunteering with neighbors, schools, and local NGOs — supporting the people closest to home."
+      },
+      "ko": {
+        "title": "지역사회 봉사",
+        "tagline": "우리는 포용력 있는 세상을 만들어 갑니다.",
+        "desc": "이웃, 학교, 지역 NGO와 함께하는 봉사 — 가장 가까운 이웃부터 돌봅니다."
+      }
+    },
+    {
+      "icon": "ti-heart-handshake",
+      "bg": "var(--brand-400)",
+      "iconColor": "#ffffff",
+      "href": "/what-we-do/disaster-relief",
+      "en": {
+        "title": "Emergency Relief",
+        "tagline": "We build a resilient world.",
+        "desc": "Rapid response and long-term recovery in earthquake, flood, storm, and conflict-affected regions."
+      },
+      "ko": {
+        "title": "재해 구호",
+        "tagline": "우리는 회복력 있는 세상을 만들어 갑니다.",
+        "desc": "지진, 홍수, 태풍, 분쟁 지역에서의 신속한 대응과 장기 복구 활동."
+      }
+    }
+  ]
+}
