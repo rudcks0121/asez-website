@@ -4,6 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import StoryCard from "../../components/StoryCard.astro";
+import CtaBanner from "../../components/CtaBanner.astro";
 
 export async function getStaticPaths() {
   const issues = await getCollection("issues", ({ data }) => !data.draft);
@@ -119,6 +120,7 @@ const otherIssues = allIssues
         </div>
       </div>
     </section>
+    <CtaBanner variant="join" />
   </article>
 
   <Footer />
