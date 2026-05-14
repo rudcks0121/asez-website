@@ -37,6 +37,29 @@ const paths = [
     href: "/get-involved/events",
   },
 ];
+
+const reasons = [
+  {
+    icon: "ti-world",
+    title: "Global impact",
+    desc: "Your work in one campus connects to coordinated action in 7,500 campuses across 175 countries.",
+  },
+  {
+    icon: "ti-bolt",
+    title: "Real action, not just awareness",
+    desc: "Tree planting, plastic cleanups, disaster relief, forums with policymakers — we build the future, not just talk about it.",
+  },
+  {
+    icon: "ti-award",
+    title: "Recognized work",
+    desc: "ASEZ has been honored by the UNCCD, U.S. presidency, and international environmental bodies.",
+  },
+  {
+    icon: "ti-users",
+    title: "A community that lasts",
+    desc: "Lifelong friendships, mentors, and a peer network that spans every continent.",
+  },
+];
 ---
 
 <BaseLayout
@@ -50,6 +73,7 @@ const paths = [
     lead="There are many ways to join the movement — as a student, a volunteer, a partner organization, or a participant in our forums and field campaigns."
   />
   <main>
+    <!-- Five paths -->
     <section class="paths reveal">
       <div class="inner">
         <div class="grid">
@@ -66,20 +90,76 @@ const paths = [
         </div>
       </div>
     </section>
+
+    <!-- Why join -->
+    <section class="why reveal">
+      <div class="inner">
+        <p class="eyebrow">Why ASEZ</p>
+        <h2>What you get back when you join.</h2>
+        <p class="intro">
+          ASEZ isn't a membership card — it's a movement. Here's what
+          members consistently say keeps them coming back.
+        </p>
+        <div class="grid">
+          {reasons.map((r) => (
+            <div class="reason">
+              <i class={`ti ${r.icon} icon`}></i>
+              <h3>{r.title}</h3>
+              <p>{r.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Sign-up form (placeholder) -->
+    <section class="signup reveal">
+      <div class="inner">
+        <div class="signup-card">
+          <div class="copy">
+            <p class="eyebrow light">Get started</p>
+            <h2>Tell us where you are.</h2>
+            <p class="desc">
+              Drop your email and your campus, and we'll connect you to
+              the nearest chapter — or help you start a new one.
+            </p>
+          </div>
+          <form class="form" onsubmit="event.preventDefault();">
+            <label>
+              <span>Email</span>
+              <input type="email" placeholder="your@email.com" required />
+            </label>
+            <label>
+              <span>Campus / city</span>
+              <input type="text" placeholder="e.g. Seoul National University" required />
+            </label>
+            <button type="submit" class="submit">
+              Connect me <i class="ti ti-arrow-right"></i>
+            </button>
+            <p class="fine">
+              By submitting, you agree to receive a single follow-up
+              email from an ASEZ chapter coordinator.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
     <ComingSoon
-      message="Detailed sign-up forms and partnership inquiry pages are coming soon."
+      message="Detailed sign-up forms for each path and a partnership inquiry page are coming soon."
     />
   </main>
   <Footer />
 </BaseLayout>
 
 <style>
+  /* === Paths grid === */
   .paths {
     padding: var(--section-pad-y) var(--section-pad-x);
     background: var(--bg-primary);
   }
   .inner { max-width: var(--max-width); margin: 0 auto; }
-  .grid {
+  .paths .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
@@ -93,7 +173,10 @@ const paths = [
     background: var(--bg-secondary);
     color: var(--text-primary);
     text-decoration: none;
-    transition: border-color 0.2s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+    transition:
+      border-color 0.2s,
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s ease;
   }
   .path:hover {
     border-color: var(--border-strong);
@@ -107,12 +190,12 @@ const paths = [
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .path:hover .icon { transform: scale(1.1); }
-  h3 {
+  .path h3 {
     font-size: var(--fs-h3);
     margin: 0 0 8px;
     line-height: var(--lh-snug);
   }
-  p {
+  .path p {
     font-size: var(--fs-small);
     color: var(--text-secondary);
     line-height: 1.55;
@@ -128,11 +211,164 @@ const paths = [
     color: var(--brand);
   }
 
+  /* === Why ASEZ === */
+  .why {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-secondary);
+    border-top: 0.5px solid var(--border);
+  }
+  .why h2 {
+    font-size: var(--fs-h2);
+    margin: 0 0 14px;
+    letter-spacing: -0.4px;
+  }
+  .why .intro {
+    font-size: var(--fs-body);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 640px;
+    margin: 0 0 40px;
+  }
+  .why .grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .reason {
+    padding: 26px;
+    border-radius: var(--radius-lg);
+    background: var(--bg-primary);
+    border: 0.5px solid var(--border);
+  }
+  .reason .icon {
+    font-size: 26px;
+    color: var(--brand);
+    margin-bottom: 16px;
+    display: inline-block;
+  }
+  .reason h3 {
+    font-size: var(--fs-h3);
+    margin: 0 0 8px;
+    line-height: var(--lh-snug);
+  }
+  .reason p {
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* === Sign-up === */
+  .signup {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-primary);
+    border-top: 0.5px solid var(--border);
+  }
+  .signup-card {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    background: var(--brand-darker);
+    color: white;
+    border-radius: var(--radius-lg);
+    padding: 56px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+    background-image: linear-gradient(
+      135deg,
+      var(--brand-darker) 0%,
+      var(--brand-dark) 100%
+    );
+  }
+  .copy .eyebrow.light { color: rgba(255, 255, 255, 0.7); }
+  .copy h2 {
+    font-size: 30px;
+    line-height: 1.15;
+    margin: 0 0 16px;
+    letter-spacing: -0.6px;
+  }
+  .copy .desc {
+    font-size: var(--fs-body);
+    opacity: 0.85;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .form label span {
+    font-size: var(--fs-caption);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .form input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    font-size: var(--fs-body);
+    color: white;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .form input::placeholder { color: rgba(255, 255, 255, 0.35); }
+  .form input:focus {
+    border-color: var(--brand-400);
+    background: rgba(255, 255, 255, 0.12);
+  }
+  .submit {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    color: var(--brand);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 12px 22px;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition:
+      transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.2s;
+    margin-top: 4px;
+  }
+  .submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+  .submit i { transition: transform 0.2s; }
+  .submit:hover i { transform: translateX(3px); }
+  .fine {
+    font-size: 12px;
+    opacity: 0.55;
+    line-height: 1.5;
+    margin: 8px 0 0;
+  }
+
+  /* === Responsive === */
   @media (max-width: 900px) {
-    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .paths .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .why .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .signup-card { grid-template-columns: 1fr; gap: 32px; padding: 40px; }
+    .copy h2 { font-size: 26px; }
   }
   @media (max-width: 560px) {
-    .paths { padding: 56px 20px; }
-    .grid { grid-template-columns: 1fr; }
+    .paths, .why, .signup { padding: 56px 20px; }
+    .paths .grid { grid-template-columns: 1fr; }
+    .why .grid { grid-template-columns: 1fr; }
+    .signup-card { padding: 32px 24px; }
   }
 </style>
