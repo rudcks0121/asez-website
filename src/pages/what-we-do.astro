@@ -5,6 +5,36 @@ import PageHero from "../components/PageHero.astro";
 import Footer from "../components/Footer.astro";
 import IssueGrid from "../components/IssueGrid.astro";
 import ComingSoon from "../components/ComingSoon.astro";
+
+const campaigns = [
+  {
+    pill: "Climate action",
+    pillBg: "var(--teal-50)",
+    pillColor: "var(--teal-900)",
+    title: "Blue Carbon Movement",
+    desc: "Protecting and restoring coastal ecosystems — mangroves, seagrass, and tidal marshes — to capture carbon and shield communities from rising seas.",
+    img: "https://asez.org/wp-content/uploads/2026/04/thum_blue_carbon_2026.jpg",
+    href: "#",
+  },
+  {
+    pill: "Plastic-free",
+    pillBg: "var(--brand-50)",
+    pillColor: "var(--brand-900)",
+    title: "Zero Plastic 2040",
+    desc: "A global ASEZ campaign to end avoidable plastic pollution by 2040 through campus action, public awareness, and policy engagement at the UN INC meetings.",
+    img: "https://asez.org/wp-content/uploads/2024/10/thum_zero_plastic_2040.jpg",
+    href: "#",
+  },
+  {
+    pill: "Digital rights",
+    pillBg: "var(--amber-50)",
+    pillColor: "var(--amber-900)",
+    title: "Digital Human Rights",
+    desc: "Protecting privacy, dignity, and youth wellbeing in the digital age — through education, research, and partnership with policymakers.",
+    img: "https://asez.org/wp-content/uploads/2025/12/thum_digital_human_rights.jpg",
+    href: "#",
+  },
+];
 ---
 
 <BaseLayout
@@ -19,9 +49,143 @@ import ComingSoon from "../components/ComingSoon.astro";
   />
   <main>
     <IssueGrid />
+
+    <!-- Featured campaigns -->
+    <section class="campaigns reveal">
+      <div class="inner">
+        <div class="head">
+          <div>
+            <p class="eyebrow">Featured campaigns</p>
+            <h2>Three big bets, right now.</h2>
+          </div>
+        </div>
+        <div class="list">
+          {campaigns.map((c, i) => (
+            <a class="campaign" href={c.href} class:list={["campaign", i % 2 === 1 && "reverse"]}>
+              <div class="media">
+                <img src={c.img} alt={c.title} loading="lazy" />
+              </div>
+              <div class="body">
+                <span class="pill" style={`background: ${c.pillBg}; color: ${c.pillColor};`}>
+                  {c.pill}
+                </span>
+                <h3>{c.title}</h3>
+                <p>{c.desc}</p>
+                <span class="more">
+                  Read more <i class="ti ti-arrow-right"></i>
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <ComingSoon
       message="Detail pages for each program — campaigns, field reports, partner organizations, and ways to participate — are coming soon."
     />
   </main>
   <Footer />
 </BaseLayout>
+
+<style>
+  .campaigns {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-primary);
+    border-top: 0.5px solid var(--border);
+  }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .head { margin-bottom: 40px; }
+  .head h2 {
+    font-size: var(--fs-h2);
+    margin: 0;
+    letter-spacing: -0.4px;
+  }
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .campaign {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 36px;
+    align-items: center;
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 28px;
+    transition:
+      border-color 0.2s,
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s ease;
+  }
+  .campaign:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(4, 44, 83, 0.08);
+  }
+  .campaign.reverse .media { order: 2; }
+  .campaign.reverse .body { order: 1; }
+  .media {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    position: relative;
+  }
+  .media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .campaign:hover .media img { transform: scale(1.04); }
+  .body { padding: 8px 12px; }
+  .pill {
+    display: inline-block;
+    font-size: var(--fs-caption);
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 14px;
+  }
+  .body h3 {
+    font-size: 26px;
+    line-height: 1.2;
+    margin: 0 0 14px;
+    letter-spacing: -0.4px;
+  }
+  .body p {
+    font-size: var(--fs-body);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0 0 18px;
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--brand);
+  }
+  .more i { transition: transform 0.2s; }
+  .campaign:hover .more i { transform: translateX(4px); }
+
+  @media (max-width: 760px) {
+    .campaigns { padding: 56px 20px; }
+    .campaign {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+    .campaign.reverse .media { order: 1; }
+    .campaign.reverse .body { order: 2; }
+    .body { padding: 0; }
+    .body h3 { font-size: 22px; }
+  }
+</style>
