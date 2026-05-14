@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://asez-website.rudcks0121.workers.dev/sitemap-index.xml
