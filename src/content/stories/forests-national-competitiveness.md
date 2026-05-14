@@ -3,7 +3,7 @@ title: "In the Era of Climate Crisis, Forests Become National Competitiveness"
 category: "Climate action"
 date: 2025-10-08
 excerpt: "Why forests are no longer just an environmental concern but a strategic asset for nations facing climate volatility — a research summary from the ASEZ Climate Lab."
-image: "https://asez.org/wp-content/uploads/2026/03/beautiful-canopy-of-green-trees-looking-upwards-2026-01-11-10-01-30-utc-1.jpg"
+image: "/images/forest-canopy.jpg"
 pillBg: "var(--brand-50)"
 pillColor: "var(--brand-900)"
 ---

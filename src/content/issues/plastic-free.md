@@ -5,7 +5,7 @@ summary: "A global ASEZ campaign to end avoidable plastic pollution by 2040 thro
 icon: "ti-recycle"
 bg: "var(--brand-100)"
 iconColor: "var(--brand-900)"
-image: "https://asez.org/wp-content/uploads/2024/10/thum_zero_plastic_2040.jpg"
+image: "/images/zero-plastic-2040.jpg"
 order: 2
 ---
 

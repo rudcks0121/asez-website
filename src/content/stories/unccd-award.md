@@ -4,7 +4,7 @@ category: "Recognition"
 date: 2024-07-15
 location: "Riyadh, Saudi Arabia"
 excerpt: "ASEZ received the UNCCD Executive Secretary's Award for its sustained contribution to global tree planting and land restoration efforts."
-image: "https://asez.org/wp-content/uploads/2024/07/thum_unccd_award.png"
+image: "/images/award-unccd.png"
 pillBg: "var(--amber-50)"
 pillColor: "var(--amber-900)"
 ---

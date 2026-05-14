@@ -5,7 +5,7 @@ summary: "A new pillar of ASEZ's work — defending student privacy, mental heal
 icon: "ti-device-mobile"
 bg: "var(--brand-800)"
 iconColor: "#ffffff"
-image: "https://asez.org/wp-content/uploads/2025/12/thum_digital_human_rights.jpg"
+image: "/images/digital-human-rights.jpg"
 order: 4
 ---
 

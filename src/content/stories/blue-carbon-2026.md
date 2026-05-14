@@ -3,7 +3,7 @@ title: "Blue Carbon Movement Begins 2026 Coastal Initiatives"
 category: "Climate action"
 date: 2026-04-10
 excerpt: "The 2026 Blue Carbon Movement launched its biggest year yet — with active projects in seven coastal countries focusing on mangroves, seagrass beds, and tidal marshes."
-image: "https://asez.org/wp-content/uploads/2026/04/thum_blue_carbon_2026.jpg"
+image: "/images/blue-carbon-2026.jpg"
 pillBg: "var(--teal-50)"
 pillColor: "var(--teal-900)"
 ---

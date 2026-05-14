@@ -5,7 +5,7 @@ summary: "From the Blue Carbon Movement to global tree-planting drives, ASEZ cha
 icon: "ti-leaf"
 bg: "var(--teal-100)"
 iconColor: "var(--teal-900)"
-image: "https://asez.org/wp-content/uploads/2026/03/beautiful-canopy-of-green-trees-looking-upwards-2026-01-11-10-01-30-utc-1.jpg"
+image: "/images/forest-canopy.jpg"
 order: 1
 ---
 

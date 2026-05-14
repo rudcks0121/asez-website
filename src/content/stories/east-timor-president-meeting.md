@@ -4,7 +4,7 @@ category: "Diplomacy"
 date: 2026-02-05
 location: "Dili, Timor-Leste"
 excerpt: "ASEZ leadership met with the President of Timor-Leste to sign a formal Support Agreement, opening the path for new campus chapters and joint environmental programs."
-image: "https://asez.org/wp-content/uploads/2026/02/%ED%8C%A8%EB%84%90-%EC%95%9E-%EB%8B%A8%EC%B2%B4%EC%82%AC%EC%A7%84-2-1.jpg"
+image: "/images/east-timor-meeting.jpg"
 pillBg: "var(--amber-50)"
 pillColor: "var(--amber-900)"
 ---

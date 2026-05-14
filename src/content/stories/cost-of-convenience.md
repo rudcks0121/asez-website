@@ -3,7 +3,7 @@ title: "The Cost of Convenience — Reusable Cups Campaign"
 category: "Plastic-free"
 date: 2026-03-17
 excerpt: "ASEZ chapters at 50+ universities ran a coordinated week of campus-wide reusable-cup challenges. The results surprised everyone."
-image: "https://asez.org/wp-content/uploads/2026/04/closeup-image-of-a-couple-people-holding-and-drink-2026-03-17-17-45-23-utc.jpg"
+image: "/images/reusable-cups.jpg"
 pillBg: "var(--teal-50)"
 pillColor: "var(--teal-900)"
 ---

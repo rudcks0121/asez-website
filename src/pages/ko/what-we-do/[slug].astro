@@ -30,7 +30,13 @@ const allIssues = await getCollection("issues", ({ data }) => !data.draft);
 const otherIssues = allIssues.filter((i) => i.id !== issue.id).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout lang="kr" title={`${issue.data.title} — ASEZ`} description={issue.data.summary}>
+<BaseLayout
+  lang="ko"
+  title={`${issue.data.title} — ASEZ`}
+  description={issue.data.summary}
+  image={issue.data.image}
+  type="article"
+>
   <Header />
   <article class="issue-page">
     <section class="hero" style={`background: ${issue.data.bg};`}>

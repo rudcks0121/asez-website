@@ -3,7 +3,7 @@ title: "Digital Human Rights Campaign Launches Across Asia"
 category: "Digital rights"
 date: 2025-12-05
 excerpt: "ASEZ launched its first dedicated Digital Human Rights campaign across twelve Asian countries, focused on student privacy, mental health, and equitable access."
-image: "https://asez.org/wp-content/uploads/2025/12/thum_digital_human_rights.jpg"
+image: "/images/digital-human-rights.jpg"
 pillBg: "var(--brand-50)"
 pillColor: "var(--brand-900)"
 ---

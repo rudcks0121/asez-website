@@ -23,7 +23,13 @@ const related = all
   .slice(0, 3);
 ---
 
-<BaseLayout lang="kr" title={`${story.data.title} — ASEZ`} description={story.data.excerpt}>
+<BaseLayout
+  lang="ko"
+  title={`${story.data.title} — ASEZ`}
+  description={story.data.excerpt}
+  image={story.data.image}
+  type="article"
+>
   <Header />
   <article class="story">
     <div class="hero">

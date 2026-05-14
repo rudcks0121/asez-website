@@ -4,7 +4,7 @@ category: "Plastic-free"
 date: 2025-10-14
 location: "Hyderabad, India"
 excerpt: "ASEZ chapters across India hosted a Green Concert to launch the next phase of Zero Plastic 2040, drawing thousands of students and partner organizations."
-image: "https://asez.org/wp-content/uploads/2024/10/thum_zero_plastic_2040.jpg"
+image: "/images/zero-plastic-2040.jpg"
 pillBg: "var(--teal-50)"
 pillColor: "var(--teal-900)"
 ---
