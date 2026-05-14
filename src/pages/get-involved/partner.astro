@@ -4,6 +4,20 @@ import Header from "../../components/Header.astro";
 import PageHero from "../../components/PageHero.astro";
 import Footer from "../../components/Footer.astro";
 import ComingSoon from "../../components/ComingSoon.astro";
+import CtaBanner from "../../components/CtaBanner.astro";
+
+const types = [
+  { icon: "ti-building-bank", title: "Governments", desc: "MOUs with municipal, regional, and national governments on climate, environmental policy, and youth engagement." },
+  { icon: "ti-school", title: "Universities", desc: "Joint research, student exchange programs, joint hosting of forums and conferences." },
+  { icon: "ti-briefcase", title: "NGOs & multilaterals", desc: "Co-implementation of SDG-aligned programs. We bring volunteer capacity; you bring sector expertise." },
+  { icon: "ti-building-store", title: "Corporations", desc: "ESG and CSR partnerships focused on measurable outcomes — not greenwashing. Plant trees we'll actually grow." },
+];
+
+const steps = [
+  { num: "1", title: "Send a proposal", desc: "Email partners@asez.org with a one-page outline — what you're proposing, expected outcome, timeline." },
+  { num: "2", title: "Scoping call", desc: "A 30-minute call within 5 business days. We'll discuss fit, scale, and your operational counterpart." },
+  { num: "3", title: "Pilot + MOU", desc: "Most partnerships start with a 90-day pilot. If it works, we formalize via MOU." },
+];
 ---
 
 <BaseLayout
@@ -18,7 +32,65 @@ import ComingSoon from "../../components/ComingSoon.astro";
     lead="ASEZ has signed MOUs with 80+ organizations — UN agencies, governments, universities, and global NGOs. We're open to new partnerships aligned with the UN SDGs."
   />
   <main>
-    <ComingSoon message="A partnership inquiry form with proposal templates is in development. For immediate proposals, reach partners@asez.org through the Contact page." />
+    <section class="types reveal">
+      <div class="inner">
+        <p class="eyebrow">Who we work with</p>
+        <h2>Four kinds of partnerships.</h2>
+        <div class="grid">
+          {types.map((t) => (
+            <div class="card">
+              <i class={`ti ${t.icon}`}></i>
+              <h3>{t.title}</h3>
+              <p>{t.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="steps reveal">
+      <div class="inner">
+        <p class="eyebrow">How partnerships start</p>
+        <h2>Three steps, three weeks.</h2>
+        <div class="grid">
+          {steps.map((s) => (
+            <div class="step">
+              <div class="num">{s.num}</div>
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <CtaBanner variant="contact" />
+    <ComingSoon message="A partnership inquiry form with proposal templates is in development." />
   </main>
   <Footer />
 </BaseLayout>
+
+<style>
+  .types { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); }
+  .steps { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  h2 { font-size: var(--fs-h2); margin: 0 0 36px; letter-spacing: -0.4px; max-width: 640px; }
+  .types .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .steps .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .card { padding: 26px; background: var(--bg-secondary); border-radius: var(--radius-lg); border: 0.5px solid var(--border); transition: border-color 0.2s, transform 0.3s; }
+  .card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .card i { font-size: 28px; color: var(--brand); margin-bottom: 14px; display: inline-block; }
+  .card h3 { font-size: var(--fs-h3); margin: 0 0 6px; }
+  .card p { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.55; margin: 0; }
+  .step { padding: 26px; background: var(--bg-primary); border-radius: var(--radius-lg); border: 0.5px solid var(--border); }
+  .num { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: var(--brand); color: white; font-size: 18px; font-weight: 500; margin-bottom: 14px; }
+  .step h3 { font-size: 16px; margin: 0 0 6px; }
+  .step p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin: 0; }
+  @media (max-width: 900px) {
+    .types .grid { grid-template-columns: 1fr; }
+    .steps .grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .types, .steps { padding: 56px 20px; }
+  }
+</style>

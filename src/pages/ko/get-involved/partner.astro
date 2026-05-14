@@ -4,6 +4,20 @@ import Header from "../../../components/Header.astro";
 import PageHero from "../../../components/PageHero.astro";
 import Footer from "../../../components/Footer.astro";
 import ComingSoon from "../../../components/ComingSoon.astro";
+import CtaBanner from "../../../components/CtaBanner.astro";
+
+const types = [
+  { icon: "ti-building-bank", title: "정부 기관", desc: "지자체, 광역, 중앙 정부와의 MOU — 기후, 환경 정책, 청년 참여 협력." },
+  { icon: "ti-school", title: "대학", desc: "공동 연구, 학생 교환 프로그램, 포럼·컨퍼런스 공동 주최." },
+  { icon: "ti-briefcase", title: "NGO·다자기구", desc: "SDG 정렬 프로그램 공동 실행. ASEZ는 자원봉사 역량, 파트너는 분야 전문성을 제공." },
+  { icon: "ti-building-store", title: "기업", desc: "측정 가능한 성과 중심의 ESG·CSR 협력 — 그린워싱이 아닌 실제 결과." },
+];
+
+const steps = [
+  { num: "1", title: "제안서 보내기", desc: "partners@asez.org로 한 페이지 분량 — 제안 내용, 기대 효과, 일정을 보내주세요." },
+  { num: "2", title: "스코핑 미팅", desc: "영업일 기준 5일 이내 30분 통화. 적합도, 규모, 운영 카운터파트를 논의." },
+  { num: "3", title: "파일럿 + MOU", desc: "대부분의 협력은 90일 파일럿으로 시작. 결과가 좋으면 MOU로 공식화." },
+];
 ---
 
 <BaseLayout
@@ -19,7 +33,65 @@ import ComingSoon from "../../../components/ComingSoon.astro";
     lead="ASEZ는 UN 기관, 정부, 대학, 글로벌 NGO 등 80여 기관과 MOU를 체결했습니다. UN SDG에 부합하는 새로운 협력을 환영합니다."
   />
   <main>
-    <ComingSoon message="협력 제안 폼과 제안서 템플릿이 준비 중입니다. 즉시 제안하시려면 문의 페이지를 통해 partners@asez.org로 연락 주세요." />
+    <section class="types reveal">
+      <div class="inner">
+        <p class="eyebrow">협력 대상</p>
+        <h2>4가지 협력 유형.</h2>
+        <div class="grid">
+          {types.map((t) => (
+            <div class="card">
+              <i class={`ti ${t.icon}`}></i>
+              <h3>{t.title}</h3>
+              <p>{t.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="steps reveal">
+      <div class="inner">
+        <p class="eyebrow">협력 시작 절차</p>
+        <h2>3단계, 3주.</h2>
+        <div class="grid">
+          {steps.map((s) => (
+            <div class="step">
+              <div class="num">{s.num}</div>
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <CtaBanner variant="contact" />
+    <ComingSoon message="협력 제안 폼과 제안서 템플릿이 준비 중입니다." />
   </main>
   <Footer />
 </BaseLayout>
+
+<style>
+  .types { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); }
+  .steps { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  h2 { font-size: var(--fs-h2); margin: 0 0 36px; letter-spacing: -0.4px; max-width: 640px; }
+  .types .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .steps .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .card { padding: 26px; background: var(--bg-secondary); border-radius: var(--radius-lg); border: 0.5px solid var(--border); transition: border-color 0.2s, transform 0.3s; }
+  .card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .card i { font-size: 28px; color: var(--brand); margin-bottom: 14px; display: inline-block; }
+  .card h3 { font-size: var(--fs-h3); margin: 0 0 6px; }
+  .card p { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.55; margin: 0; }
+  .step { padding: 26px; background: var(--bg-primary); border-radius: var(--radius-lg); border: 0.5px solid var(--border); }
+  .num { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: var(--brand); color: white; font-size: 18px; font-weight: 500; margin-bottom: 14px; }
+  .step h3 { font-size: 16px; margin: 0 0 6px; }
+  .step p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin: 0; }
+  @media (max-width: 900px) {
+    .types .grid { grid-template-columns: 1fr; }
+    .steps .grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .types, .steps { padding: 56px 20px; }
+  }
+</style>

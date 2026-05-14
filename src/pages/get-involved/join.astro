@@ -4,6 +4,20 @@ import Header from "../../components/Header.astro";
 import PageHero from "../../components/PageHero.astro";
 import Footer from "../../components/Footer.astro";
 import ComingSoon from "../../components/ComingSoon.astro";
+import CtaBanner from "../../components/CtaBanner.astro";
+
+const steps = [
+  { num: "1", title: "Find your campus chapter", desc: "ASEZ has chapters at 7,500 universities. Use the Contact page or our regional offices to identify the chapter nearest you." },
+  { num: "2", title: "Reach out to the coordinator", desc: "Send a short intro — your university, what brought you to ASEZ, and which causes you care about most." },
+  { num: "3", title: "Attend your first meeting", desc: "Meet current members, learn about ongoing projects, and pick one or more programs to plug into." },
+];
+
+const benefits = [
+  { icon: "ti-world", text: "Global network of 7,500 campuses across 175 countries" },
+  { icon: "ti-bolt", text: "Real action — not awareness theater" },
+  { icon: "ti-school", text: "Free of charge; open to any university student" },
+  { icon: "ti-users", text: "Lifelong peer mentorship" },
+];
 ---
 
 <BaseLayout
@@ -18,7 +32,63 @@ import ComingSoon from "../../components/ComingSoon.astro";
     lead="If you're a university student, find your campus chapter and become a member. Membership is open to students at any of our 7,500 partner campuses worldwide."
   />
   <main>
-    <ComingSoon message="A searchable chapter directory and online membership application are coming soon. In the meantime, please use the Contact page to reach a chapter coordinator near you." />
+    <section class="steps reveal">
+      <div class="inner">
+        <p class="eyebrow">How to join</p>
+        <h2>Three steps to your first meeting.</h2>
+        <div class="grid">
+          {steps.map((s) => (
+            <div class="step">
+              <div class="num">{s.num}</div>
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="benefits reveal">
+      <div class="inner">
+        <p class="eyebrow">Why members stay</p>
+        <h2>What you get when you join.</h2>
+        <div class="grid">
+          {benefits.map((b) => (
+            <div class="benefit">
+              <i class={`ti ${b.icon}`}></i>
+              <p>{b.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <CtaBanner variant="contact" />
+    <ComingSoon message="A searchable chapter directory and online membership application are coming soon." />
   </main>
   <Footer />
 </BaseLayout>
+
+<style>
+  .steps { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); }
+  .benefits { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  h2 { font-size: var(--fs-h2); margin: 0 0 36px; letter-spacing: -0.4px; max-width: 640px; }
+  .steps .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .step { padding: 28px; border-radius: var(--radius-lg); background: var(--bg-secondary); border: 0.5px solid var(--border); transition: border-color 0.2s, transform 0.3s, box-shadow 0.3s; }
+  .step:hover { border-color: var(--border-strong); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(4,44,83,0.06); }
+  .num { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--brand); color: white; font-size: 22px; font-weight: 500; margin-bottom: 16px; letter-spacing: -1px; }
+  .step h3 { font-size: var(--fs-h3); margin: 0 0 8px; }
+  .step p { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.55; margin: 0; }
+  .benefits .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .benefit { display: flex; align-items: center; gap: 16px; padding: 22px 24px; background: var(--bg-primary); border-radius: var(--radius-md); border: 0.5px solid var(--border); }
+  .benefit i { font-size: 24px; color: var(--brand); flex-shrink: 0; }
+  .benefit p { margin: 0; font-size: var(--fs-body); }
+  @media (max-width: 900px) {
+    .steps .grid { grid-template-columns: 1fr; }
+    .benefits .grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .steps, .benefits { padding: 56px 20px; }
+  }
+</style>
