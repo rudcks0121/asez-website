@@ -1,9 +1,22 @@
 ---
+import worldMapRaw from "../data/world-map.svg?raw";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import PageHero from "../components/PageHero.astro";
 import Footer from "../components/Footer.astro";
 import ComingSoon from "../components/ComingSoon.astro";
+
+export const prerender = true;
+
+// 외곽 <svg>·메타데이터·defs 벗기고 country path 모음만 남김.
+const worldMapPaths = worldMapRaw
+  .replace(/<\?xml[^?]*\?>/g, "")
+  .replace(/<!--[\s\S]*?-->/g, "")
+  .replace(/<metadata[\s\S]*?<\/metadata>/g, "")
+  .replace(/<defs[\s\S]*?<\/defs>/g, "")
+  .replace(/<svg[^>]*>/, "")
+  .replace(/<\/svg>\s*$/, "")
+  .replace(/\s(inkscape|sodipodi):[a-z-]+="[^"]*"/g, "");
 
 const regions = [
   { name: "Asia",     countries: 48, hq: "Seoul, South Korea" },
@@ -23,6 +36,33 @@ const featuredCampuses = [
   { city: "Sydney",    country: "Australia",      note: "Blue Carbon Pacific" },
   { city: "Nairobi",   country: "Kenya",          note: "Africa regional HQ" },
 ];
+
+// HQ + 주요 캠퍼스 마커. viewBox 950x620 기준 좌표 (Wikimedia BlankMap-World 기준 경험적 추정).
+const markers = [
+  { x: 791, y: 200, city: "Seoul",       country: "South Korea",  role: "Asia HQ",     kind: "hq" },
+  { x: 175, y: 250, city: "Los Angeles", country: "USA",          role: "Americas HQ", kind: "hq" },
+  { x: 459, y: 178, city: "London",      country: "UK",           role: "Europe HQ",   kind: "hq" },
+  { x: 575, y: 348, city: "Nairobi",     country: "Kenya",        role: "Africa HQ",   kind: "hq" },
+  { x: 866, y: 466, city: "Sydney",      country: "Australia",    role: "Oceania HQ",  kind: "hq" },
+  { x: 710, y: 250, city: "New Delhi",   country: "India",        role: "Plastic-Free India hub",     kind: "campus" },
+  { x: 800, y: 305, city: "Manila",      country: "Philippines",  role: "Reduce Crime Together",      kind: "campus" },
+  { x: 808, y: 372, city: "Dili",        country: "Timor-Leste",  role: "National partnership",       kind: "campus" },
+  { x: 552, y: 428, city: "Pretoria",    country: "South Africa", role: "Tree-planting program",      kind: "campus" },
+  { x: 250, y: 380, city: "Lima",        country: "Peru",         role: "Amazon protection",          kind: "campus" },
+];
+
+// ASEZ 활동 핵심 국가 (지도에서 brand 컬러로 강조).
+const presence = [
+  "south korea", "japan", "china", "india", "philippines", "indonesia",
+  "vietnam", "thailand", "malaysia", "mongolia", "nepal", "sri lanka", "taiwan",
+  "usa", "canada", "mexico", "brazil", "peru", "argentina", "chile", "colombia",
+  "ecuador", "bolivia", "britain", "france", "germany", "italy", "spain",
+  "poland", "ukraine", "netherlands", "ireland",
+  "south africa", "kenya", "nigeria", "ghana", "ethiopia", "egypt",
+  "tanzania", "uganda", "morocco",
+  "australia", "papua new guinea", "luzon", "mindanao", "timor", "borneo",
+];
+const presenceSelector = presence.map((id) => `[id="${id}"]`).join(",");
 ---
 
 <BaseLayout
@@ -53,7 +93,15 @@ const featuredCampuses = [
       </div>
     </section>
 
-    <!-- Map placeholder -->
+    <!-- Coverage map -->
+    <style is:inline set:html={`
+      .world-map .countries ${presence.map((id) => `[id="${id}"]`).join(",")} {
+        fill: var(--brand) !important;
+      }
+      .world-map .countries ${presence.map((id) => `[id="${id}"]:hover`).join(",")} {
+        fill: var(--brand-darker) !important;
+      }
+    `} />
     <section class="map-section reveal">
       <div class="inner">
         <div class="head">
@@ -61,13 +109,38 @@ const featuredCampuses = [
           <h2>A network on every continent.</h2>
           <p class="intro">
             From Seoul to São Paulo, Cape Town to Sydney — ASEZ chapters
-            are active in every major region.
+            are active in every major region. Hover the markers to see
+            regional headquarters and flagship campuses.
           </p>
         </div>
         <div class="map-frame">
-          <div class="map-overlay">
-            <i class="ti ti-map-2"></i>
-            <p>Interactive map coming soon.</p>
+          <svg
+            class="world-map"
+            viewBox="0 0 950 620"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-label="World map showing ASEZ presence"
+          >
+            <g class="countries" set:html={worldMapPaths} />
+            <g class="markers">
+              {markers.map((m) => (
+                <g class={`marker marker-${m.kind}`} tabindex="0">
+                  <circle class="halo" cx={m.x} cy={m.y} r="10" />
+                  <circle class="dot"  cx={m.x} cy={m.y} r="4.5" />
+                  <g class="tip" transform={`translate(${m.x},${m.y})`}>
+                    <rect x="10" y="-30" rx="4" ry="4" width="170" height="46" />
+                    <text x="18" y="-13" class="tip-city">{m.city}</text>
+                    <text x="18" y="2"   class="tip-meta">{m.country}</text>
+                    <text x="18" y="14"  class="tip-role">{m.role}</text>
+                  </g>
+                </g>
+              ))}
+            </g>
+          </svg>
+          <div class="legend">
+            <span class="lg lg-hq"><i></i> Regional HQ</span>
+            <span class="lg lg-campus"><i></i> Featured campus</span>
+            <span class="lg lg-presence"><i></i> Active chapters</span>
           </div>
         </div>
       </div>
@@ -118,7 +191,7 @@ const featuredCampuses = [
     </section>
 
     <ComingSoon
-      message="Interactive map, regional offices directory, and full campus chapter listing are coming soon."
+      message="Regional offices directory and the full campus chapter listing are coming soon."
     />
   </main>
   <Footer />
@@ -163,7 +236,7 @@ const featuredCampuses = [
     margin-top: 12px;
   }
 
-  /* === Map placeholder === */
+  /* === Coverage map === */
   .map-section {
     padding: var(--section-pad-y) var(--section-pad-x);
     background: var(--bg-secondary);
@@ -183,35 +256,99 @@ const featuredCampuses = [
     margin: 0;
   }
   .map-frame {
-    aspect-ratio: 16/8;
-    background: var(--brand-50);
+    position: relative;
+    background: var(--bg-primary);
     border-radius: var(--radius-lg);
     border: 0.5px solid var(--border);
-    position: relative;
     overflow: hidden;
-    background-image: radial-gradient(
-      circle at 30% 50%,
-      var(--brand-100) 0%,
-      var(--brand-50) 60%
-    );
+    padding: 20px;
   }
-  .map-overlay {
-    position: absolute;
-    inset: 0;
+  .world-map { display: block; width: 100%; height: auto; }
+
+  /* Country fills */
+  .world-map :global(.countries path) {
+    fill: var(--brand-100);
+    stroke: white;
+    stroke-width: 0.6;
+    transition: fill 0.2s ease;
+  }
+
+  /* Markers */
+  .world-map :global(.marker) { cursor: pointer; outline: none; }
+  .world-map :global(.marker .halo) {
+    fill: var(--brand);
+    opacity: 0.18;
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: pulse 2.4s ease-out infinite;
+  }
+  .world-map :global(.marker-campus .halo) { fill: var(--amber-900, #b45309); opacity: 0.22; }
+  .world-map :global(.marker .dot) {
+    fill: var(--brand);
+    stroke: white;
+    stroke-width: 1.6;
+  }
+  .world-map :global(.marker-campus .dot) { fill: var(--amber-900, #b45309); }
+  .world-map :global(.marker .tip) {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease;
+  }
+  .world-map :global(.marker:hover .tip),
+  .world-map :global(.marker:focus .tip) { opacity: 1; }
+  .world-map :global(.marker:hover .dot),
+  .world-map :global(.marker:focus .dot) { r: 5.5; }
+
+  .world-map :global(.tip rect) {
+    fill: white;
+    stroke: var(--border-strong, rgba(0,0,0,0.12));
+    stroke-width: 0.5;
+    filter: drop-shadow(0 4px 12px rgba(4, 44, 83, 0.18));
+  }
+  .world-map :global(.tip-city) {
+    font-size: 11px; font-weight: 500;
+    fill: var(--text-primary);
+  }
+  .world-map :global(.tip-meta) {
+    font-size: 9px;
+    fill: var(--text-secondary);
+  }
+  .world-map :global(.tip-role) {
+    font-size: 9px; font-weight: 500;
+    fill: var(--brand);
+  }
+
+  @keyframes pulse {
+    0%   { transform: scale(1);   opacity: 0.32; }
+    60%  { transform: scale(1.8); opacity: 0; }
+    100% { transform: scale(1.8); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .world-map :global(.marker .halo) { animation: none; opacity: 0.25; }
+  }
+
+  /* Legend */
+  .legend {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--brand-800);
-    gap: 14px;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 18px;
+    padding: 14px 18px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-caption);
+    color: var(--text-secondary);
   }
-  .map-overlay i { font-size: 56px; opacity: 0.6; }
-  .map-overlay p {
-    font-size: var(--fs-body);
-    font-weight: 500;
-    margin: 0;
-    opacity: 0.7;
+  .lg { display: inline-flex; align-items: center; gap: 8px; }
+  .lg i {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
   }
+  .lg-hq i       { background: var(--brand); }
+  .lg-campus i   { background: var(--amber-900, #b45309); }
+  .lg-presence i { background: var(--brand-100); border: 0.5px solid var(--brand); }
+
 
   /* === Featured campuses === */
   .campuses {
