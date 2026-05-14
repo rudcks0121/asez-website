@@ -1,0 +1,211 @@
+---
+/**
+ * Awards & Partnerships 임팩트 강조 + 대표 어워드 카드.
+ * Stats(global footprint)와 별도 — 외부 인정 + 기관 협력 측면.
+ */
+const bigStats = [
+  {
+    num: "12+",
+    label: "International awards",
+    sub: "UNCCD, U.S. Presidency, Green Apple Awards, and more.",
+  },
+  {
+    num: "80+",
+    label: "Partnerships & MOUs",
+    sub: "UN agencies, governments, universities, and global NGOs.",
+  },
+];
+
+const awards = [
+  {
+    year: "2024",
+    title: "UNCCD Executive Secretary's Award",
+    body: "Recognized by the UN Convention to Combat Desertification.",
+    img: "https://asez.org/wp-content/uploads/2024/07/thum_unccd_award.png",
+  },
+  {
+    year: "2023",
+    title: "U.S. President's Volunteer Service Award",
+    body: "Awarded to ASEZ chapters in the United States.",
+    img: "https://asez.org/wp-content/uploads/2024/07/thum_us_president_awards.png",
+  },
+  {
+    year: "2022",
+    title: "Green Apple & Green World Awards",
+    body: "International environmental awards.",
+    img: "https://asez.org/wp-content/uploads/2024/07/thum_green_awards.png",
+  },
+];
+---
+
+<section class="recognition reveal">
+  <div class="inner">
+    <div class="head">
+      <div class="head-text">
+        <p class="eyebrow">Recognition</p>
+        <h2>Honored globally. Trusted broadly.</h2>
+      </div>
+      <a href="/about" class="view-all">
+        See all recognition <i class="ti ti-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- Big stats -->
+    <div class="big-stats">
+      {bigStats.map((s) => (
+        <div class="big">
+          <div class="num">{s.num}</div>
+          <div class="label">{s.label}</div>
+          <p class="sub">{s.sub}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Award cards -->
+    <div class="awards">
+      {awards.map((a) => (
+        <article class="award">
+          <div class="img-wrap">
+            <img src={a.img} alt={a.title} loading="lazy" />
+          </div>
+          <div class="body">
+            <p class="year">{a.year}</p>
+            <h3>{a.title}</h3>
+            <p>{a.body}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .recognition {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-primary);
+    border-top: 0.5px solid var(--border);
+  }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .head h2 {
+    font-size: var(--fs-h2);
+    margin: 0;
+    letter-spacing: -0.4px;
+    max-width: 640px;
+  }
+  .view-all {
+    font-size: var(--fs-small);
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  /* Big stats — Extra bold */
+  .big-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px;
+    margin-bottom: 56px;
+    padding-bottom: 48px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .big {
+    border-top: 0.5px solid var(--border-strong);
+    padding-top: 26px;
+  }
+  .num {
+    font-size: 72px;
+    font-weight: 800;
+    color: var(--brand);
+    line-height: 1;
+    letter-spacing: -3.5px;
+  }
+  .label {
+    font-size: 19px;
+    font-weight: 500;
+    margin-top: 16px;
+    letter-spacing: -0.2px;
+  }
+  .big .sub {
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+    margin-top: 8px;
+    max-width: 380px;
+    line-height: 1.55;
+  }
+
+  /* Award cards */
+  .awards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .award {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 0.5px solid var(--border);
+    background: var(--bg-primary);
+    transition:
+      border-color 0.2s,
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s ease;
+  }
+  .award:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(4, 44, 83, 0.06);
+  }
+  .img-wrap {
+    aspect-ratio: 4/3;
+    background: var(--bg-secondary);
+    position: relative;
+    overflow: hidden;
+  }
+  .img-wrap img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 24px;
+  }
+  .body { padding: 20px 22px 22px; flex: 1; }
+  .year {
+    font-size: var(--fs-caption);
+    color: var(--brand);
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    margin: 0 0 6px;
+  }
+  .award h3 {
+    font-size: 16px;
+    margin: 0 0 8px;
+    line-height: var(--lh-snug);
+  }
+  .award p {
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .big-stats { grid-template-columns: 1fr; gap: 28px; }
+    .num { font-size: 60px; letter-spacing: -2.5px; }
+    .awards { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .recognition { padding: 56px 20px; }
+    .num { font-size: 52px; letter-spacing: -2px; }
+  }
+</style>

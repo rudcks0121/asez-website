@@ -1,0 +1,199 @@
+---
+/**
+ * ASEZ의 4가지 메인 프로젝트 (공식 분류, asez.org 기준).
+ * 홈페이지에서 IssueGrid(6개 세부 이슈) 대신 사용.
+ * 6개 세부 이슈는 /what-we-do 페이지에서 계속 표시.
+ */
+const projects = [
+  {
+    icon: "ti-shield-check",
+    title: "Crime Prevention",
+    tagline: "We make a safe world.",
+    desc: "Reduce Crime Together — applying the Broken Windows theory to build safer streets, schools, and campuses.",
+    bg: "var(--amber-100)",
+    iconColor: "var(--amber-900)",
+    href: "/what-we-do/crime-prevention",
+  },
+  {
+    icon: "ti-leaf",
+    title: "Climate Change Response",
+    tagline: "We create a sustainable world.",
+    desc: "Blue Carbon, tree planting, Zero Plastic 2040, and policy engagement at UN climate forums.",
+    bg: "var(--teal-100)",
+    iconColor: "var(--teal-900)",
+    href: "/what-we-do/climate-action",
+  },
+  {
+    icon: "ti-users-group",
+    title: "Community Service",
+    tagline: "We foster an inclusive world.",
+    desc: "Volunteering with neighbors, schools, and local NGOs — supporting the people closest to home.",
+    bg: "var(--brand-100)",
+    iconColor: "var(--brand-900)",
+    href: "/what-we-do/community-service",
+  },
+  {
+    icon: "ti-heart-handshake",
+    title: "Emergency Relief",
+    tagline: "We build a resilient world.",
+    desc: "Rapid response and long-term recovery in earthquake, flood, storm, and conflict-affected regions.",
+    bg: "var(--brand-400)",
+    iconColor: "#ffffff",
+    href: "/what-we-do/disaster-relief",
+  },
+];
+---
+
+<section class="main-projects reveal">
+  <div class="inner">
+    <div class="head">
+      <div class="head-text">
+        <p class="eyebrow">Major projects</p>
+        <h2>Four pillars of ASEZ's work.</h2>
+        <p class="intro">
+          All ASEZ activities are organized around four flagship programs —
+          each addressing a defining challenge of our generation.
+        </p>
+      </div>
+      <a href="/what-we-do" class="view-all">
+        All issues <i class="ti ti-arrow-right"></i>
+      </a>
+    </div>
+
+    <div class="grid">
+      {projects.map((p) => (
+        <a class="project" href={p.href}>
+          <div class="visual" style={`background: ${p.bg};`}>
+            <i class={`ti ${p.icon}`} style={`color: ${p.iconColor};`}></i>
+          </div>
+          <div class="body">
+            <h3>{p.title}</h3>
+            <p class="tagline">{p.tagline}</p>
+            <p class="desc">{p.desc}</p>
+            <span class="more">
+              Learn more <i class="ti ti-arrow-right"></i>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .main-projects {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-secondary);
+    border-top: 0.5px solid var(--border);
+  }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .head-text { max-width: 640px; }
+  .head h2 {
+    font-size: var(--fs-h2);
+    margin: 0 0 14px;
+    letter-spacing: -0.4px;
+  }
+  .head .intro {
+    font-size: var(--fs-body);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .view-all {
+    font-size: var(--fs-small);
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .project {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 0.5px solid var(--border);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition:
+      border-color 0.2s,
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s ease;
+  }
+  .project:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 32px rgba(4, 44, 83, 0.1);
+  }
+  .visual {
+    aspect-ratio: 16/6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .visual i {
+    font-size: 52px;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .project:hover .visual i {
+    transform: scale(1.15);
+  }
+  .body {
+    padding: 28px 30px 30px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .body h3 {
+    font-size: 22px;
+    margin: 0 0 4px;
+    line-height: var(--lh-snug);
+    letter-spacing: -0.3px;
+  }
+  .tagline {
+    font-size: 17px;
+    color: var(--brand);
+    font-weight: 500;
+    margin: 0 0 14px;
+  }
+  .desc {
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0 0 18px;
+    flex: 1;
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--brand);
+  }
+  .more i { transition: transform 0.2s; }
+  .project:hover .more i { transform: translateX(4px); }
+
+  @media (max-width: 760px) {
+    .main-projects { padding: 56px 20px; }
+    .grid { grid-template-columns: 1fr; }
+    .body { padding: 22px 24px 24px; }
+    .body h3 { font-size: 20px; }
+    .tagline { font-size: 16px; }
+  }
+</style>
