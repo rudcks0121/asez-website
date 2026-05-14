@@ -1,6 +1,0 @@
-{
-  "version": 1,
-  "description": "Cloudflare Pages routing — invoke Functions for /api/*, serve static for the rest.",
-  "include": ["/api/*"],
-  "exclude": []
-}
