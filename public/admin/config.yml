@@ -130,3 +130,47 @@ collections:
           - { label: "Amber dark", value: "var(--amber-900)" }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
       - { label: "Body (optional)", name: "body", widget: "markdown", required: false }
+
+  # ─────────────────────────────────────────────────────────
+  # EVENTS — 다가오는 / 지난 행사
+  # 파일: src/content/events/{slug}.md
+  # ─────────────────────────────────────────────────────────
+  - name: "events"
+    label: "Events"
+    label_singular: "Event"
+    description: "Upcoming and past forums, summits, campaigns, conferences."
+    folder: "src/content/events"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}} — {{date | date('YYYY-MM-DD')}} · {{location}}"
+    sortable_fields: ["date", "title", "type"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Type"
+        name: "type"
+        widget: "select"
+        options: ["Forum", "Summit", "Campaign", "Conference", "Workshop"]
+      - { label: "Date (start)", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "End date (optional, for multi-day events)", name: "endDate", widget: "datetime", required: false, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Location", name: "location", widget: "string", hint: "예: Seoul, South Korea / Worldwide" }
+      - { label: "Excerpt", name: "excerpt", widget: "text" }
+      - { label: "Registration URL", name: "registrationUrl", widget: "string", default: "#" }
+      - label: "Pill background"
+        name: "pillBg"
+        widget: "select"
+        default: "var(--brand-50)"
+        options:
+          - { label: "Blue", value: "var(--brand-50)" }
+          - { label: "Teal", value: "var(--teal-50)" }
+          - { label: "Amber", value: "var(--amber-50)" }
+      - label: "Pill text color"
+        name: "pillColor"
+        widget: "select"
+        default: "var(--brand-900)"
+        options:
+          - { label: "Blue dark", value: "var(--brand-900)" }
+          - { label: "Teal dark", value: "var(--teal-900)" }
+          - { label: "Amber dark", value: "var(--amber-900)" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }

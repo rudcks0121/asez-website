@@ -38,4 +38,23 @@ const reports = defineCollection({
   }),
 });
 
-export const collections = { stories, reports };
+/**
+ * Events — 다가오는/지난 포럼, 서밋, 캠페인.
+ */
+const events = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/events" }),
+  schema: z.object({
+    title: z.string(),
+    type: z.enum(["Forum", "Summit", "Campaign", "Conference", "Workshop"]),
+    date: z.coerce.date(),
+    endDate: z.coerce.date().optional(),
+    location: z.string(),
+    excerpt: z.string(),
+    registrationUrl: z.string().default("#"),
+    pillBg: z.string().default("var(--brand-50)"),
+    pillColor: z.string().default("var(--brand-900)"),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { stories, reports, events };

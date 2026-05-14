@@ -1,0 +1,278 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import PageHero from "../../components/PageHero.astro";
+import Footer from "../../components/Footer.astro";
+
+const now = new Date();
+const all = await getCollection("events", ({ data }) => !data.draft);
+
+const upcoming = all
+  .filter((e) => e.data.date.valueOf() >= now.valueOf() - 86_400_000)
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+
+const past = all
+  .filter((e) => e.data.date.valueOf() < now.valueOf() - 86_400_000)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function fmtRange(start: Date, end?: Date) {
+  const opts: Intl.DateTimeFormatOptions = { month: "long", day: "numeric", year: "numeric" };
+  const startStr = start.toLocaleDateString("en-US", opts);
+  if (!end) return startStr;
+  // 같은 해/월이면 단축 표시
+  if (start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
+    return `${start.toLocaleDateString("en-US", { month: "long", day: "numeric" })}–${end.getDate()}, ${end.getFullYear()}`;
+  }
+  return `${start.toLocaleDateString("en-US", { month: "long", day: "numeric" })} – ${end.toLocaleDateString("en-US", opts)}`;
+}
+---
+
+<BaseLayout
+  title="Upcoming events — ASEZ"
+  description="ASEZ summits, forums, campaigns, and conferences happening this season and beyond."
+>
+  <Header />
+  <PageHero
+    eyebrow="Take part"
+    title="Upcoming events."
+    lead="Summits, forums, campaigns, and conferences — see what's happening and join the next one."
+  />
+  <main>
+    {upcoming.length > 0 && (
+      <section class="events-section reveal">
+        <div class="inner">
+          <p class="eyebrow">Upcoming</p>
+          <h2>What's next.</h2>
+          <ul class="event-list">
+            {upcoming.map((e) => (
+              <li class="event">
+                <div class="date-block">
+                  <span class="month">{e.data.date.toLocaleDateString("en-US", { month: "short" }).toUpperCase()}</span>
+                  <span class="day">{e.data.date.getDate()}</span>
+                  <span class="year">{e.data.date.getFullYear()}</span>
+                </div>
+                <div class="main">
+                  <span class="pill" style={`background: ${e.data.pillBg}; color: ${e.data.pillColor};`}>
+                    {e.data.type}
+                  </span>
+                  <h3>{e.data.title}</h3>
+                  <p class="loc"><i class="ti ti-map-pin"></i> {e.data.location}</p>
+                  <p class="excerpt">{e.data.excerpt}</p>
+                  <p class="when">
+                    <i class="ti ti-calendar"></i> {fmtRange(e.data.date, e.data.endDate)}
+                  </p>
+                </div>
+                <a
+                  class="register"
+                  href={e.data.registrationUrl}
+                  target={e.data.registrationUrl !== "#" ? "_blank" : undefined}
+                  rel={e.data.registrationUrl !== "#" ? "noopener" : undefined}
+                >
+                  Register <i class="ti ti-arrow-right"></i>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    {past.length > 0 && (
+      <section class="events-section past reveal">
+        <div class="inner">
+          <p class="eyebrow">Past events</p>
+          <h2>Recent gatherings.</h2>
+          <ul class="event-list">
+            {past.map((e) => (
+              <li class="event muted">
+                <div class="date-block">
+                  <span class="month">{e.data.date.toLocaleDateString("en-US", { month: "short" }).toUpperCase()}</span>
+                  <span class="day">{e.data.date.getDate()}</span>
+                  <span class="year">{e.data.date.getFullYear()}</span>
+                </div>
+                <div class="main">
+                  <span class="pill" style={`background: ${e.data.pillBg}; color: ${e.data.pillColor};`}>
+                    {e.data.type}
+                  </span>
+                  <h3>{e.data.title}</h3>
+                  <p class="loc"><i class="ti ti-map-pin"></i> {e.data.location}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    {upcoming.length === 0 && past.length === 0 && (
+      <section class="empty-section reveal">
+        <div class="inner">
+          <i class="ti ti-calendar-off"></i>
+          <h2>No events listed yet.</h2>
+          <p>Check back soon — we'll publish our next event here.</p>
+        </div>
+      </section>
+    )}
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .events-section {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-primary);
+  }
+  .events-section.past {
+    background: var(--bg-secondary);
+    border-top: 0.5px solid var(--border);
+  }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .events-section h2 {
+    font-size: var(--fs-h2);
+    margin: 0 0 36px;
+    letter-spacing: -0.4px;
+  }
+
+  .event-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .event {
+    display: grid;
+    grid-template-columns: 96px 1fr auto;
+    gap: 28px;
+    align-items: center;
+    padding: 24px 28px;
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border);
+    background: var(--bg-primary);
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .event:hover {
+    border-color: var(--border-strong);
+    box-shadow: 0 6px 20px rgba(4, 44, 83, 0.06);
+  }
+  .event.muted { opacity: 0.78; background: transparent; }
+
+  /* Date block — calendar style */
+  .date-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 10px;
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    border: 0.5px solid var(--border);
+  }
+  .past .date-block { background: var(--bg-primary); }
+  .month {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    color: var(--brand);
+  }
+  .day {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1;
+    margin: 2px 0;
+    color: var(--text-primary);
+    letter-spacing: -1.5px;
+  }
+  .year {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.5px;
+  }
+
+  .main {
+    min-width: 0;
+  }
+  .pill {
+    display: inline-block;
+    font-size: var(--fs-caption);
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 8px;
+  }
+  .event h3 {
+    font-size: 19px;
+    margin: 0 0 6px;
+    line-height: var(--lh-snug);
+    letter-spacing: -0.2px;
+  }
+  .loc,
+  .when {
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .loc i,
+  .when i {
+    color: var(--brand);
+    font-size: 14px;
+  }
+  .excerpt {
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 8px 0 10px;
+  }
+
+  .register {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 18px;
+    border-radius: var(--radius-md);
+    background: var(--brand);
+    color: white;
+    text-decoration: none;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    flex-shrink: 0;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .register:hover {
+    background: var(--brand-800);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(32, 96, 173, 0.25);
+  }
+  .register i { transition: transform 0.2s; }
+  .register:hover i { transform: translateX(3px); }
+
+  .empty-section {
+    padding: 96px var(--section-pad-x);
+    text-align: center;
+    color: var(--text-tertiary);
+  }
+  .empty-section i { font-size: 48px; margin-bottom: 16px; display: inline-block; }
+  .empty-section h2 { font-size: 22px; margin: 0 0 8px; }
+  .empty-section p { font-size: var(--fs-body); margin: 0; }
+
+  @media (max-width: 768px) {
+    .events-section { padding: 56px 20px; }
+    .event {
+      grid-template-columns: 76px 1fr;
+      gap: 18px;
+      padding: 20px;
+    }
+    .register {
+      grid-column: 1 / -1;
+      justify-self: stretch;
+      justify-content: center;
+    }
+    .day { font-size: 24px; }
+    .event h3 { font-size: 17px; }
+  }
+</style>
