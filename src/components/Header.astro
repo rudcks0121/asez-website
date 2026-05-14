@@ -27,11 +27,12 @@ const langs = (Object.keys(languages) as Array<keyof typeof languages>).map((cod
       <a href={pathLocalized("/", currentLang)} class="logo" aria-label="ASEZ home">
         <Logo height={28} />
       </a>
-      <nav class="nav">
+      <nav class="nav desktop-only">
         {links.map((l) => <a class="nav-link" href={l.href}>{l.label}</a>)}
       </nav>
     </div>
-    <div class="right">
+
+    <div class="right desktop-only">
       <div class="lang" data-lang-dropdown>
         <button
           class="lang-trigger"
@@ -47,11 +48,7 @@ const langs = (Object.keys(languages) as Array<keyof typeof languages>).map((cod
         <ul class="lang-menu" role="menu">
           {langs.map((l) => (
             <li role="none">
-              <a
-                href={l.href}
-                role="menuitem"
-                class:list={["lang-item", l.code === currentLang && "active"]}
-              >
+              <a href={l.href} role="menuitem" class:list={["lang-item", l.code === currentLang && "active"]}>
                 <span class="label">{l.label}</span>
                 {l.code === currentLang && <i class="ti ti-check"></i>}
               </a>
@@ -63,6 +60,43 @@ const langs = (Object.keys(languages) as Array<keyof typeof languages>).map((cod
         {t("nav.get-involved")}
       </a>
     </div>
+
+    <!-- Mobile hamburger -->
+    <button
+      class="hamburger mobile-only"
+      type="button"
+      aria-label="Menu"
+      aria-expanded="false"
+      data-mobile-toggle
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- Mobile drawer (slide-down) -->
+  <div class="mobile-drawer" data-mobile-drawer aria-hidden="true">
+    <nav class="mobile-nav">
+      {links.map((l) => <a class="mobile-link" href={l.href}>{l.label}</a>)}
+    </nav>
+    <div class="mobile-divider"></div>
+    <div class="mobile-langs">
+      <p class="mobile-eyebrow">
+        <i class="ti ti-world"></i>
+        <span>{currentLang === "ko" ? "언어" : "Language"}</span>
+      </p>
+      {langs.map((l) => (
+        <a
+          class:list={["mobile-lang-item", l.code === currentLang && "active"]}
+          href={l.href}
+        >
+          {l.label}
+          {l.code === currentLang && <i class="ti ti-check"></i>}
+        </a>
+      ))}
+    </div>
+    <a href={pathLocalized("/get-involved", currentLang)} class="mobile-cta">
+      {t("nav.get-involved")} <i class="ti ti-arrow-right"></i>
+    </a>
   </div>
 </header>
 
@@ -89,7 +123,12 @@ const langs = (Object.keys(languages) as Array<keyof typeof languages>).map((cod
     color: var(--brand);
     text-decoration: none;
   }
-  .nav { display: flex; gap: 4px; }
+
+  /* Desktop nav */
+  .desktop-only { display: flex; }
+  .mobile-only { display: none; }
+
+  .nav { gap: 4px; }
   .nav-link {
     color: var(--text-secondary);
     text-decoration: none;
@@ -103,7 +142,7 @@ const langs = (Object.keys(languages) as Array<keyof typeof languages>).map((cod
     color: var(--text-primary);
   }
 
-  .right { display: flex; gap: 12px; align-items: center; }
+  .right { gap: 12px; align-items: center; }
   .btn-primary {
     background: var(--brand);
     color: white;
@@ -120,6 +159,7 @@ const langs = (Object.keys(languages) as Array<keyof typeof languages>).map((cod
     box-shadow: 0 6px 16px rgba(32, 96, 173, 0.25);
   }
 
+  /* Lang dropdown (desktop) */
   .lang { position: relative; }
   .lang-trigger {
     display: inline-flex;
@@ -188,26 +228,149 @@ const langs = (Object.keys(languages) as Array<keyof typeof languages>).map((cod
   }
   .lang-item:hover { background: var(--bg-secondary); }
   .lang-item .label { flex: 1; color: var(--text-primary); }
-  .lang-item.active .label {
-    color: var(--brand);
-    font-weight: 500;
-  }
+  .lang-item.active .label { color: var(--brand); font-weight: 500; }
   .lang-item i { font-size: 15px; color: var(--brand); }
 
+  /* === Hamburger === */
+  .hamburger {
+    background: transparent;
+    border: none;
+    width: 32px;
+    height: 32px;
+    padding: 6px 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .hamburger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s;
+    transform-origin: center;
+  }
+  .hamburger[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .hamburger[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* === Mobile drawer === */
+  .mobile-drawer {
+    position: fixed;
+    top: 60px;            /* header height */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-primary);
+    padding: 24px 24px 40px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 49;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .mobile-drawer[data-open] {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+  }
+  .mobile-link {
+    display: block;
+    padding: 16px 4px;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-decoration: none;
+    border-bottom: 0.5px solid var(--border);
+    letter-spacing: -0.2px;
+  }
+  .mobile-link:hover { color: var(--brand); }
+
+  .mobile-divider {
+    height: 24px;
+  }
+
+  .mobile-langs {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 4px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    margin: 0 -4px 16px;
+    padding: 16px 16px;
+  }
+  .mobile-eyebrow {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .mobile-eyebrow i { font-size: 16px; color: var(--brand); }
+  .mobile-lang-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 15px;
+  }
+  .mobile-lang-item:hover { background: var(--bg-primary); }
+  .mobile-lang-item.active { color: var(--brand); font-weight: 500; }
+  .mobile-lang-item i { color: var(--brand); font-size: 16px; }
+
+  .mobile-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--brand);
+    color: white;
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .mobile-cta:hover { background: var(--brand-800); }
+  .mobile-cta i { transition: transform 0.2s; }
+  .mobile-cta:hover i { transform: translateX(3px); }
+
+  /* === Breakpoint: 768px and below — mobile === */
   @media (max-width: 768px) {
-    .nav { display: none; }
+    .desktop-only { display: none !important; }
+    .mobile-only { display: flex; }
     .inner { padding: 14px 20px; }
-    .lang-trigger { padding: 7px 10px; }
-    .lang-trigger .current { display: none; }
   }
 </style>
 
 <script>
+  /* Lang dropdown (desktop) */
   const dropdowns = document.querySelectorAll<HTMLElement>("[data-lang-dropdown]");
   dropdowns.forEach((dd) => {
     const trigger = dd.querySelector<HTMLButtonElement>(".lang-trigger");
     if (!trigger) return;
-
     const open = () => {
       dd.setAttribute("data-open", "");
       trigger.setAttribute("aria-expanded", "true");
@@ -216,7 +379,6 @@ const langs = (Object.keys(languages) as Array<keyof typeof languages>).map((cod
       dd.removeAttribute("data-open");
       trigger.setAttribute("aria-expanded", "false");
     };
-
     trigger.addEventListener("click", (e) => {
       e.stopPropagation();
       if (dd.hasAttribute("data-open")) close();
@@ -229,4 +391,37 @@ const langs = (Object.keys(languages) as Array<keyof typeof languages>).map((cod
       if (e.key === "Escape") close();
     });
   });
+
+  /* Mobile drawer toggle */
+  const toggle = document.querySelector<HTMLButtonElement>("[data-mobile-toggle]");
+  const drawer = document.querySelector<HTMLElement>("[data-mobile-drawer]");
+  if (toggle && drawer) {
+    const close = () => {
+      toggle.setAttribute("aria-expanded", "false");
+      drawer.removeAttribute("data-open");
+      drawer.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    };
+    const open = () => {
+      toggle.setAttribute("aria-expanded", "true");
+      drawer.setAttribute("data-open", "");
+      drawer.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden"; // 스크롤 잠금
+    };
+    toggle.addEventListener("click", () => {
+      if (toggle.getAttribute("aria-expanded") === "true") close();
+      else open();
+    });
+    // 메뉴 항목 클릭 시 자동 닫기 (페이지 이동 전)
+    drawer.querySelectorAll("a").forEach((a) => {
+      a.addEventListener("click", () => close());
+    });
+    // ESC로 닫기
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") close();
+    });
+    // viewport 커지면 자동 닫기 (drawer 잔존 방지)
+    const mql = window.matchMedia("(min-width: 769px)");
+    mql.addEventListener("change", (e) => { if (e.matches) close(); });
+  }
 </script>

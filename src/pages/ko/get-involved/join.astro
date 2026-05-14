@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import PageHero from "../../../components/PageHero.astro";
+import Footer from "../../../components/Footer.astro";
+import ComingSoon from "../../../components/ComingSoon.astro";
+---
+
+<BaseLayout
+  lang="ko"
+  title="ASEZ 가입 — ASEZ"
+  description="대학생이라면 누구나 ASEZ 챕터에 가입할 수 있습니다 — 가까운 팀을 찾거나 새 팀을 만들어 보세요."
+>
+  <Header />
+  <PageHero
+    eyebrow="함께하기"
+    title="ASEZ 가입."
+    lead="대학생이라면 가까운 캠퍼스 챕터를 찾아 멤버가 되어보세요. 전 세계 7,500개 협력 캠퍼스의 학생 누구나 참여할 수 있습니다."
+  />
+  <main>
+    <ComingSoon message="검색 가능한 챕터 디렉토리와 온라인 가입 신청은 곧 공개됩니다. 그동안은 문의 페이지를 통해 가까운 챕터 코디네이터와 연결해 드립니다." />
+  </main>
+  <Footer />
+</BaseLayout>

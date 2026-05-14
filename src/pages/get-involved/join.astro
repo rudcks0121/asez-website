@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import PageHero from "../../components/PageHero.astro";
+import Footer from "../../components/Footer.astro";
+import ComingSoon from "../../components/ComingSoon.astro";
+---
+
+<BaseLayout
+  title="Join ASEZ — ASEZ"
+  description="University students from any campus can join an ASEZ chapter — find a nearby team or start a new one."
+>
+  <Header />
+  <PageHero
+    eyebrow="Take part"
+    title="Join ASEZ."
+    lead="If you're a university student, find your campus chapter and become a member. Membership is open to students at any of our 7,500 partner campuses worldwide."
+  />
+  <main>
+    <ComingSoon message="A searchable chapter directory and online membership application are coming soon. In the meantime, please use the Contact page to reach a chapter coordinator near you." />
+  </main>
+  <Footer />
+</BaseLayout>

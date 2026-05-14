@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import PageHero from "../../components/PageHero.astro";
+import Footer from "../../components/Footer.astro";
+import ComingSoon from "../../components/ComingSoon.astro";
+---
+
+<BaseLayout
+  title="Volunteer with us — ASEZ"
+  description="Open to community members of all ages. Join a local cleanup, forum, or campaign."
+>
+  <Header />
+  <PageHero
+    eyebrow="Take part"
+    title="Volunteer with ASEZ."
+    lead="Not a student? We welcome volunteers of all ages — for tree plantings, plastic clean-ups, disaster relief, and community forums."
+  />
+  <main>
+    <ComingSoon message="A nearby-event finder and one-time volunteer sign-up are coming soon. For now, please reach out through the Contact page and we'll connect you to the next activity near you." />
+  </main>
+  <Footer />
+</BaseLayout>
