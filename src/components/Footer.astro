@@ -1,37 +1,42 @@
 ---
 import Logo from "./Logo.astro";
+import { useTranslations, getLangFromUrl, pathLocalized } from "../i18n/utils";
+
+const t = useTranslations(Astro.url);
+const lang = getLangFromUrl(Astro.url);
+const p = (path: string) => pathLocalized(path, lang);
 
 const year = new Date().getFullYear();
 
 const columns = [
   {
-    title: "About",
+    title: t("footer.col.about"),
     links: [
-      { label: "Who we are", href: "/about" },
-      { label: "Our story", href: "/about/story" },
-      { label: "S.A.V.E movement", href: "/about/save" },
-      { label: "Awards", href: "/about/awards" },
-      { label: "Partners", href: "/about/partners" },
+      { label: t("link.who-we-are"), href: p("/about") },
+      { label: t("link.our-story"), href: p("/about") },
+      { label: t("link.save-movement"), href: p("/about") },
+      { label: t("link.awards"), href: p("/about") },
+      { label: t("link.partners"), href: p("/about") },
     ],
   },
   {
-    title: "What we do",
+    title: t("footer.col.what-we-do"),
     links: [
-      { label: "Climate action", href: "/what-we-do/climate-action" },
-      { label: "Plastic-free world", href: "/what-we-do/plastic-free" },
-      { label: "Crime prevention", href: "/what-we-do/crime-prevention" },
-      { label: "Digital human rights", href: "/what-we-do/digital-human-rights" },
-      { label: "Disaster relief", href: "/what-we-do/disaster-relief" },
+      { label: t("link.climate"), href: p("/what-we-do/climate-action") },
+      { label: t("link.plastic"), href: p("/what-we-do/plastic-free") },
+      { label: t("link.crime"), href: p("/what-we-do/crime-prevention") },
+      { label: t("link.digital"), href: p("/what-we-do/digital-human-rights") },
+      { label: t("link.disaster"), href: p("/what-we-do/disaster-relief") },
     ],
   },
   {
-    title: "Get involved",
+    title: t("footer.col.get-involved"),
     links: [
-      { label: "Join ASEZ", href: "/get-involved/join" },
-      { label: "Start a chapter", href: "/get-involved/start-chapter" },
-      { label: "Volunteer", href: "/get-involved/volunteer" },
-      { label: "Partner with us", href: "/get-involved/partner" },
-      { label: "Upcoming events", href: "/get-involved/events" },
+      { label: t("link.join"), href: p("/get-involved") },
+      { label: t("link.start-chapter"), href: p("/get-involved") },
+      { label: t("link.volunteer"), href: p("/get-involved") },
+      { label: t("link.partner"), href: p("/get-involved") },
+      { label: t("link.events"), href: p("/get-involved/events") },
     ],
   },
 ];
@@ -49,11 +54,8 @@ const sns = [
     <div class="top">
       <div class="brand">
         <Logo height={32} />
-        <p class="tagline">Save the Earth from A to Z.</p>
-        <p class="mission">
-          A global network of university student volunteers working
-          to leave a more livable Earth for the next generation.
-        </p>
+        <p class="tagline">{t("footer.tagline")}</p>
+        <p class="mission">{t("footer.mission")}</p>
       </div>
 
       <div class="cols">
@@ -68,10 +70,10 @@ const sns = [
           </div>
         ))}
         <div class="col newsletter">
-          <h4>Newsletter</h4>
-          <p>Field stories and reports — once a month.</p>
+          <h4>{t("footer.newsletter")}</h4>
+          <p>{t("footer.newsletter.desc")}</p>
           <form class="form" onsubmit="event.preventDefault();">
-            <input type="email" placeholder="your@email.com" required />
+            <input type="email" placeholder={t("footer.newsletter.placeholder")} required />
             <button type="submit" aria-label="Subscribe">
               <i class="ti ti-arrow-right"></i>
             </button>
@@ -81,12 +83,12 @@ const sns = [
     </div>
 
     <div class="bottom">
-      <div class="copy">© {year} ASEZ. All rights reserved.</div>
+      <div class="copy">© {year} ASEZ. {t("footer.rights")}</div>
       <div class="bottom-right">
         <div class="legal">
-          <a href="/privacy">Privacy</a>
-          <a href="/terms">Terms</a>
-          <a href="/contact">Contact</a>
+          <a href={p("/contact")}>{t("footer.privacy")}</a>
+          <a href={p("/contact")}>{t("footer.terms")}</a>
+          <a href={p("/contact")}>{t("footer.contact")}</a>
         </div>
         <div class="sns">
           {sns.map((s) => (
@@ -107,7 +109,6 @@ const sns = [
     padding: 72px var(--section-pad-x) 28px;
   }
   .inner { max-width: var(--max-width); margin: 0 auto; }
-
   .top {
     display: grid;
     grid-template-columns: 1fr 2.6fr;
@@ -127,7 +128,6 @@ const sns = [
     opacity: 0.6;
     margin: 0;
   }
-
   .cols {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -141,11 +141,7 @@ const sns = [
     margin: 0 0 16px;
     opacity: 0.55;
   }
-  .col ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+  .col ul { list-style: none; padding: 0; margin: 0; }
   .col li { margin-bottom: 10px; }
   .col a {
     color: white;
@@ -154,7 +150,6 @@ const sns = [
     opacity: 0.85;
   }
   .col a:hover { opacity: 1; }
-
   .newsletter p {
     font-size: var(--fs-small);
     line-height: 1.55;
@@ -195,7 +190,6 @@ const sns = [
   }
   .form button:hover { background: var(--brand); }
   .form button i { font-size: 15px; }
-
   .bottom {
     padding-top: 24px;
     display: flex;
@@ -204,16 +198,8 @@ const sns = [
     flex-wrap: wrap;
     gap: 16px;
   }
-  .copy {
-    font-size: var(--fs-caption);
-    opacity: 0.55;
-  }
-  .bottom-right {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
+  .copy { font-size: var(--fs-caption); opacity: 0.55; }
+  .bottom-right { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
   .legal { display: flex; gap: 18px; }
   .legal a {
     color: white;

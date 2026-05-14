@@ -1,0 +1,107 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import StoryCard from "../../../components/StoryCard.astro";
+
+export async function getStaticPaths() {
+  const stories = await getCollection("stories", ({ data }) => !data.draft);
+  return stories.map((s) => ({ params: { slug: s.id }, props: { story: s } }));
+}
+
+interface Props { story: CollectionEntry<"stories">; }
+const { story } = Astro.props;
+const { Content } = await render(story);
+
+const fmt = (d: Date) => d.toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" });
+
+const all = await getCollection("stories", ({ data }) => !data.draft);
+const related = all
+  .filter((s) => s.id !== story.id && s.data.category === story.data.category)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout lang="kr" title={`${story.data.title} — ASEZ`} description={story.data.excerpt}>
+  <Header />
+  <article class="story">
+    <div class="hero">
+      <div class="inner">
+        <a href="/ko/stories" class="back"><i class="ti ti-arrow-left"></i> 전체 소식</a>
+        <span class="pill" style={`background: ${story.data.pillBg}; color: ${story.data.pillColor};`}>{story.data.category}</span>
+        <h1>{story.data.title}</h1>
+        <div class="meta">
+          <span><i class="ti ti-calendar"></i> {fmt(story.data.date)}</span>
+          {story.data.location && <span><i class="ti ti-map-pin"></i> {story.data.location}</span>}
+        </div>
+      </div>
+    </div>
+
+    {story.data.image && (<div class="cover"><img src={story.data.image} alt={story.data.title} /></div>)}
+
+    <div class="body">
+      <div class="inner prose"><Content /></div>
+    </div>
+
+    {related.length > 0 && (
+      <section class="related reveal">
+        <div class="inner">
+          <p class="eyebrow">관련 소식</p>
+          <h2>같은 카테고리의 다른 소식.</h2>
+          <div class="grid">
+            {related.map((r) => (
+              <StoryCard
+                category={r.data.category} title={r.data.title} date={fmt(r.data.date)}
+                imgUrl={r.data.image} pillBg={r.data.pillBg} pillColor={r.data.pillColor}
+                href={`/ko/stories/${r.id}`} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </article>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .story { background: var(--bg-primary); }
+  .hero { padding: 64px var(--section-pad-x) 40px; background: var(--bg-secondary); border-bottom: 0.5px solid var(--border); }
+  .hero .inner { max-width: 820px; margin: 0 auto; }
+  .back { display: inline-flex; align-items: center; gap: 6px; color: var(--brand); font-size: var(--fs-small); font-weight: 500; text-decoration: none; margin-bottom: 28px; transition: gap 0.2s; }
+  .back:hover { gap: 10px; }
+  .back i { transition: transform 0.2s; }
+  .back:hover i { transform: translateX(-3px); }
+  .pill { display: inline-block; font-size: var(--fs-caption); font-weight: 500; padding: 5px 14px; border-radius: var(--radius-pill); margin-bottom: 18px; }
+  .hero h1 { font-size: 42px; line-height: 1.15; letter-spacing: -0.8px; margin: 0 0 20px; }
+  .meta { display: flex; gap: 22px; flex-wrap: wrap; font-size: var(--fs-small); color: var(--text-secondary); }
+  .meta i { color: var(--brand); margin-right: 4px; }
+  .cover { background: var(--bg-secondary); border-bottom: 0.5px solid var(--border); }
+  .cover img { max-width: var(--max-width); width: 100%; margin: 0 auto; display: block; aspect-ratio: 16/8; object-fit: cover; }
+  .body { padding: 56px var(--section-pad-x); background: var(--bg-primary); }
+  .body .inner { max-width: 720px; margin: 0 auto; }
+  .prose :global(p) { font-size: 17px; line-height: 1.75; color: var(--text-primary); margin: 0 0 24px; }
+  .prose :global(p:last-child) { margin-bottom: 0; }
+  .prose :global(h2) { font-size: 24px; font-weight: 500; margin: 40px 0 16px; letter-spacing: -0.3px; }
+  .prose :global(h3) { font-size: 19px; font-weight: 500; margin: 32px 0 12px; }
+  .prose :global(ul), .prose :global(ol) { font-size: 17px; line-height: 1.75; margin: 0 0 24px; padding-left: 22px; }
+  .prose :global(li) { margin-bottom: 8px; }
+  .prose :global(blockquote) { border-left: 3px solid var(--brand); padding: 4px 0 4px 22px; margin: 32px 0; font-size: 19px; line-height: 1.55; }
+  .prose :global(blockquote p) { margin-bottom: 8px; font-size: inherit; line-height: inherit; }
+  .prose :global(strong) { font-weight: 500; }
+  .prose :global(a) { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
+  .related { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .related .inner { max-width: var(--max-width); margin: 0 auto; }
+  .related h2 { font-size: var(--fs-h2); margin: 0 0 36px; letter-spacing: -0.4px; }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 768px) {
+    .hero { padding: 48px 20px 32px; }
+    .hero h1 { font-size: 30px; letter-spacing: -0.5px; }
+    .cover img { aspect-ratio: 16/10; }
+    .body { padding: 40px 20px; }
+    .prose :global(p), .prose :global(ul), .prose :global(ol) { font-size: 16px; }
+    .related { padding: 56px 20px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

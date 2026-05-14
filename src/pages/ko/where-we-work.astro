@@ -1,0 +1,161 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import PageHero from "../../components/PageHero.astro";
+import Footer from "../../components/Footer.astro";
+import ComingSoon from "../../components/ComingSoon.astro";
+
+const regions = [
+  { name: "아시아",     countries: 48, hq: "한국 서울" },
+  { name: "아메리카",   countries: 35, hq: "미국 로스앤젤레스" },
+  { name: "유럽",       countries: 44, hq: "영국 런던" },
+  { name: "아프리카",   countries: 38, hq: "케냐 나이로비" },
+  { name: "오세아니아", countries: 10, hq: "호주 시드니" },
+];
+
+const featuredCampuses = [
+  { city: "서울",         country: "대한민국",     note: "아시아 지역 HQ" },
+  { city: "뉴델리",       country: "인도",         note: "Plastic-Free India 거점" },
+  { city: "프리토리아",   country: "남아프리카공화국", note: "나무 심기 프로그램" },
+  { city: "마닐라",       country: "필리핀",       note: "Reduce Crime Together" },
+  { city: "리마",         country: "페루",         note: "아마존 보호" },
+  { city: "딜리",         country: "동티모르",     note: "국가 협력" },
+  { city: "시드니",       country: "호주",         note: "Blue Carbon 태평양" },
+  { city: "나이로비",     country: "케냐",         note: "아프리카 지역 HQ" },
+];
+---
+
+<BaseLayout
+  lang="kr"
+  title="활동 지역 — ASEZ"
+  description="ASEZ는 전 대륙에서 활동합니다. 지역별 현황과 가까운 캠퍼스 챕터를 찾아보세요."
+>
+  <Header />
+  <PageHero
+    eyebrow="글로벌 네트워크"
+    title="175개국. 7,500개 캠퍼스. 하나의 운동."
+    lead="ASEZ 챕터는 전 세계 모든 대륙에서 활동합니다. 가까운 챕터를 찾거나, 새로 만들어 보세요."
+  />
+  <main>
+    <section class="regions reveal">
+      <div class="inner">
+        <div class="grid">
+          {regions.map((r) => (
+            <div class="region">
+              <div class="num">{r.countries}</div>
+              <div class="label">{r.name}</div>
+              <div class="sub">개국</div>
+              <div class="hq">본부 — {r.hq}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="map-section reveal">
+      <div class="inner">
+        <div class="head">
+          <p class="eyebrow">활동 지도</p>
+          <h2>모든 대륙의 네트워크.</h2>
+          <p class="intro">서울에서 상파울루까지, 케이프타운에서 시드니까지 — ASEZ 챕터가 주요 지역에서 활동 중.</p>
+        </div>
+        <div class="map-frame">
+          <div class="map-overlay"><i class="ti ti-map-2"></i><p>인터랙티브 지도는 곧 공개됩니다.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="campuses reveal">
+      <div class="inner">
+        <div class="head">
+          <p class="eyebrow">현장</p>
+          <h2>주요 챕터.</h2>
+          <p class="intro">대표적인 활동을 이끄는 캠퍼스 일부 — 전체 디렉토리는 준비 중입니다.</p>
+        </div>
+        <div class="grid">
+          {featuredCampuses.map((c) => (
+            <div class="campus">
+              <div class="city">{c.city}</div>
+              <div class="country">{c.country}</div>
+              <div class="note">{c.note}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="find-cta reveal">
+      <div class="inner">
+        <div class="cta-card">
+          <div>
+            <p class="eyebrow light">대학생 여러분</p>
+            <h2>가까운 캠퍼스 챕터를 찾아보세요.</h2>
+            <p class="desc">검색 가능한 챕터 디렉토리와 신규 챕터 개설 절차는 준비 중입니다. 그동안은 문의 주시면 가장 가까운 팀을 연결해 드립니다.</p>
+          </div>
+          <div class="cta-actions">
+            <a href="/ko/get-involved" class="btn-primary">참여하기</a>
+            <a href="/ko/contact" class="btn-outline">문의하기</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ComingSoon message="인터랙티브 지도, 지역 사무소 디렉토리, 전체 챕터 목록이 곧 공개됩니다." />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .regions { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); }
+  .regions .inner { max-width: var(--max-width); margin: 0 auto; }
+  .regions .grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 22px; }
+  .region { border-top: 0.5px solid var(--border-strong); padding-top: 22px; }
+  .num { font-size: 44px; font-weight: 500; color: var(--brand); line-height: 1; letter-spacing: -1px; }
+  .label { font-size: 17px; font-weight: 500; margin-top: 14px; }
+  .sub { font-size: var(--fs-small); color: var(--text-secondary); margin-top: 2px; }
+  .hq { font-size: var(--fs-caption); color: var(--text-tertiary); margin-top: 12px; }
+
+  .map-section { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .map-section .inner { max-width: var(--max-width); margin: 0 auto; }
+  .head { margin-bottom: 36px; max-width: 680px; }
+  .head h2 { font-size: var(--fs-h2); margin: 0 0 14px; letter-spacing: -0.4px; }
+  .head .intro { font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.6; margin: 0; }
+  .map-frame { aspect-ratio: 16/8; background: var(--brand-50); border-radius: var(--radius-lg); border: 0.5px solid var(--border); position: relative; overflow: hidden; background-image: radial-gradient(circle at 30% 50%, var(--brand-100) 0%, var(--brand-50) 60%); }
+  .map-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--brand-800); gap: 14px; }
+  .map-overlay i { font-size: 56px; opacity: 0.6; }
+  .map-overlay p { font-size: var(--fs-body); font-weight: 500; margin: 0; opacity: 0.7; }
+
+  .campuses { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); border-top: 0.5px solid var(--border); }
+  .campuses .inner { max-width: var(--max-width); margin: 0 auto; }
+  .campuses .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .campus { padding: 22px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: var(--bg-secondary); transition: border-color 0.2s, transform 0.2s; }
+  .campus:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .city { font-size: 18px; font-weight: 500; margin-bottom: 4px; letter-spacing: -0.2px; }
+  .country { font-size: var(--fs-small); color: var(--text-secondary); margin-bottom: 12px; }
+  .note { font-size: var(--fs-caption); color: var(--brand); font-weight: 500; }
+
+  .find-cta { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); }
+  .cta-card { max-width: var(--max-width); margin: 0 auto; background-image: linear-gradient(135deg, var(--brand-darker) 0%, var(--brand-dark) 100%); color: white; border-radius: var(--radius-lg); padding: 56px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: center; }
+  .cta-card .eyebrow.light { color: rgba(255, 255, 255, 0.7); }
+  .cta-card h2 { font-size: 28px; margin: 0 0 14px; letter-spacing: -0.4px; line-height: 1.2; }
+  .cta-card .desc { font-size: var(--fs-body); opacity: 0.85; line-height: 1.6; margin: 0; max-width: 480px; }
+  .cta-actions { display: flex; flex-direction: column; gap: 10px; }
+  .cta-actions .btn-primary, .cta-actions .btn-outline { display: inline-flex; align-items: center; justify-content: center; padding: 13px 22px; border-radius: var(--radius-md); font-size: var(--fs-small); font-weight: 500; text-decoration: none; transition: transform 0.2s, background 0.2s, border-color 0.2s; }
+  .cta-actions .btn-primary { background: white; color: var(--brand); }
+  .cta-actions .btn-primary:hover { transform: translateY(-1px); }
+  .cta-actions .btn-outline { background: transparent; color: white; border: 0.5px solid rgba(255, 255, 255, 0.5); }
+  .cta-actions .btn-outline:hover { background: rgba(255, 255, 255, 0.1); border-color: white; }
+
+  @media (max-width: 900px) {
+    .regions .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+    .campuses .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cta-card { grid-template-columns: 1fr; padding: 40px; }
+  }
+  @media (max-width: 560px) {
+    .regions, .map-section, .campuses, .find-cta { padding: 56px 20px; }
+    .regions .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .num { font-size: 36px; }
+    .campuses .grid { grid-template-columns: 1fr; }
+    .cta-card { padding: 32px 24px; }
+  }
+</style>

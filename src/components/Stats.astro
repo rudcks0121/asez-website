@@ -1,4 +1,8 @@
 ---
+import { useTranslations, getLangFromUrl } from "../i18n/utils";
+const t = useTranslations(Astro.url);
+const lang = getLangFromUrl(Astro.url);
+
 interface Stat {
   num: string;
   label: string;
@@ -8,22 +12,35 @@ interface Stat {
   decimals?: number;
   format?: "comma";
 }
+
+// 한국어에서는 "175개국"처럼 라벨이 짧음. 영문은 "Countries" 별도.
 const stats: Stat[] = [
-  { num: "175",   label: "Countries",         icon: "ti-world",         target: 175 },
-  { num: "7,500", label: "Campuses",          icon: "ti-school",        target: 7500, format: "comma" },
-  { num: "2.1M+", label: "Volunteer hours",   icon: "ti-clock-hour-4",  target: 2.1, suffix: "M+", decimals: 1 },
-  { num: "17",    label: "UN SDGs supported", icon: "ti-target-arrow",  target: 17 },
+  { num: "175", label: lang === "ko" ? "175" + t("stats.countries") : t("stats.countries"), icon: "ti-world", target: 175 },
+  { num: "7,500", label: t("stats.campuses"), icon: "ti-school", target: 7500, format: "comma" },
+  { num: "2.1M+", label: t("stats.hours"), icon: "ti-clock-hour-4", target: 2.1, suffix: "M+", decimals: 1 },
+  { num: "17", label: t("stats.sdgs"), icon: "ti-target-arrow", target: 17 },
 ];
+
+// 한국어 모드의 첫 카드는 라벨이 "175개국"이라 num은 빈 처리 — UI 일관성 위해 별도 라벨 사용
+const isKo = lang === "ko";
+const displayStats = isKo
+  ? [
+      { num: "175", label: t("stats.countries").startsWith("개") ? "개국" : t("stats.countries"), icon: "ti-world", target: 175 },
+      { num: "7,500", label: t("stats.campuses"), icon: "ti-school", target: 7500, format: "comma" as const },
+      { num: "2.1M+", label: t("stats.hours"), icon: "ti-clock-hour-4", target: 2.1, suffix: "M+", decimals: 1 },
+      { num: "17", label: t("stats.sdgs"), icon: "ti-target-arrow", target: 17 },
+    ]
+  : stats;
 ---
 
 <section class="stats reveal">
   <div class="inner">
     <div class="head">
-      <p class="eyebrow">Our global footprint</p>
-      <h2>A movement, in numbers.</h2>
+      <p class="eyebrow">{t("stats.eyebrow")}</p>
+      <h2>{t("stats.title")}</h2>
     </div>
     <div class="grid">
-      {stats.map((s) => (
+      {displayStats.map((s) => (
         <div class="stat">
           <i class={`ti ${s.icon} icon`}></i>
           <div
@@ -48,15 +65,9 @@ const stats: Stat[] = [
     padding: var(--section-pad-y) var(--section-pad-x);
     border-top: 0.5px solid var(--border);
   }
-  .inner {
-    max-width: var(--max-width);
-    margin: 0 auto;
-  }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
   .head { margin-bottom: 40px; max-width: 600px; }
-  .head h2 {
-    font-size: var(--fs-h2);
-    margin: 0;
-  }
+  .head h2 { font-size: var(--fs-h2); margin: 0; }
   .grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -67,9 +78,7 @@ const stats: Stat[] = [
     padding-top: 22px;
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .stat:hover {
-    transform: translateY(-3px);
-  }
+  .stat:hover { transform: translateY(-3px); }
   .icon {
     font-size: 22px;
     color: var(--brand);
@@ -77,9 +86,7 @@ const stats: Stat[] = [
     display: inline-block;
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .stat:hover .icon {
-    transform: scale(1.2) rotate(-8deg);
-  }
+  .stat:hover .icon { transform: scale(1.2) rotate(-8deg); }
   .num {
     font-size: var(--fs-stat);
     font-weight: 800;
@@ -92,7 +99,6 @@ const stats: Stat[] = [
     color: var(--text-secondary);
     margin-top: 12px;
   }
-
   @media (max-width: 768px) {
     .stats { padding: 48px 20px; }
     .head h2 { font-size: 22px; }

@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Hero from "../../components/Hero.astro";
+import Catchphrase from "../../components/Catchphrase.astro";
+import Stats from "../../components/Stats.astro";
+import MainProjects from "../../components/MainProjects.astro";
+import ActivityByRegion from "../../components/ActivityByRegion.astro";
+import Recognition from "../../components/Recognition.astro";
+import StoryGrid from "../../components/StoryGrid.astro";
+import VideoGrid from "../../components/VideoGrid.astro";
+import SnsGrid from "../../components/SnsGrid.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<BaseLayout
+  lang="kr"
+  title="ASEZ — 행복한 세상을 위해 A부터 Z까지"
+  description="전 세계 175개국 7,500여 캠퍼스에서 활동하는 대학생 봉사단 ASEZ — 환경 보호, 지역사회 봉사, 다음 세대를 위한 더 살기 좋은 지구."
+>
+  <Header />
+  <main>
+    <Hero />
+    <Catchphrase />
+    <Stats />
+    <MainProjects />
+    <ActivityByRegion />
+    <Recognition />
+    <StoryGrid />
+    <VideoGrid />
+    <SnsGrid />
+  </main>
+  <Footer />
+</BaseLayout>

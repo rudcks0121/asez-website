@@ -1,58 +1,72 @@
 ---
-/**
- * 5개 region별 대표 활동 — 대륙별 시각 아이콘 포함.
- * 호버 시 이미지 줌 + 아이콘 회전 인터랙션.
- */
+import { useTranslations, getLangFromUrl, pathLocalized } from "../i18n/utils";
+const t = useTranslations(Astro.url);
+const lang = getLangFromUrl(Astro.url);
+const p = (path: string) => pathLocalized(path, lang);
+
+// 활동 목록은 짧고 사이트 전반에서 일관됨. 한국어/영문 모두 직관적이라 인라인 매핑.
+const isKo = lang === "ko";
+
 const regions = [
   {
-    name: "Asia",
-    icon: "ti-mountain",           // 산악 지대 모티프
+    name: t("region.asia"),
+    icon: "ti-mountain",
     iconBg: "var(--brand-100)",
     iconColor: "var(--brand-800)",
     countries: 48,
     img: "https://asez.org/wp-content/uploads/2024/10/thum_zero_plastic_2040.jpg",
-    activities: ["Plastic-Free India", "Blue Carbon Korea", "Forest forums Japan"],
-    href: "/where-we-work#asia",
+    activities: isKo
+      ? ["Plastic-Free India", "Blue Carbon 한국", "산림 포럼 일본"]
+      : ["Plastic-Free India", "Blue Carbon Korea", "Forest forums Japan"],
+    href: p("/where-we-work") + "#asia",
   },
   {
-    name: "Americas",
-    icon: "ti-tree",               // 큰 숲/Amazon 모티프
+    name: t("region.americas"),
+    icon: "ti-tree",
     iconBg: "var(--teal-100)",
     iconColor: "var(--teal-900)",
     countries: 35,
     img: "https://asez.org/wp-content/uploads/2024/07/thum_us_president_awards.png",
-    activities: ["U.S. Presidential Service", "Amazon protection Brazil", "Coastal cleanups"],
-    href: "/where-we-work#americas",
+    activities: isKo
+      ? ["미국 대통령 봉사상", "아마존 보호 브라질", "해안 정화 활동"]
+      : ["U.S. Presidential Service", "Amazon protection Brazil", "Coastal cleanups"],
+    href: p("/where-we-work") + "#americas",
   },
   {
-    name: "Europe",
-    icon: "ti-building-castle",    // 유럽 건축 모티프
+    name: t("region.europe"),
+    icon: "ti-building-castle",
     iconBg: "var(--amber-100)",
     iconColor: "var(--amber-900)",
     countries: 44,
     img: "https://asez.org/wp-content/uploads/2024/07/thum_green_awards.png",
-    activities: ["Green Apple Awards", "Climate policy forums", "Plastic reduction UK"],
-    href: "/where-we-work#europe",
+    activities: isKo
+      ? ["Green Apple Awards", "기후 정책 포럼", "플라스틱 감축 영국"]
+      : ["Green Apple Awards", "Climate policy forums", "Plastic reduction UK"],
+    href: p("/where-we-work") + "#europe",
   },
   {
-    name: "Africa",
-    icon: "ti-sun-high",           // 사하라 / 태양 모티프
+    name: t("region.africa"),
+    icon: "ti-sun-high",
     iconBg: "var(--amber-50)",
     iconColor: "var(--amber-900)",
     countries: 38,
     img: "https://asez.org/wp-content/uploads/2026/04/20260322_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD_C_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD-%ED%94%84%EB%A6%AC%ED%86%A0%EB%A6%AC%EC%95%84_ASEZ-%EB%82%98%EB%AC%B4%EC%8B%AC%EA%B8%B0-100%EA%B7%B8%EB%A3%A8_%EC%B4%88%EC%BD%94%EC%97%90-%EC%B4%88%EB%93%B1%ED%95%99%EA%B5%90-%ED%8F%AC%ED%95%A8-9%EA%B0%9C-%EC%9E%A5%EC%86%8C_0000181_ASEZIUBA.jpg",
-    activities: ["Pretoria tree planting", "UNCCD partnership", "Kenya conservation"],
-    href: "/where-we-work#africa",
+    activities: isKo
+      ? ["프리토리아 나무 심기", "UNCCD 파트너십", "케냐 보존 활동"]
+      : ["Pretoria tree planting", "UNCCD partnership", "Kenya conservation"],
+    href: p("/where-we-work") + "#africa",
   },
   {
-    name: "Oceania",
-    icon: "ti-sailboat",           // 태평양 / 바다 모티프
+    name: t("region.oceania"),
+    icon: "ti-sailboat",
     iconBg: "var(--brand-50)",
     iconColor: "var(--brand-800)",
     countries: 10,
     img: "https://asez.org/wp-content/uploads/2026/03/beautiful-canopy-of-green-trees-looking-upwards-2026-01-11-10-01-30-utc-1.jpg",
-    activities: ["Blue Carbon Pacific", "Reef protection AU", "NZ chapter network"],
-    href: "/where-we-work#oceania",
+    activities: isKo
+      ? ["Blue Carbon 태평양", "산호초 보호 호주", "NZ 챕터 네트워크"]
+      : ["Blue Carbon Pacific", "Reef protection AU", "NZ chapter network"],
+    href: p("/where-we-work") + "#oceania",
   },
 ];
 ---
@@ -61,15 +75,12 @@ const regions = [
   <div class="inner">
     <div class="head">
       <div class="head-text">
-        <p class="eyebrow">Activity by region</p>
-        <h2>Local action, global movement.</h2>
-        <p class="intro">
-          ASEZ chapters are organized regionally. Here's what's happening
-          on each continent right now.
-        </p>
+        <p class="eyebrow">{t("region.eyebrow")}</p>
+        <h2>{t("region.title")}</h2>
+        <p class="intro">{t("region.intro")}</p>
       </div>
-      <a href="/where-we-work" class="view-all">
-        Full map <i class="ti ti-arrow-right"></i>
+      <a href={p("/where-we-work")} class="view-all">
+        {t("region.full-map")} <i class="ti ti-arrow-right"></i>
       </a>
     </div>
 
@@ -83,7 +94,7 @@ const regions = [
             </div>
             <div class="cnt-badge">
               <span class="cnt">{r.countries}</span>
-              <span class="cnt-lbl">countries</span>
+              <span class="cnt-lbl">{t("region.countries")}</span>
             </div>
           </div>
           <div class="body">
@@ -118,24 +129,9 @@ const regions = [
     flex-wrap: wrap;
   }
   .head-text { max-width: 640px; }
-  .head h2 {
-    font-size: var(--fs-h2);
-    margin: 0 0 14px;
-    letter-spacing: -0.4px;
-  }
-  .head .intro {
-    font-size: var(--fs-body);
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin: 0;
-  }
-  .view-all {
-    font-size: var(--fs-small);
-    color: var(--brand);
-    text-decoration: none;
-    font-weight: 500;
-  }
-
+  .head h2 { font-size: var(--fs-h2); margin: 0 0 14px; letter-spacing: -0.4px; }
+  .head .intro { font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.6; margin: 0; }
+  .view-all { font-size: var(--fs-small); color: var(--brand); text-decoration: none; font-weight: 500; }
   .grid {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -150,113 +146,49 @@ const regions = [
     background: var(--bg-primary);
     color: var(--text-primary);
     text-decoration: none;
-    transition:
-      border-color 0.2s,
-      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.3s ease;
+    transition: border-color 0.2s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
   }
   .region:hover {
     border-color: var(--border-strong);
     transform: translateY(-4px);
     box-shadow: 0 10px 28px rgba(4, 44, 83, 0.12);
   }
-  .media {
-    aspect-ratio: 4/3;
-    overflow: hidden;
-    position: relative;
-  }
+  .media { aspect-ratio: 4/3; overflow: hidden; position: relative; }
   .media img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .region:hover .media img { transform: scale(1.08); }
 
-  /* 대륙 아이콘 — 우측 상단 floating circle */
   .continent {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: absolute; top: 12px; right: 12px;
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .continent i { font-size: 20px; }
-  .region:hover .continent {
-    transform: rotate(-10deg) scale(1.12);
-  }
+  .region:hover .continent { transform: rotate(-10deg) scale(1.12); }
 
-  /* Country count — 좌측 상단 */
   .cnt-badge {
-    position: absolute;
-    left: 12px;
-    top: 12px;
+    position: absolute; left: 12px; top: 12px;
     background: rgba(255, 255, 255, 0.96);
     border-radius: var(--radius-md);
     padding: 6px 10px;
-    display: flex;
-    align-items: baseline;
-    gap: 5px;
+    display: flex; align-items: baseline; gap: 5px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
-  .cnt {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--brand);
-    line-height: 1;
-    letter-spacing: -0.8px;
-  }
-  .cnt-lbl {
-    font-size: 10px;
-    color: var(--text-secondary);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
+  .cnt { font-size: 20px; font-weight: 800; color: var(--brand); line-height: 1; letter-spacing: -0.8px; }
+  .cnt-lbl { font-size: 10px; color: var(--text-secondary); letter-spacing: 0.5px; text-transform: uppercase; }
 
-  .body {
-    padding: 18px 18px 20px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  .body h3 {
-    font-size: 17px;
-    margin: 0 0 12px;
-    letter-spacing: -0.2px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .acts {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+  .body { padding: 18px 18px 20px; flex: 1; display: flex; flex-direction: column; }
+  .body h3 { font-size: 17px; margin: 0 0 12px; letter-spacing: -0.2px; display: flex; align-items: center; gap: 6px; }
+  .acts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
   .acts li {
-    font-size: 12px;
-    color: var(--text-secondary);
-    line-height: 1.4;
-    display: flex;
-    align-items: flex-start;
-    gap: 4px;
+    font-size: 12px; color: var(--text-secondary); line-height: 1.4;
+    display: flex; align-items: flex-start; gap: 4px;
   }
-  .acts i {
-    color: var(--brand);
-    font-size: 10px;
-    margin-top: 4px;
-    flex-shrink: 0;
-  }
+  .acts i { color: var(--brand); font-size: 10px; margin-top: 4px; flex-shrink: 0; }
 
   @media (max-width: 1100px) {
     .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }

@@ -1,28 +1,33 @@
 ---
 import { getCollection } from "astro:content";
+import { useTranslations, getLangFromUrl, pathLocalized } from "../i18n/utils";
 import StoryCard from "./StoryCard.astro";
 
-/**
- * 홈페이지의 Latest stories — 컬렉션에서 최신 3개만.
- */
+const t = useTranslations(Astro.url);
+const lang = getLangFromUrl(Astro.url);
+
 const all = await getCollection("stories", ({ data }) => !data.draft);
 const stories = all
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 
 const fmt = (d: Date) =>
-  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  d.toLocaleDateString(lang === "ko" ? "ko-KR" : "en-US", {
+    year: "numeric",
+    month: lang === "ko" ? "long" : "long",
+    day: "numeric",
+  });
 ---
 
 <section class="section reveal">
   <div class="inner">
     <div class="head">
       <div>
-        <p class="eyebrow">Field stories</p>
-        <h2>Latest from the field.</h2>
+        <p class="eyebrow">{t("stories.eyebrow")}</p>
+        <h2>{t("stories.title")}</h2>
       </div>
-      <a href="/stories" class="view-all">
-        All stories <i class="ti ti-arrow-right"></i>
+      <a href={pathLocalized("/stories", lang)} class="view-all">
+        {t("stories.view-all")} <i class="ti ti-arrow-right"></i>
       </a>
     </div>
     <div class="grid">
@@ -34,7 +39,7 @@ const fmt = (d: Date) =>
           imgUrl={s.data.image}
           pillBg={s.data.pillBg}
           pillColor={s.data.pillColor}
-          href={`/stories/${s.id}`}
+          href={pathLocalized(`/stories/${s.id}`, lang)}
         />
       ))}
     </div>
@@ -49,23 +54,11 @@ const fmt = (d: Date) =>
   }
   .inner { max-width: var(--max-width); margin: 0 auto; }
   .head {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    margin-bottom: 40px;
-    flex-wrap: wrap;
-    gap: 16px;
+    display: flex; align-items: end; justify-content: space-between;
+    margin-bottom: 40px; flex-wrap: wrap; gap: 16px;
   }
-  .head h2 {
-    font-size: var(--fs-h2);
-    margin: 0;
-  }
-  .view-all {
-    font-size: var(--fs-small);
-    color: var(--brand);
-    text-decoration: none;
-    font-weight: 500;
-  }
+  .head h2 { font-size: var(--fs-h2); margin: 0; }
+  .view-all { font-size: var(--fs-small); color: var(--brand); text-decoration: none; font-weight: 500; }
   .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));

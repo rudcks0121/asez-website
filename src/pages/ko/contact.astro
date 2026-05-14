@@ -1,0 +1,149 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import PageHero from "../../components/PageHero.astro";
+import Footer from "../../components/Footer.astro";
+import ComingSoon from "../../components/ComingSoon.astro";
+
+const channels = [
+  { icon: "ti-mail", title: "일반 문의", detail: "contact@asez.org", sub: "영업일 기준 3일 이내 답변드립니다." },
+  { icon: "ti-news", title: "보도/언론 문의", detail: "press@asez.org", sub: "보도자료, 인터뷰 및 입장 요청." },
+  { icon: "ti-handshake", title: "협력 제안", detail: "partners@asez.org", sub: "정부, NGO, 대학, 기업 협력 환영." },
+];
+
+const offices = [
+  { region: "아시아",     hq: "한국 서울",          email: "asia@asez.org" },
+  { region: "아메리카",   hq: "미국 로스앤젤레스",  email: "americas@asez.org" },
+  { region: "유럽",       hq: "영국 런던",          email: "europe@asez.org" },
+  { region: "아프리카",   hq: "케냐 나이로비",      email: "africa@asez.org" },
+  { region: "오세아니아", hq: "호주 시드니",        email: "oceania@asez.org" },
+];
+
+const subjects = ["일반 문의", "보도/언론", "협력 제안", "자원봉사/회원 가입", "기타"];
+---
+
+<BaseLayout lang="kr" title="문의 — ASEZ" description="ASEZ 문의 — 일반 문의, 언론, 협력, 지역 사무소.">
+  <Header />
+  <PageHero
+    eyebrow="문의"
+    title="ASEZ에 연락하기."
+    lead="질문, 언론 문의, 협력 제안 — 무엇이든 환영합니다."
+  />
+  <main>
+    <section class="channels reveal">
+      <div class="inner">
+        <div class="grid">
+          {channels.map((c) => (
+            <div class="channel">
+              <i class={`ti ${c.icon} icon`}></i>
+              <h3>{c.title}</h3>
+              <p class="detail">{c.detail}</p>
+              <p class="sub">{c.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section reveal">
+      <div class="inner">
+        <div class="form-grid">
+          <div class="copy">
+            <p class="eyebrow">메시지 보내기</p>
+            <h2>무엇이 필요하신가요?</h2>
+            <p>위 채널에 해당하지 않는 문의는 — 메시지를 남겨주세요. 모든 메시지를 읽고 적절한 팀으로 전달합니다.</p>
+          </div>
+          <form class="form" onsubmit="event.preventDefault();">
+            <div class="row">
+              <label><span>이름</span><input type="text" placeholder="홍길동" required /></label>
+              <label><span>이메일</span><input type="email" placeholder="example@email.com" required /></label>
+            </div>
+            <label><span>문의 유형</span>
+              <select required>{subjects.map((s) => <option>{s}</option>)}</select>
+            </label>
+            <label><span>메시지</span>
+              <textarea rows="6" placeholder="어떤 도움이 필요하신가요?" required></textarea>
+            </label>
+            <button type="submit" class="submit">메시지 전송 <i class="ti ti-arrow-right"></i></button>
+            <p class="fine">입력하신 정보는 이 문의에 답변하는 용도로만 사용됩니다.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="offices reveal">
+      <div class="inner">
+        <p class="eyebrow">지역 사무소</p>
+        <h2>지역별 연락처.</h2>
+        <p class="intro">챕터 또는 지역별 문의는 가까운 사무소로 직접 연락해 주세요.</p>
+        <div class="grid">
+          {offices.map((o) => (
+            <div class="office">
+              <p class="region">{o.region}</p>
+              <p class="hq">{o.hq}</p>
+              <a class="email" href={`mailto:${o.email}`}>{o.email}</a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <ComingSoon message="전체 사무소 디렉토리 (전화 번호 및 방문 안내 포함)가 곧 공개됩니다." />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .channels { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); }
+  .channels .inner { max-width: var(--max-width); margin: 0 auto; }
+  .channels .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .channel { padding: 28px; border-radius: var(--radius-lg); border: 0.5px solid var(--border); background: var(--bg-secondary); transition: all 0.3s; }
+  .channel:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .icon { font-size: 28px; color: var(--brand); margin-bottom: 14px; display: inline-block; }
+  .channel h3 { font-size: var(--fs-h3); margin: 0 0 10px; line-height: var(--lh-snug); }
+  .detail { font-size: var(--fs-body); color: var(--brand); font-weight: 500; margin: 0 0 4px; }
+  .sub { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.5; margin: 0; }
+
+  .form-section { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .form-section .inner { max-width: var(--max-width); margin: 0 auto; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 56px; align-items: start; }
+  .copy h2 { font-size: var(--fs-h2); margin: 0 0 16px; letter-spacing: -0.4px; }
+  .copy p { font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.6; margin: 0; max-width: 380px; }
+
+  .form { display: flex; flex-direction: column; gap: 18px; background: var(--bg-primary); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 32px; }
+  .form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form label { display: flex; flex-direction: column; gap: 6px; }
+  .form label span { font-size: var(--fs-caption); color: var(--text-secondary); letter-spacing: 0.5px; text-transform: uppercase; font-weight: 500; }
+  .form input, .form select, .form textarea { background: var(--bg-secondary); border: 0.5px solid var(--border-strong); border-radius: var(--radius-md); padding: 12px 14px; font-size: var(--fs-body); color: var(--text-primary); font-family: inherit; outline: none; transition: all 0.15s; }
+  .form textarea { resize: vertical; min-height: 120px; }
+  .form input:focus, .form select:focus, .form textarea:focus { border-color: var(--brand); background: var(--bg-primary); }
+  .form input::placeholder, .form textarea::placeholder { color: var(--text-tertiary); }
+  .submit { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; background: var(--brand); color: white; border: none; border-radius: var(--radius-md); padding: 12px 24px; font-size: var(--fs-small); font-weight: 500; font-family: inherit; cursor: pointer; transition: all 0.2s; margin-top: 4px; }
+  .submit:hover { background: var(--brand-800); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(32, 96, 173, 0.25); }
+  .submit i { transition: transform 0.2s; }
+  .submit:hover i { transform: translateX(3px); }
+  .fine { font-size: var(--fs-caption); color: var(--text-tertiary); margin: 0; }
+
+  .offices { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); border-top: 0.5px solid var(--border); }
+  .offices .inner { max-width: var(--max-width); margin: 0 auto; }
+  .offices h2 { font-size: var(--fs-h2); margin: 0 0 14px; letter-spacing: -0.4px; }
+  .offices .intro { font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.6; max-width: 600px; margin: 0 0 40px; }
+  .offices .grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+  .office { padding: 22px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: var(--bg-secondary); }
+  .office .region { font-size: var(--fs-caption); color: var(--brand); font-weight: 500; letter-spacing: 1px; text-transform: uppercase; margin: 0 0 10px; }
+  .office .hq { font-size: var(--fs-small); font-weight: 500; color: var(--text-primary); margin: 0 0 8px; line-height: 1.4; }
+  .office .email { font-size: var(--fs-small); color: var(--brand); text-decoration: none; word-break: break-all; }
+  .office .email:hover { text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .channels .grid { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; gap: 32px; }
+    .offices .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .channels, .form-section, .offices { padding: 56px 20px; }
+    .form { padding: 24px; }
+    .form .row { grid-template-columns: 1fr; }
+    .offices .grid { grid-template-columns: 1fr; }
+  }
+</style>

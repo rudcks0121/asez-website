@@ -11,17 +11,26 @@
  *   </BaseLayout>
  */
 import "../styles/global.css";
+import { getLangFromUrl } from "../i18n/utils";
 
 interface Props {
   title?: string;
   description?: string;
-  lang?: "en" | "kr";
+  lang?: "en" | "ko" | "kr";   // "kr"은 기존 호환용 alias
 }
 
+// URL이 우선, prop이 보조. lang attribute는 ISO 표준 "ko"로 정규화.
+const urlLang = getLangFromUrl(Astro.url);
+const propLang = Astro.props.lang === "kr" ? "ko" : Astro.props.lang;
+const lang = propLang ?? urlLang;
+
 const {
-  title = "ASEZ — Save the Earth from A to Z",
-  description = "A global network of student volunteers tackling climate change, plastic pollution, and community challenges across 175 countries.",
-  lang = "en",
+  title = lang === "ko"
+    ? "ASEZ — 행복한 세상을 위해 A부터 Z까지"
+    : "ASEZ — Save the Earth from A to Z",
+  description = lang === "ko"
+    ? "전 세계 175개국 7,500여 캠퍼스에서 활동하는 대학생 봉사단 ASEZ."
+    : "A global network of student volunteers tackling climate change, plastic pollution, and community challenges across 175 countries.",
 } = Astro.props;
 ---
 

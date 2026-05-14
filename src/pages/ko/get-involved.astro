@@ -1,0 +1,143 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import PageHero from "../../components/PageHero.astro";
+import Footer from "../../components/Footer.astro";
+import ComingSoon from "../../components/ComingSoon.astro";
+
+const paths = [
+  { icon: "ti-school", title: "ASEZ 가입", desc: "대학생이라면 가까운 캠퍼스 챕터를 찾아 멤버가 되어보세요.", href: "#" },
+  { icon: "ti-flag", title: "챕터 만들기", desc: "캠퍼스에 챕터가 없다면 새로 만들어보세요. 우리가 도와드립니다.", href: "#" },
+  { icon: "ti-hand-stop", title: "자원봉사 참여", desc: "모든 연령대에 열려 있습니다. 지역 정화 활동, 포럼, 캠페인 참여.", href: "#" },
+  { icon: "ti-building-bank", title: "협력 제안", desc: "정부, 대학, NGO, 기업의 SDG 협력 제안 환영.", href: "#" },
+  { icon: "ti-calendar-event", title: "예정된 행사", desc: "이번 시즌의 포럼, 서밋, 현장 캠페인.", href: "/ko/get-involved/events" },
+];
+
+const reasons = [
+  { icon: "ti-world", title: "글로벌 임팩트", desc: "한 캠퍼스의 활동이 175개국 7,500개 캠퍼스의 조직적인 행동과 연결됩니다." },
+  { icon: "ti-bolt", title: "말이 아닌 행동", desc: "나무 심기, 플라스틱 정화, 재해 구호, 정책 입안자와의 포럼 — 우리는 미래를 만들지, 말만 하지 않습니다." },
+  { icon: "ti-award", title: "공인된 활동", desc: "UNCCD, 미국 대통령상, 국제 환경 기구로부터 인정받았습니다." },
+  { icon: "ti-users", title: "지속되는 커뮤니티", desc: "평생의 친구, 멘토, 모든 대륙을 잇는 동료 네트워크." },
+];
+---
+
+<BaseLayout lang="kr" title="참여하기 — ASEZ" description="ASEZ의 활동에 참여하는 5가지 방법 — 학생 회원, 자원봉사자, 파트너 기관, 행사 참가자.">
+  <Header />
+  <PageHero
+    eyebrow="함께하기"
+    title="참여하기."
+    lead="대학생, 자원봉사자, 파트너 기관, 포럼·캠페인 참가자 — ASEZ에 함께할 수 있는 다양한 방법이 있습니다."
+  />
+  <main>
+    <section class="paths reveal">
+      <div class="inner">
+        <div class="grid">
+          {paths.map((p) => (
+            <a class="path" href={p.href}>
+              <i class={`ti ${p.icon} icon`}></i>
+              <h3>{p.title}</h3>
+              <p>{p.desc}</p>
+              <span class="more">더 보기 <i class="ti ti-arrow-right"></i></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="why reveal">
+      <div class="inner">
+        <p class="eyebrow">왜 ASEZ인가</p>
+        <h2>참여했을 때 얻을 수 있는 것들.</h2>
+        <p class="intro">ASEZ는 회원증이 아니라 운동입니다. 멤버들이 계속 함께하는 이유.</p>
+        <div class="grid">
+          {reasons.map((r) => (
+            <div class="reason">
+              <i class={`ti ${r.icon} icon`}></i>
+              <h3>{r.title}</h3>
+              <p>{r.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="signup reveal">
+      <div class="inner">
+        <div class="signup-card">
+          <div class="copy">
+            <p class="eyebrow light">시작하기</p>
+            <h2>당신의 캠퍼스를 알려주세요.</h2>
+            <p class="desc">이메일과 캠퍼스를 입력하시면 가까운 챕터와 연결해 드립니다 — 또는 새 챕터 시작을 도와드립니다.</p>
+          </div>
+          <form class="form" onsubmit="event.preventDefault();">
+            <label>
+              <span>이메일</span>
+              <input type="email" placeholder="your@email.com" required />
+            </label>
+            <label>
+              <span>캠퍼스 / 도시</span>
+              <input type="text" placeholder="예: 서울대학교" required />
+            </label>
+            <button type="submit" class="submit">연결 요청 <i class="ti ti-arrow-right"></i></button>
+            <p class="fine">제출하시면 ASEZ 챕터 코디네이터로부터 한 번의 후속 이메일을 받게 됩니다.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <ComingSoon message="각 경로별 상세 가입 폼과 협력 문의 페이지는 곧 공개됩니다." />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .paths { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .paths .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .path { display: flex; flex-direction: column; padding: 28px; border-radius: var(--radius-lg); border: 0.5px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); text-decoration: none; transition: all 0.3s; }
+  .path:hover { border-color: var(--border-strong); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(4, 44, 83, 0.08); }
+  .icon { font-size: 30px; color: var(--brand); margin-bottom: 16px; transition: transform 0.3s; }
+  .path:hover .icon { transform: scale(1.1); }
+  .path h3 { font-size: var(--fs-h3); margin: 0 0 8px; line-height: var(--lh-snug); }
+  .path p { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.55; margin: 0 0 16px; flex: 1; }
+  .more { display: inline-flex; align-items: center; gap: 4px; font-size: var(--fs-small); font-weight: 500; color: var(--brand); }
+
+  .why { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .why h2 { font-size: var(--fs-h2); margin: 0 0 14px; letter-spacing: -0.4px; }
+  .why .intro { font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.6; max-width: 640px; margin: 0 0 40px; }
+  .why .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+  .reason { padding: 26px; border-radius: var(--radius-lg); background: var(--bg-primary); border: 0.5px solid var(--border); }
+  .reason .icon { font-size: 26px; color: var(--brand); margin-bottom: 16px; display: inline-block; }
+  .reason h3 { font-size: var(--fs-h3); margin: 0 0 8px; line-height: var(--lh-snug); }
+  .reason p { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.55; margin: 0; }
+
+  .signup { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); border-top: 0.5px solid var(--border); }
+  .signup-card { max-width: var(--max-width); margin: 0 auto; background-image: linear-gradient(135deg, var(--brand-darker) 0%, var(--brand-dark) 100%); color: white; border-radius: var(--radius-lg); padding: 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .copy .eyebrow.light { color: rgba(255, 255, 255, 0.7); }
+  .copy h2 { font-size: 30px; line-height: 1.15; margin: 0 0 16px; letter-spacing: -0.6px; }
+  .copy .desc { font-size: var(--fs-body); opacity: 0.85; line-height: 1.6; margin: 0; }
+  .form { display: flex; flex-direction: column; gap: 16px; }
+  .form label { display: flex; flex-direction: column; gap: 6px; }
+  .form label span { font-size: var(--fs-caption); letter-spacing: 1px; text-transform: uppercase; opacity: 0.7; }
+  .form input { background: rgba(255, 255, 255, 0.08); border: 0.5px solid rgba(255, 255, 255, 0.2); border-radius: var(--radius-md); padding: 12px 14px; font-size: var(--fs-body); color: white; font-family: inherit; outline: none; transition: all 0.15s; }
+  .form input::placeholder { color: rgba(255, 255, 255, 0.35); }
+  .form input:focus { border-color: var(--brand-400); background: rgba(255, 255, 255, 0.12); }
+  .submit { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; background: white; color: var(--brand); border: none; border-radius: var(--radius-md); padding: 12px 22px; font-size: var(--fs-small); font-weight: 500; font-family: inherit; cursor: pointer; transition: all 0.2s; margin-top: 4px; }
+  .submit:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); }
+  .submit i { transition: transform 0.2s; }
+  .submit:hover i { transform: translateX(3px); }
+  .fine { font-size: 12px; opacity: 0.55; line-height: 1.5; margin: 8px 0 0; }
+
+  @media (max-width: 900px) {
+    .paths .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .why .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .signup-card { grid-template-columns: 1fr; gap: 32px; padding: 40px; }
+    .copy h2 { font-size: 26px; }
+  }
+  @media (max-width: 560px) {
+    .paths, .why, .signup { padding: 56px 20px; }
+    .paths .grid { grid-template-columns: 1fr; }
+    .why .grid { grid-template-columns: 1fr; }
+    .signup-card { padding: 32px 24px; }
+  }
+</style>

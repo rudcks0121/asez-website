@@ -1,0 +1,126 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import PageHero from "../../../components/PageHero.astro";
+import Footer from "../../../components/Footer.astro";
+
+const now = new Date();
+const all = await getCollection("events", ({ data }) => !data.draft);
+const upcoming = all.filter((e) => e.data.date.valueOf() >= now.valueOf() - 86_400_000).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+const past = all.filter((e) => e.data.date.valueOf() < now.valueOf() - 86_400_000).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const koType = (t: string) => ({ Forum: "포럼", Summit: "서밋", Campaign: "캠페인", Conference: "컨퍼런스", Workshop: "워크숍" } as Record<string, string>)[t] || t;
+
+function fmtRange(start: Date, end?: Date) {
+  const opts: Intl.DateTimeFormatOptions = { month: "long", day: "numeric", year: "numeric" };
+  const s = start.toLocaleDateString("ko-KR", opts);
+  if (!end) return s;
+  if (start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
+    return `${start.toLocaleDateString("ko-KR", { month: "long", day: "numeric" })}–${end.getDate()}일, ${end.getFullYear()}`;
+  }
+  return `${start.toLocaleDateString("ko-KR", { month: "long", day: "numeric" })} – ${end.toLocaleDateString("ko-KR", opts)}`;
+}
+---
+
+<BaseLayout lang="kr" title="예정된 행사 — ASEZ" description="ASEZ의 서밋, 포럼, 캠페인, 컨퍼런스 일정.">
+  <Header />
+  <PageHero
+    eyebrow="함께하기"
+    title="예정된 행사."
+    lead="서밋, 포럼, 캠페인, 컨퍼런스 — 다가오는 행사를 확인하고 함께해 주세요."
+  />
+  <main>
+    {upcoming.length > 0 && (
+      <section class="events-section reveal">
+        <div class="inner">
+          <p class="eyebrow">예정</p>
+          <h2>다가오는 일정.</h2>
+          <ul class="event-list">
+            {upcoming.map((e) => (
+              <li class="event">
+                <div class="date-block">
+                  <span class="month">{e.data.date.toLocaleDateString("ko-KR", { month: "short" })}</span>
+                  <span class="day">{e.data.date.getDate()}</span>
+                  <span class="year">{e.data.date.getFullYear()}</span>
+                </div>
+                <div class="main">
+                  <span class="pill" style={`background: ${e.data.pillBg}; color: ${e.data.pillColor};`}>{koType(e.data.type)}</span>
+                  <h3>{e.data.title}</h3>
+                  <p class="loc"><i class="ti ti-map-pin"></i> {e.data.location}</p>
+                  <p class="excerpt">{e.data.excerpt}</p>
+                  <p class="when"><i class="ti ti-calendar"></i> {fmtRange(e.data.date, e.data.endDate)}</p>
+                </div>
+                <a class="register" href={e.data.registrationUrl}
+                  target={e.data.registrationUrl !== "#" ? "_blank" : undefined}
+                  rel={e.data.registrationUrl !== "#" ? "noopener" : undefined}>
+                  신청하기 <i class="ti ti-arrow-right"></i>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    {past.length > 0 && (
+      <section class="events-section past reveal">
+        <div class="inner">
+          <p class="eyebrow">지난 행사</p>
+          <h2>최근 진행된 행사.</h2>
+          <ul class="event-list">
+            {past.map((e) => (
+              <li class="event muted">
+                <div class="date-block">
+                  <span class="month">{e.data.date.toLocaleDateString("ko-KR", { month: "short" })}</span>
+                  <span class="day">{e.data.date.getDate()}</span>
+                  <span class="year">{e.data.date.getFullYear()}</span>
+                </div>
+                <div class="main">
+                  <span class="pill" style={`background: ${e.data.pillBg}; color: ${e.data.pillColor};`}>{koType(e.data.type)}</span>
+                  <h3>{e.data.title}</h3>
+                  <p class="loc"><i class="ti ti-map-pin"></i> {e.data.location}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .events-section { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); }
+  .events-section.past { background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .events-section h2 { font-size: var(--fs-h2); margin: 0 0 36px; letter-spacing: -0.4px; }
+  .event-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .event { display: grid; grid-template-columns: 96px 1fr auto; gap: 28px; align-items: center; padding: 24px 28px; border-radius: var(--radius-lg); border: 0.5px solid var(--border); background: var(--bg-primary); transition: all 0.2s; }
+  .event:hover { border-color: var(--border-strong); box-shadow: 0 6px 20px rgba(4, 44, 83, 0.06); }
+  .event.muted { opacity: 0.78; background: transparent; }
+  .date-block { display: flex; flex-direction: column; align-items: center; padding: 12px 10px; border-radius: var(--radius-md); background: var(--bg-secondary); border: 0.5px solid var(--border); }
+  .past .date-block { background: var(--bg-primary); }
+  .month { font-size: 11px; font-weight: 500; letter-spacing: 0.5px; color: var(--brand); }
+  .day { font-size: 30px; font-weight: 800; line-height: 1; margin: 2px 0; color: var(--text-primary); letter-spacing: -1.5px; }
+  .year { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.5px; }
+  .main { min-width: 0; }
+  .pill { display: inline-block; font-size: var(--fs-caption); font-weight: 500; padding: 3px 10px; border-radius: var(--radius-pill); margin-bottom: 8px; }
+  .event h3 { font-size: 19px; margin: 0 0 6px; line-height: var(--lh-snug); letter-spacing: -0.2px; }
+  .loc, .when { font-size: var(--fs-small); color: var(--text-secondary); margin: 0; line-height: 1.5; display: inline-flex; align-items: center; gap: 4px; }
+  .loc i, .when i { color: var(--brand); font-size: 14px; }
+  .excerpt { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.6; margin: 8px 0 10px; }
+  .register { display: inline-flex; align-items: center; gap: 6px; padding: 11px 18px; border-radius: var(--radius-md); background: var(--brand); color: white; text-decoration: none; font-size: var(--fs-small); font-weight: 500; flex-shrink: 0; transition: all 0.2s; }
+  .register:hover { background: var(--brand-800); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(32, 96, 173, 0.25); }
+  .register i { transition: transform 0.2s; }
+  .register:hover i { transform: translateX(3px); }
+
+  @media (max-width: 768px) {
+    .events-section { padding: 56px 20px; }
+    .event { grid-template-columns: 76px 1fr; gap: 18px; padding: 20px; }
+    .register { grid-column: 1 / -1; justify-self: stretch; justify-content: center; }
+    .day { font-size: 24px; }
+    .event h3 { font-size: 17px; }
+  }
+</style>

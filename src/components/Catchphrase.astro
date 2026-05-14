@@ -1,18 +1,12 @@
 ---
-/**
- * Hero 바로 아래 캐치프레이즈 띠.
- * ASEZ가 무엇을 변화시키는지 한 문장으로 — 4가지 메인 프로젝트와 직접 연결.
- */
+import { useTranslations } from "../i18n/utils";
+const t = useTranslations(Astro.url);
 ---
 
 <section class="catchphrase reveal">
   <div class="inner">
-    <p class="eyebrow">What we're changing</p>
-    <p class="line">
-      Turning student energy into <strong>safer streets</strong>,
-      <strong>greener cities</strong>, <strong>stronger communities</strong>,
-      and <strong>faster crisis response</strong> — in 175 countries, every day.
-    </p>
+    <p class="eyebrow">{t("catchphrase.eyebrow")}</p>
+    <p class="line" set:html={t("catchphrase.line")}></p>
   </div>
 </section>
 
@@ -27,9 +21,7 @@
     margin: 0 auto;
     text-align: center;
   }
-  .eyebrow {
-    margin-bottom: 22px;
-  }
+  .eyebrow { margin-bottom: 22px; }
   .line {
     font-size: 30px;
     font-weight: 500;
@@ -38,12 +30,10 @@
     margin: 0;
     color: var(--text-primary);
   }
-  .line strong {
+  .line :global(strong) {
     color: var(--brand);
     font-weight: 500;
-    /* 진한 색만으로 강조 — 폰트 두께는 brand 톤을 위해 유지 */
   }
-
   @media (max-width: 768px) {
     .catchphrase { padding: 56px 20px; }
     .line { font-size: 22px; letter-spacing: -0.3px; }

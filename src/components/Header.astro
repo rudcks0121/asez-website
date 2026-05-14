@@ -1,25 +1,30 @@
 ---
 import Logo from "./Logo.astro";
+import { useTranslations, getLangFromUrl, getAlternateUrl, pathLocalized } from "../i18n/utils";
+import { languages } from "../i18n/ui";
+
+const t = useTranslations(Astro.url);
+const currentLang = getLangFromUrl(Astro.url);
 
 const links = [
-  { href: "/about", label: "About" },
-  { href: "/what-we-do", label: "What we do" },
-  { href: "/where-we-work", label: "Where we work" },
-  { href: "/stories", label: "Stories" },
-  { href: "/reports", label: "Reports" },
+  { href: pathLocalized("/about", currentLang), label: t("nav.about") },
+  { href: pathLocalized("/what-we-do", currentLang), label: t("nav.what-we-do") },
+  { href: pathLocalized("/where-we-work", currentLang), label: t("nav.where-we-work") },
+  { href: pathLocalized("/stories", currentLang), label: t("nav.stories") },
+  { href: pathLocalized("/reports", currentLang), label: t("nav.reports") },
 ];
 
-const langs = [
-  { code: "EN", label: "English", href: "/" },
-  { code: "KR", label: "한국어", href: "/kr/" },
-];
-const currentLang = "EN"; // i18n 단계에서 동적으로 처리 예정
+const langs = (Object.keys(languages) as Array<keyof typeof languages>).map((code) => ({
+  code,
+  label: languages[code],
+  href: getAlternateUrl(Astro.url, code),
+}));
 ---
 
 <header class="header">
   <div class="inner">
     <div class="left">
-      <a href="/" class="logo" aria-label="ASEZ home">
+      <a href={pathLocalized("/", currentLang)} class="logo" aria-label="ASEZ home">
         <Logo height={28} />
       </a>
       <nav class="nav">
@@ -36,7 +41,7 @@ const currentLang = "EN"; // i18n 단계에서 동적으로 처리 예정
           aria-label="Change language"
         >
           <i class="ti ti-world"></i>
-          <span class="current">{currentLang}</span>
+          <span class="current">{currentLang.toUpperCase()}</span>
           <i class="ti ti-chevron-down chevron"></i>
         </button>
         <ul class="lang-menu" role="menu">
@@ -54,7 +59,9 @@ const currentLang = "EN"; // i18n 단계에서 동적으로 처리 예정
           ))}
         </ul>
       </div>
-      <a href="/get-involved" class="btn-primary">Get involved</a>
+      <a href={pathLocalized("/get-involved", currentLang)} class="btn-primary">
+        {t("nav.get-involved")}
+      </a>
     </div>
   </div>
 </header>
@@ -96,11 +103,7 @@ const currentLang = "EN"; // i18n 단계에서 동적으로 처리 예정
     color: var(--text-primary);
   }
 
-  .right {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-  }
+  .right { display: flex; gap: 12px; align-items: center; }
   .btn-primary {
     background: var(--brand);
     color: white;
@@ -117,7 +120,6 @@ const currentLang = "EN"; // i18n 단계에서 동적으로 처리 예정
     box-shadow: 0 6px 16px rgba(32, 96, 173, 0.25);
   }
 
-  /* === Language dropdown === */
   .lang { position: relative; }
   .lang-trigger {
     display: inline-flex;
@@ -144,12 +146,8 @@ const currentLang = "EN"; // i18n 단계에서 동적으로 처리 예정
     color: var(--text-tertiary);
     transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .lang-trigger[aria-expanded="true"] .chevron {
-    transform: rotate(180deg);
-  }
-  .lang-trigger .current {
-    letter-spacing: 0.5px;
-  }
+  .lang-trigger[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+  .lang-trigger .current { letter-spacing: 0.5px; }
 
   .lang-menu {
     position: absolute;
@@ -189,18 +187,12 @@ const currentLang = "EN"; // i18n 단계에서 동적으로 처리 예정
     transition: background 0.12s;
   }
   .lang-item:hover { background: var(--bg-secondary); }
-  .lang-item .label {
-    flex: 1;
-    color: var(--text-primary);
-  }
+  .lang-item .label { flex: 1; color: var(--text-primary); }
   .lang-item.active .label {
     color: var(--brand);
     font-weight: 500;
   }
-  .lang-item i {
-    font-size: 15px;
-    color: var(--brand);
-  }
+  .lang-item i { font-size: 15px; color: var(--brand); }
 
   @media (max-width: 768px) {
     .nav { display: none; }
@@ -211,7 +203,6 @@ const currentLang = "EN"; // i18n 단계에서 동적으로 처리 예정
 </style>
 
 <script>
-  /* 언어 드롭다운: 클릭으로 열고, 외부 클릭/Escape로 닫기. */
   const dropdowns = document.querySelectorAll<HTMLElement>("[data-lang-dropdown]");
   dropdowns.forEach((dd) => {
     const trigger = dd.querySelector<HTMLButtonElement>(".lang-trigger");
@@ -231,11 +222,9 @@ const currentLang = "EN"; // i18n 단계에서 동적으로 처리 예정
       if (dd.hasAttribute("data-open")) close();
       else open();
     });
-
     document.addEventListener("click", (e) => {
       if (!dd.contains(e.target as Node)) close();
     });
-
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") close();
     });

@@ -1,0 +1,104 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import PageHero from "../../components/PageHero.astro";
+import Footer from "../../components/Footer.astro";
+import StoryCard from "../../components/StoryCard.astro";
+
+const allStories = await getCollection("stories", ({ data }) => !data.draft);
+const stories = allStories.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" });
+
+const cats = Array.from(new Set(stories.map((s) => s.data.category))).sort();
+const filters = [{ label: "전체", value: "all" }, ...cats.map((c) => ({ label: c, value: c }))];
+---
+
+<BaseLayout lang="kr" title="소식 — ASEZ" description="전 세계 ASEZ 챕터의 현장 소식, 프레스 릴리스, 활동 업데이트.">
+  <Header />
+  <PageHero
+    eyebrow="소식"
+    title="현장의 목소리."
+    lead="기후, 플라스틱, 범죄, 디지털 인권, 외교 — 전 세계 ASEZ 챕터에서 전해오는 활동 소식과 보고."
+  />
+  <main>
+    <section class="stories-section reveal">
+      <div class="inner">
+        <div class="filters" role="tablist" data-filters>
+          {filters.map((f, i) => (
+            <button type="button" class:list={["filter", i === 0 && "active"]} role="tab"
+              aria-selected={i === 0 ? "true" : "false"} data-filter={f.value}>
+              {f.label}
+            </button>
+          ))}
+        </div>
+        <div class="grid" data-grid>
+          {stories.map((s) => (
+            <div class="grid-item" data-category={s.data.category}>
+              <StoryCard
+                category={s.data.category}
+                title={s.data.title}
+                date={fmt(s.data.date)}
+                imgUrl={s.data.image}
+                pillBg={s.data.pillBg}
+                pillColor={s.data.pillColor}
+                href={`/ko/stories/${s.id}`}
+              />
+            </div>
+          ))}
+        </div>
+        <div class="empty" data-empty hidden>
+          <i class="ti ti-mood-search"></i>
+          <p>이 카테고리에 아직 소식이 없습니다.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-filters]");
+  const grid = document.querySelector<HTMLElement>("[data-grid]");
+  const empty = document.querySelector<HTMLElement>("[data-empty]");
+  if (root && grid && empty) {
+    const buttons = root.querySelectorAll<HTMLButtonElement>(".filter");
+    const items = grid.querySelectorAll<HTMLElement>(".grid-item");
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const value = btn.dataset.filter || "all";
+        buttons.forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle("active", active);
+          b.setAttribute("aria-selected", active ? "true" : "false");
+        });
+        let visible = 0;
+        items.forEach((item) => {
+          const show = value === "all" || item.dataset.category === value;
+          item.classList.toggle("hidden", !show);
+          if (show) visible += 1;
+        });
+        empty.hidden = visible > 0;
+      });
+    });
+  }
+</script>
+
+<style>
+  .stories-section { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; padding-bottom: 24px; border-bottom: 0.5px solid var(--border); }
+  .filter { background: transparent; border: 0.5px solid var(--border-strong); color: var(--text-secondary); border-radius: var(--radius-pill); padding: 8px 16px; font-size: var(--fs-small); font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.18s; }
+  .filter:hover { background: var(--bg-secondary); color: var(--text-primary); }
+  .filter:active { transform: scale(0.96); }
+  .filter.active { background: var(--brand); color: white; border-color: var(--brand); }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .grid-item.hidden { display: none; }
+  .empty { text-align: center; padding: 48px 20px; color: var(--text-tertiary); }
+  .empty i { font-size: 44px; margin-bottom: 12px; display: inline-block; }
+  .empty p { font-size: var(--fs-body); margin: 0; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .stories-section { padding: 56px 20px; } .grid { grid-template-columns: 1fr; } }
+</style>

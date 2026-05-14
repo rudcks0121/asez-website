@@ -1,0 +1,117 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import PageHero from "../../components/PageHero.astro";
+import Footer from "../../components/Footer.astro";
+import IssueGrid from "../../components/IssueGrid.astro";
+import ComingSoon from "../../components/ComingSoon.astro";
+
+const campaigns = [
+  {
+    pill: "기후 행동",
+    pillBg: "var(--teal-50)",
+    pillColor: "var(--teal-900)",
+    title: "Blue Carbon Movement",
+    desc: "해안 생태계 — 맹그로브, 해초, 갯벌 — 보호 및 복원을 통해 탄소를 흡수하고 해수면 상승으로부터 지역사회를 지킵니다.",
+    img: "https://asez.org/wp-content/uploads/2026/04/thum_blue_carbon_2026.jpg",
+    href: "#",
+  },
+  {
+    pill: "플라스틱 프리",
+    pillBg: "var(--brand-50)",
+    pillColor: "var(--brand-900)",
+    title: "Zero Plastic 2040",
+    desc: "캠퍼스 활동, 시민 인식 개선, UN INC 정책 참여를 통해 2040년까지 불필요한 플라스틱 오염을 종식시키는 글로벌 ASEZ 캠페인.",
+    img: "https://asez.org/wp-content/uploads/2024/10/thum_zero_plastic_2040.jpg",
+    href: "#",
+  },
+  {
+    pill: "디지털 인권",
+    pillBg: "var(--amber-50)",
+    pillColor: "var(--amber-900)",
+    title: "Digital Human Rights",
+    desc: "디지털 시대의 사생활, 존엄, 청년 정신건강 보호 — 교육, 연구, 정책 입안자와의 협력을 통해.",
+    img: "https://asez.org/wp-content/uploads/2025/12/thum_digital_human_rights.jpg",
+    href: "#",
+  },
+];
+---
+
+<BaseLayout
+  lang="kr"
+  title="활동 — ASEZ"
+  description="ASEZ는 기후 행동, 플라스틱 오염, 범죄 예방, 디지털 인권, 재해 구호, 지역사회 봉사 활동을 펼칩니다."
+>
+  <Header />
+  <PageHero
+    eyebrow="우리의 활동"
+    title="매일 마주하는 과제들."
+    lead="ASEZ는 전 세계 175개국에서 6개의 핵심 프로그램을 운영합니다 — 우리 세대의 미래를 결정짓는 환경·사회·인도적 도전 과제를 풀어갑니다."
+  />
+  <main>
+    <IssueGrid />
+
+    <section class="campaigns reveal">
+      <div class="inner">
+        <div class="head">
+          <div>
+            <p class="eyebrow">주요 캠페인</p>
+            <h2>지금 우리가 집중하는 세 가지.</h2>
+          </div>
+        </div>
+        <div class="list">
+          {campaigns.map((c, i) => (
+            <a class="campaign" href={c.href} class:list={["campaign", i % 2 === 1 && "reverse"]}>
+              <div class="media"><img src={c.img} alt={c.title} loading="lazy" /></div>
+              <div class="body">
+                <span class="pill" style={`background: ${c.pillBg}; color: ${c.pillColor};`}>{c.pill}</span>
+                <h3>{c.title}</h3>
+                <p>{c.desc}</p>
+                <span class="more">더 보기 <i class="ti ti-arrow-right"></i></span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <ComingSoon message="각 프로그램의 상세 페이지 — 캠페인, 현장 보고, 협력 기관, 참여 방법 — 은 곧 공개됩니다." />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .campaigns { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); border-top: 0.5px solid var(--border); }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .head { margin-bottom: 40px; }
+  .head h2 { font-size: var(--fs-h2); margin: 0; letter-spacing: -0.4px; }
+  .list { display: flex; flex-direction: column; gap: 24px; }
+  .campaign {
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 36px; align-items: center;
+    border-radius: var(--radius-lg); border: 0.5px solid var(--border);
+    background: var(--bg-secondary); color: var(--text-primary); text-decoration: none;
+    padding: 28px; transition: border-color 0.2s, transform 0.3s, box-shadow 0.3s;
+  }
+  .campaign:hover { border-color: var(--border-strong); transform: translateY(-3px); box-shadow: 0 10px 28px rgba(4, 44, 83, 0.08); }
+  .campaign.reverse .media { order: 2; }
+  .campaign.reverse .body { order: 1; }
+  .media { aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-md); position: relative; }
+  .media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+  .campaign:hover .media img { transform: scale(1.04); }
+  .body { padding: 8px 12px; }
+  .pill { display: inline-block; font-size: var(--fs-caption); font-weight: 500; padding: 4px 12px; border-radius: var(--radius-pill); margin-bottom: 14px; }
+  .body h3 { font-size: 26px; line-height: 1.2; margin: 0 0 14px; letter-spacing: -0.4px; }
+  .body p { font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.6; margin: 0 0 18px; }
+  .more { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-small); font-weight: 500; color: var(--brand); }
+  .more i { transition: transform 0.2s; }
+  .campaign:hover .more i { transform: translateX(4px); }
+
+  @media (max-width: 760px) {
+    .campaigns { padding: 56px 20px; }
+    .campaign { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+    .campaign.reverse .media { order: 1; }
+    .campaign.reverse .body { order: 2; }
+    .body { padding: 0; }
+    .body h3 { font-size: 22px; }
+  }
+</style>

@@ -1,4 +1,9 @@
 ---
+import { useTranslations, getLangFromUrl, pathLocalized } from "../i18n/utils";
+
+const t = useTranslations(Astro.url);
+const lang = getLangFromUrl(Astro.url);
+
 const heroImage =
   "https://asez.org/wp-content/uploads/2026/04/20260322_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD_C_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD-%ED%94%84%EB%A6%AC%ED%86%A0%EB%A6%AC%EC%95%84_ASEZ-%EB%82%98%EB%AC%B4%EC%8B%AC%EA%B8%B0-100%EA%B7%B8%EB%A3%A8_%EC%B4%88%EC%BD%94%EC%97%90-%EC%B4%88%EB%93%B1%ED%95%99%EA%B5%90-%ED%8F%AC%ED%95%A8-9%EA%B0%9C-%EC%9E%A5%EC%86%8C_0000181_ASEZIUBA.jpg";
 ---
@@ -6,17 +11,13 @@ const heroImage =
 <section class="hero" style={`background-image: url('${heroImage}');`}>
   <div class="overlay"></div>
   <div class="inner">
-    <p class="eyebrow light">Save the Earth from A to Z</p>
-    <h1>University students,<br />changing the world.</h1>
-    <p class="lead">
-      A global network of 7,500 campuses across 175 countries —
-      protecting the environment, supporting communities, and shaping
-      a more livable future for the next generation.
-    </p>
+    <p class="eyebrow light">{t("hero.eyebrow")}</p>
+    <h1>{t("hero.title.line1")}<br />{t("hero.title.line2")}</h1>
+    <p class="lead">{t("hero.lead")}</p>
     <div class="cta">
-      <a href="/get-involved" class="btn-primary">Join ASEZ</a>
-      <a href="/what-we-do" class="btn-ghost">
-        See our impact <i class="ti ti-arrow-right"></i>
+      <a href={pathLocalized("/get-involved", lang)} class="btn-primary">{t("hero.cta.primary")}</a>
+      <a href={pathLocalized("/what-we-do", lang)} class="btn-ghost">
+        {t("hero.cta.secondary")} <i class="ti ti-arrow-right"></i>
       </a>
     </div>
   </div>
@@ -38,9 +39,9 @@ const heroImage =
     inset: 0;
     background: linear-gradient(
       to right,
-      rgba(4, 44, 83, 0.85) 0%,
-      rgba(4, 44, 83, 0.65) 60%,
-      rgba(4, 44, 83, 0.45) 100%
+      rgba(4, 44, 83, 0.88) 0%,
+      rgba(4, 44, 83, 0.72) 55%,
+      rgba(4, 44, 83, 0.55) 100%
     );
   }
   .inner {
@@ -65,12 +66,7 @@ const heroImage =
     margin: 0 0 32px;
     opacity: 0.92;
   }
-  .cta {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
   .btn-primary,
   .btn-ghost {
     display: inline-flex;
