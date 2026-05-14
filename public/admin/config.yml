@@ -1,15 +1,16 @@
 # Decap CMS configuration for ASEZ website
 # Docs: https://decapcms.org/docs/
 
-# Production backend — GitHub OAuth. Phase 2에서 활성화.
+# Production backend — GitHub OAuth via Cloudflare Pages Function.
 backend:
   name: github
   repo: rudcks0121/asez-website
   branch: main
+  base_url: https://asez-website.rudcks0121.workers.dev
+  auth_endpoint: api/auth
 
-# Local development: `npx decap-server` 실행 후 /admin 접속.
-# 이 설정이 true면 production에서도 localhost로 시도하므로
-# 배포 사이트에서 사용하려면 false로 바꾸거나 빌드 시 환경별 분기.
+# 로컬에서 `npm run cms` 실행 중일 때만 이 값이 사용됨.
+# production 사이트에서는 GitHub OAuth로 자동 fallback.
 local_backend: true
 
 # 이미지 업로드 위치
