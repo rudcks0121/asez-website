@@ -5,16 +5,106 @@
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
-    <!-- config.yml 위치 명시: trailing slash 유무와 무관하게 항상 같은 경로 fetch -->
     <link rel="cms-config-url" type="text/yaml" href="/admin/config.yml" />
-    <title>ASEZ Content Manager</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"
+    />
+    <title>ASEZ 콘텐츠 관리자</title>
+    <style is:inline>
+      /* 상단 도움말 바 — Decap CMS UI 위에 floating */
+      .admin-toolbar {
+        position: fixed;
+        top: 12px;
+        right: 16px;
+        z-index: 999999;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(4, 44, 83, 0.12);
+        border-radius: 999px;
+        padding: 6px 6px 6px 14px;
+        box-shadow: 0 4px 16px rgba(4, 44, 83, 0.1);
+        font-family: -apple-system, BlinkMacSystemFont, "Inter", "Pretendard",
+          system-ui, sans-serif;
+        font-size: 13px;
+      }
+      .admin-toolbar .label {
+        color: #2060ad;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .admin-toolbar .label i {
+        font-size: 16px;
+      }
+      .admin-toolbar .divider {
+        width: 1px;
+        height: 18px;
+        background: rgba(4, 44, 83, 0.15);
+      }
+      .admin-toolbar a.btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: #2060ad;
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 12.5px;
+        transition: background 0.15s, transform 0.15s;
+      }
+      .admin-toolbar a.btn:hover {
+        background: #194b88;
+        transform: translateY(-1px);
+      }
+      .admin-toolbar a.btn i {
+        font-size: 15px;
+      }
+      .admin-toolbar a.btn-secondary {
+        background: transparent;
+        color: #2060ad;
+        border: 1px solid rgba(32, 96, 173, 0.3);
+      }
+      .admin-toolbar a.btn-secondary:hover {
+        background: rgba(32, 96, 173, 0.08);
+      }
+      @media (max-width: 640px) {
+        .admin-toolbar { right: 10px; padding: 4px 4px 4px 10px; font-size: 12px; }
+        .admin-toolbar .label span { display: none; }
+        .admin-toolbar a.btn span { display: none; }
+      }
+    </style>
   </head>
   <body>
+    <div class="admin-toolbar" role="toolbar" aria-label="관리자 도구">
+      <span class="label" aria-hidden="true">
+        <i class="ti ti-shield-lock"></i>
+        <span>ASEZ 관리자</span>
+      </span>
+      <span class="divider"></span>
+      <a class="btn" href="/admin-guide" target="_blank" rel="noopener">
+        <i class="ti ti-book-2"></i>
+        <span>사용 가이드</span>
+      </a>
+      <a class="btn btn-secondary" href="/" target="_blank" rel="noopener" aria-label="사이트 새 창에서 열기">
+        <i class="ti ti-external-link"></i>
+        <span>사이트 보기</span>
+      </a>
+    </div>
+
     <script
       is:inline
       src="https://unpkg.com/decap-cms@^3.4.0/dist/decap-cms.js"

@@ -1,6 +1,9 @@
 # Decap CMS configuration for ASEZ website
 # Docs: https://decapcms.org/docs/
 
+# UI 언어: 한국어로 표시 (Decap CMS 내장 ko 로케일)
+locale: 'ko'
+
 # Production backend — GitHub OAuth via Cloudflare Pages Function.
 backend:
   name: github
@@ -21,15 +24,18 @@ public_folder: "/uploads"
 site_url: "https://asez-website.rudcks0121.workers.dev"
 display_url: "https://asez-website.rudcks0121.workers.dev"
 
+# 미디어 라이브러리 설정
+show_preview_links: true
+
 collections:
   # ─────────────────────────────────────────────────────────
   # STORIES — 필드 스토리, 뉴스, 프레스 릴리스
   # 파일: src/content/stories/{slug}.md
   # ─────────────────────────────────────────────────────────
   - name: "stories"
-    label: "Stories"
-    label_singular: "Story"
-    description: "Field stories, news, and press releases."
+    label: "📰 스토리 (Stories)"
+    label_singular: "스토리"
+    description: "현장 스토리, 뉴스, 보도자료 — 사이트 /stories 에 표시"
     folder: "src/content/stories"
     create: true
     slug: "{{slug}}"
@@ -89,9 +95,9 @@ collections:
   # 파일: src/content/reports/{slug}.md
   # ─────────────────────────────────────────────────────────
   - name: "reports"
-    label: "Reports"
-    label_singular: "Report"
-    description: "Annual reports, SDG progress, research briefs, and policy papers."
+    label: "📑 보고서 (Reports)"
+    label_singular: "보고서"
+    description: "연간 보고서, SDG 진행, 리서치, 정책 페이퍼 — 사이트 /reports 에 표시"
     folder: "src/content/reports"
     create: true
     slug: "{{slug}}"
@@ -137,9 +143,9 @@ collections:
   # 파일: src/content/events/{slug}.md
   # ─────────────────────────────────────────────────────────
   - name: "events"
-    label: "Events"
-    label_singular: "Event"
-    description: "Upcoming and past forums, summits, campaigns, conferences."
+    label: "📅 이벤트 (Events)"
+    label_singular: "이벤트"
+    description: "예정 또는 지난 포럼, 서밋, 캠페인, 컨퍼런스 — 사이트 /get-involved/events 에 표시"
     folder: "src/content/events"
     create: true
     slug: "{{slug}}"
@@ -181,9 +187,9 @@ collections:
   # 파일: src/content/issues/{slug}.md
   # ─────────────────────────────────────────────────────────
   - name: "issues"
-    label: "Issues"
-    label_singular: "Issue"
-    description: "What we do — climate, plastic, crime, digital rights, disaster relief, community."
+    label: "🎯 이슈 페이지 (What we do)"
+    label_singular: "이슈"
+    description: "기후·플라스틱·범죄·디지털인권·재해·지역사회 6개 활동 페이지 — 사이트 /what-we-do/{slug} 에 표시"
     folder: "src/content/issues"
     create: true
     slug: "{{slug}}"
@@ -208,8 +214,8 @@ collections:
   # 파일: src/data/cms/*.json
   # ─────────────────────────────────────────────────────────
   - name: "home"
-    label: "홈페이지 섹션"
-    description: "메인 페이지의 각 섹션 콘텐츠 (영어/한국어)"
+    label: "🏠 홈페이지 섹션"
+    description: "메인 페이지 (/) 각 섹션의 텍스트와 데이터 — 영어/한국어 동시 편집"
     files:
       # ── Hero (메인 배너)
       - name: "hero"
@@ -532,8 +538,8 @@ collections:
   # 파일: src/data/cms/page-*.json
   # ─────────────────────────────────────────────────────────
   - name: "pages"
-    label: "페이지"
-    description: "About, Contact, Where-we-work, What-we-do, Get-involved 등 정적 페이지"
+    label: "📄 일반 페이지"
+    description: "About, Contact, Where we work, What we do, Get involved 등 정적 페이지의 텍스트와 데이터 (한/영 동시)"
     files:
       # ── About 페이지
       - name: "about"

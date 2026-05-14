@@ -1,0 +1,632 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Admin Guide — ASEZ"
+  description="ASEZ website admin guide. How to edit homepage, pages, stories, and more."
+>
+  <main class="guide">
+    <div class="topbar">
+      <a href="/admin" class="back">
+        <i class="ti ti-arrow-left"></i>
+        <span>관리자로 돌아가기</span>
+      </a>
+      <div class="lang-toggle">
+        <a href="/admin-guide" class="active">English</a>
+        <a href="/ko/admin-guide">한국어</a>
+      </div>
+    </div>
+
+    <header class="hero">
+      <div class="hero-icon"><i class="ti ti-book-2"></i></div>
+      <p class="eyebrow">Admin guide</p>
+      <h1>Editing the ASEZ website.</h1>
+      <p class="lead">
+        Everything you can change from <code>/admin</code> — homepage sections,
+        page text, stories, reports, and how to add images. No coding required.
+      </p>
+    </header>
+
+    <!-- Quick start -->
+    <section class="section">
+      <p class="section-eyebrow">
+        <i class="ti ti-rocket"></i>
+        Quick start
+      </p>
+      <h2>Three steps to edit anything.</h2>
+      <ol class="steps">
+        <li>
+          <span class="step-num">1</span>
+          <div>
+            <h3>Open <code>/admin</code></h3>
+            <p>
+              Visit <a href="/admin" target="_blank">asez-website.rudcks0121.workers.dev/admin</a>.
+              Log in with the GitHub account that has write access to the repository.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <div>
+            <h3>Pick a collection from the left sidebar</h3>
+            <p>
+              Each card / section / page is grouped under a collection. Click one
+              to see the items inside.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <div>
+            <h3>Edit, preview, publish</h3>
+            <p>
+              Change any field, click <strong>Publish</strong>. The site auto-rebuilds
+              within ~1 minute on Cloudflare Workers.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Collection map -->
+    <section class="section">
+      <p class="section-eyebrow">
+        <i class="ti ti-map-2"></i>
+        Collection map
+      </p>
+      <h2>Where to find what.</h2>
+      <div class="cards">
+        <article class="card">
+          <div class="card-icon"><i class="ti ti-news"></i></div>
+          <h3>스토리 (Stories)</h3>
+          <p>Field reports, news, press releases. Each story = one card on /stories. Supports cover image, category, date.</p>
+          <p class="path"><code>/admin → 스토리 (Stories)</code></p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon"><i class="ti ti-file-text"></i></div>
+          <h3>보고서 (Reports)</h3>
+          <p>Annual reports, SDG progress, research briefs, policy papers. Linked PDFs render on /reports.</p>
+          <p class="path"><code>/admin → 보고서 (Reports)</code></p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon"><i class="ti ti-calendar-event"></i></div>
+          <h3>이벤트 (Events)</h3>
+          <p>Upcoming/past forums, summits, campaigns, conferences. Date, location, registration URL.</p>
+          <p class="path"><code>/admin → 이벤트 (Events)</code></p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon"><i class="ti ti-target-arrow"></i></div>
+          <h3>이슈 페이지 (Issues)</h3>
+          <p>Six core activity pages — climate, plastic, crime, digital rights, disaster, community. Each = one page at /what-we-do/{slug}.</p>
+          <p class="path"><code>/admin → 이슈 페이지</code></p>
+        </article>
+
+        <article class="card highlight">
+          <div class="card-icon"><i class="ti ti-home"></i></div>
+          <h3>홈페이지 섹션</h3>
+          <p>The main page (/) is built from 8 sections: Hero, Catchphrase, Stats, Major Projects, Activity by Region, Recognition, Videos, SNS. Edit each one separately.</p>
+          <p class="path"><code>/admin → 홈페이지 섹션</code></p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon"><i class="ti ti-files"></i></div>
+          <h3>일반 페이지</h3>
+          <p>About, Contact, Where we work, What we do, Get involved + 4 sub-pages. Each page = one entry.</p>
+          <p class="path"><code>/admin → 일반 페이지</code></p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Common tasks -->
+    <section class="section">
+      <p class="section-eyebrow">
+        <i class="ti ti-list-check"></i>
+        Common tasks
+      </p>
+      <h2>How to do the things you'll do most.</h2>
+
+      <div class="task">
+        <div class="task-icon"><i class="ti ti-plus"></i></div>
+        <div>
+          <h3>Add a new story</h3>
+          <ol>
+            <li>Go to <strong>스토리 (Stories)</strong> → click <strong>New 스토리</strong>.</li>
+            <li>Fill title, category, date, location, excerpt, cover image URL.</li>
+            <li>Write the body in markdown (the editor supports formatting).</li>
+            <li>Keep <strong>Draft</strong> off if you want it published.</li>
+            <li>Click <strong>Publish</strong>.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="task">
+        <div class="task-icon"><i class="ti ti-edit"></i></div>
+        <div>
+          <h3>Edit homepage Hero text</h3>
+          <ol>
+            <li>Go to <strong>홈페이지 섹션</strong> → click <strong>1. Hero (메인 배너)</strong>.</li>
+            <li>Edit the English fields under "English" and Korean under "한국어".</li>
+            <li>Change the hero background image URL if needed.</li>
+            <li>Click <strong>Publish</strong>.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="task">
+        <div class="task-icon"><i class="ti ti-photo"></i></div>
+        <div>
+          <h3>Upload an image</h3>
+          <ol>
+            <li>Click the <strong>Media</strong> button in the top toolbar (image icon).</li>
+            <li>Upload your file. Use JPG/PNG/WebP under 1MB if possible.</li>
+            <li>Copy the URL (looks like <code>/uploads/your-image.jpg</code>).</li>
+            <li>Paste it into any "Image URL" field.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="task">
+        <div class="task-icon"><i class="ti ti-language"></i></div>
+        <div>
+          <h3>Edit Korean version</h3>
+          <ol>
+            <li>Most pages have an <strong>"English"</strong> and <strong>"한국어"</strong> group.</li>
+            <li>Click each group to expand, edit both sides.</li>
+            <li>One save updates both the English and Korean version of the site.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="task">
+        <div class="task-icon"><i class="ti ti-list-numbers"></i></div>
+        <div>
+          <h3>Add/remove an item in a list (e.g., region activities)</h3>
+          <ol>
+            <li>Open the section that has the list (e.g., <strong>5. Activity by Region</strong>).</li>
+            <li>Scroll to the list field. Click <strong>+ Add</strong> below the last item.</li>
+            <li>Click the trash icon next to an item to remove it.</li>
+            <li>Drag the handle on the left to reorder.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tips -->
+    <section class="section">
+      <p class="section-eyebrow">
+        <i class="ti ti-bulb"></i>
+        Tips & cautions
+      </p>
+      <h2>Watch out for these.</h2>
+      <div class="tips">
+        <div class="tip warn">
+          <i class="ti ti-alert-triangle"></i>
+          <div>
+            <h3>Don't change "icon" or "slug" fields lightly</h3>
+            <p>These connect to design (Tabler icon classes) or URL routing. Changing them can break layout or links.</p>
+          </div>
+        </div>
+        <div class="tip">
+          <i class="ti ti-info-circle"></i>
+          <div>
+            <h3>Changes take ~1 minute to appear</h3>
+            <p>Cloudflare rebuilds on every commit. Refresh the live site after the green checkmark appears in GitHub Actions.</p>
+          </div>
+        </div>
+        <div class="tip">
+          <i class="ti ti-photo"></i>
+          <div>
+            <h3>Image URLs: relative or absolute</h3>
+            <p><code>/uploads/foo.jpg</code> works for uploaded media. External URLs (https://...) also work.</p>
+          </div>
+        </div>
+        <div class="tip">
+          <i class="ti ti-eye"></i>
+          <div>
+            <h3>Preview before publish</h3>
+            <p>Use the eye icon at the top of the editor to preview your changes before clicking Publish.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+      <p class="section-eyebrow">
+        <i class="ti ti-help"></i>
+        FAQ
+      </p>
+      <h2>Common questions.</h2>
+      <details class="faq">
+        <summary>I clicked Publish but the site didn't update.</summary>
+        <p>Wait ~1 minute. Cloudflare needs to rebuild. If still no change after 5 minutes, check the GitHub Actions tab.</p>
+      </details>
+      <details class="faq">
+        <summary>How do I add a new region to the world map?</summary>
+        <p>That requires a code change. Contact the developer — the world map uses generated geographic data, not the CMS.</p>
+      </details>
+      <details class="faq">
+        <summary>Can I revert a change?</summary>
+        <p>Yes. Every save is a Git commit. Ask the developer to revert via Git, or look at GitHub commit history.</p>
+      </details>
+      <details class="faq">
+        <summary>The CMS UI itself is in English. How to switch to Korean?</summary>
+        <p>It should already default to Korean. If you see English, hard-refresh the page (Cmd+Shift+R).</p>
+      </details>
+    </section>
+
+    <footer class="end">
+      <a href="/admin" class="enter-cta">
+        <i class="ti ti-arrow-left"></i>
+        Back to admin
+      </a>
+    </footer>
+  </main>
+</BaseLayout>
+
+<style>
+  .guide {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+    color: var(--text-primary, #0f172a);
+  }
+
+  /* Top bar */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 0;
+    border-bottom: 0.5px solid var(--border, rgba(4, 44, 83, 0.1));
+    margin-bottom: 56px;
+  }
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--brand, #2060ad);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .back:hover { text-decoration: underline; }
+  .lang-toggle {
+    display: inline-flex;
+    background: var(--bg-secondary, #f8fafc);
+    border: 0.5px solid var(--border, rgba(4, 44, 83, 0.1));
+    border-radius: 999px;
+    padding: 4px;
+    font-size: 13px;
+  }
+  .lang-toggle a {
+    padding: 6px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--text-secondary, #64748b);
+    font-weight: 500;
+  }
+  .lang-toggle a.active {
+    background: var(--brand, #2060ad);
+    color: white;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .hero-icon {
+    display: inline-flex;
+    width: 80px;
+    height: 80px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, var(--brand-50, #eff6ff), var(--brand-100, #dbeafe));
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 8px 24px rgba(32, 96, 173, 0.1);
+  }
+  .hero-icon i {
+    font-size: 38px;
+    color: var(--brand, #2060ad);
+  }
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--brand, #2060ad);
+    margin: 0 0 14px;
+  }
+  .hero h1 {
+    font-size: 44px;
+    margin: 0 0 16px;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  .lead {
+    font-size: 17px;
+    color: var(--text-secondary, #475569);
+    line-height: 1.65;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+  .lead code, code {
+    background: var(--bg-secondary, #f1f5f9);
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-size: 0.92em;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    color: var(--brand, #2060ad);
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 72px;
+  }
+  .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--brand, #2060ad);
+    margin: 0 0 12px;
+  }
+  .section-eyebrow i { font-size: 18px; }
+  .section h2 {
+    font-size: 30px;
+    margin: 0 0 32px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  /* Steps */
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px;
+    background: var(--bg-primary, white);
+    border: 0.5px solid var(--border, rgba(4, 44, 83, 0.1));
+    border-radius: 16px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .steps li:hover {
+    border-color: var(--brand-100, #dbeafe);
+    transform: translateY(-2px);
+  }
+  .step-num {
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--brand, #2060ad);
+    color: white;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .steps h3 {
+    font-size: 17px;
+    margin: 0 0 6px;
+    letter-spacing: -0.2px;
+  }
+  .steps p {
+    font-size: 14.5px;
+    color: var(--text-secondary, #475569);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .steps a { color: var(--brand, #2060ad); }
+
+  /* Collection cards */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .card {
+    padding: 24px;
+    background: var(--bg-primary, white);
+    border: 0.5px solid var(--border, rgba(4, 44, 83, 0.1));
+    border-radius: 16px;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    border-color: var(--brand-100, #dbeafe);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(4, 44, 83, 0.06);
+  }
+  .card.highlight {
+    background: linear-gradient(135deg, var(--brand-50, #eff6ff) 0%, white 100%);
+    border-color: var(--brand-100, #dbeafe);
+  }
+  .card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--brand-50, #eff6ff);
+    color: var(--brand, #2060ad);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .card-icon i { font-size: 22px; }
+  .card h3 {
+    font-size: 18px;
+    margin: 0 0 8px;
+    letter-spacing: -0.2px;
+  }
+  .card p {
+    font-size: 14px;
+    color: var(--text-secondary, #475569);
+    line-height: 1.55;
+    margin: 0 0 8px;
+  }
+  .card .path {
+    margin: 12px 0 0;
+    font-size: 12.5px;
+  }
+  .card .path code {
+    font-size: 12px;
+    padding: 3px 8px;
+  }
+
+  /* Tasks */
+  .task {
+    display: flex;
+    gap: 20px;
+    padding: 26px;
+    background: var(--bg-primary, white);
+    border: 0.5px solid var(--border, rgba(4, 44, 83, 0.1));
+    border-radius: 16px;
+    margin-bottom: 16px;
+  }
+  .task-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--brand-50, #eff6ff);
+    color: var(--brand, #2060ad);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .task-icon i { font-size: 22px; }
+  .task h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+    letter-spacing: -0.2px;
+  }
+  .task ol {
+    margin: 0;
+    padding-left: 18px;
+  }
+  .task li {
+    font-size: 14.5px;
+    color: var(--text-secondary, #475569);
+    line-height: 1.7;
+    margin-bottom: 4px;
+  }
+  .task strong { color: var(--text-primary, #0f172a); font-weight: 600; }
+
+  /* Tips */
+  .tips {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .tip {
+    display: flex;
+    gap: 14px;
+    padding: 18px 20px;
+    background: var(--bg-primary, white);
+    border: 0.5px solid var(--border, rgba(4, 44, 83, 0.1));
+    border-radius: 14px;
+  }
+  .tip > i {
+    font-size: 22px;
+    color: var(--brand, #2060ad);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .tip.warn > i { color: #ea580c; }
+  .tip h3 {
+    font-size: 15px;
+    margin: 0 0 6px;
+    letter-spacing: -0.1px;
+  }
+  .tip p {
+    font-size: 13.5px;
+    color: var(--text-secondary, #475569);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* FAQ */
+  .faq {
+    background: var(--bg-primary, white);
+    border: 0.5px solid var(--border, rgba(4, 44, 83, 0.1));
+    border-radius: 12px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .faq summary {
+    padding: 16px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 15px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq summary::after {
+    content: "+";
+    font-size: 22px;
+    color: var(--text-secondary, #94a3b8);
+    transition: transform 0.2s;
+  }
+  .faq[open] summary::after { content: "−"; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq p {
+    padding: 0 20px 18px;
+    margin: 0;
+    color: var(--text-secondary, #475569);
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  /* End CTA */
+  .end {
+    text-align: center;
+    margin-top: 80px;
+  }
+  .enter-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 26px;
+    background: var(--brand, #2060ad);
+    color: white;
+    text-decoration: none;
+    border-radius: 999px;
+    font-weight: 500;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .enter-cta:hover {
+    background: #194b88;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 720px) {
+    .hero h1 { font-size: 32px; }
+    .section h2 { font-size: 24px; }
+    .cards { grid-template-columns: 1fr; }
+    .tips { grid-template-columns: 1fr; }
+    .task, .steps li { padding: 18px; }
+  }
+</style>
