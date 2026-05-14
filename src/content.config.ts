@@ -57,4 +57,22 @@ const events = defineCollection({
   }),
 });
 
-export const collections = { stories, reports, events };
+/**
+ * Issues — 6개 주요 활동/이슈 페이지 (/what-we-do/{slug}).
+ */
+const issues = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/issues" }),
+  schema: z.object({
+    title: z.string(),
+    tagline: z.string(),
+    summary: z.string(),
+    icon: z.string(),                       // Tabler icon 클래스 (ti-leaf 등)
+    bg: z.string(),                         // 컬러 블록 배경
+    iconColor: z.string(),                  // 아이콘 색
+    image: z.string().optional(),           // 본문 hero 이미지 (선택)
+    order: z.number().default(0),           // 정렬 순서
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { stories, reports, events, issues };

@@ -175,3 +175,30 @@ collections:
           - { label: "Teal dark", value: "var(--teal-900)" }
           - { label: "Amber dark", value: "var(--amber-900)" }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
+
+  # ─────────────────────────────────────────────────────────
+  # ISSUES — 6개 메인 활동/이슈 페이지 (/what-we-do/{slug})
+  # 파일: src/content/issues/{slug}.md
+  # ─────────────────────────────────────────────────────────
+  - name: "issues"
+    label: "Issues"
+    label_singular: "Issue"
+    description: "What we do — climate, plastic, crime, digital rights, disaster relief, community."
+    folder: "src/content/issues"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}} — {{tagline}}"
+    sortable_fields: ["order", "title"]
+    fields:
+      - { label: "Title", name: "title", widget: "string", hint: "예: Climate Action" }
+      - { label: "Tagline", name: "tagline", widget: "string", hint: "한 문장 메시지 (예: We create a sustainable world.)" }
+      - { label: "Summary", name: "summary", widget: "text", hint: "페이지 상단에 표시되는 1-2 문장 요약" }
+      - { label: "Icon class", name: "icon", widget: "string", hint: "Tabler icon 클래스 (예: ti-leaf)" }
+      - { label: "Background color", name: "bg", widget: "string", hint: "CSS 색 또는 토큰 (예: var(--teal-100))" }
+      - { label: "Icon color", name: "iconColor", widget: "string", hint: "예: var(--teal-900) 또는 #ffffff" }
+      - { label: "Hero image URL (optional)", name: "image", widget: "string", required: false }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, hint: "낮을수록 먼저" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown" }
