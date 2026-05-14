@@ -191,7 +191,7 @@ const viewBoxFocus: Record<string, Set<string> | null> = {
     "Italy", "Switzerland", "Austria", "Netherlands", "Belgium", "Luxembourg",
     "Denmark", "Norway", "Sweden", "Finland",
     "Poland", "Czechia", "Slovakia", "Hungary", "Romania", "Bulgaria",
-    "Greece", "Serbia", "Croatia", "Bosnia and Herz.", "Slovenia",
+    "Serbia", "Croatia", "Bosnia and Herz.", "Slovenia",
     "Albania", "Macedonia", "Montenegro", "Kosovo",
     "Ukraine", "Belarus", "Lithuania", "Latvia", "Estonia", "Moldova",
   ]),
