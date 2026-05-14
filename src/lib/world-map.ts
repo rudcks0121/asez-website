@@ -11,6 +11,16 @@ const HEIGHT = 500;
 const topo = topoData as any;
 const features = (feature(topo, topo.objects.countries) as any).features as any[];
 
+// 경로 좌표 소수점 1자리로 라운딩 — 화면 1px 미만 정밀도는 안 보이므로
+// 페이로드만 차지. 보통 50% 정도 절약됨.
+const reducePrecision = (d: string | null): string => {
+  if (!d) return "";
+  return d.replace(/-?\d+\.\d+/g, (m) => {
+    const n = Math.round(parseFloat(m) * 10) / 10;
+    return Number.isInteger(n) ? String(n) : String(n);
+  });
+};
+
 const projection = geoNaturalEarth1()
   .scale(180)
   .translate([WIDTH / 2, HEIGHT / 2 - 8]);
@@ -107,13 +117,15 @@ export type Country = {
 
 export const countries: Country[] = features
   .map((f: any) => {
+    const name = f.properties?.name ?? "";
+    // Antarctica는 시각적 가치 낮고 path 무거움 → skip.
+    if (continentByName[name] === "antarctica") return null;
     const d = pathGen(f);
     if (!d) return null;
-    const name = f.properties?.name ?? "";
     return {
       id: String(f.id),
       name,
-      d,
+      d: reducePrecision(d),
       continent: continentByName[name] ?? "other",
       active: presenceSet.has(name),
     };
@@ -177,14 +189,18 @@ for (const f of features) {
   }
 }
 
+// 각 대륙의 viewBox는 정사각형으로 — 카드별 아이콘 크기가 균일하게 보임.
 export const continentViewBox: Record<string, string> = {};
 for (const [cont, b] of Object.entries(continentBounds)) {
-  const pad = 6;
-  const x = b[0] - pad;
-  const y = b[1] - pad;
-  const w = b[2] - b[0] + pad * 2;
-  const h = b[3] - b[1] + pad * 2;
-  continentViewBox[cont] = `${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`;
+  const pad = 10;
+  const w = b[2] - b[0];
+  const h = b[3] - b[1];
+  const side = Math.max(w, h) + pad * 2;
+  const cx = (b[0] + b[2]) / 2;
+  const cy = (b[1] + b[3]) / 2;
+  const x = cx - side / 2;
+  const y = cy - side / 2;
+  continentViewBox[cont] = `${x.toFixed(1)} ${y.toFixed(1)} ${side.toFixed(1)} ${side.toFixed(1)}`;
 }
 
 export const countriesByContinent: Record<string, Country[]> = {};
