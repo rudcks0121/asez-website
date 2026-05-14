@@ -47,7 +47,6 @@ const currentLang = "EN"; // i18n 단계에서 동적으로 처리 예정
                 role="menuitem"
                 class:list={["lang-item", l.code === currentLang && "active"]}
               >
-                <span class="code">{l.code}</span>
                 <span class="label">{l.label}</span>
                 {l.code === currentLang && <i class="ti ti-check"></i>}
               </a>
@@ -182,26 +181,21 @@ const currentLang = "EN"; // i18n 단계에서 동적으로 처리 예정
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 9px 12px;
+    padding: 10px 12px;
     border-radius: 6px;
     color: var(--text-primary);
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
     transition: background 0.12s;
   }
   .lang-item:hover { background: var(--bg-secondary); }
-  .lang-item .code {
-    font-weight: 500;
-    min-width: 22px;
-    color: var(--text-primary);
-  }
   .lang-item .label {
     flex: 1;
-    color: var(--text-secondary);
+    color: var(--text-primary);
   }
-  .lang-item.active .code,
   .lang-item.active .label {
     color: var(--brand);
+    font-weight: 500;
   }
   .lang-item i {
     font-size: 15px;
