@@ -1,0 +1,84 @@
+# Decap CMS configuration for ASEZ website
+# Docs: https://decapcms.org/docs/
+
+# Production backend — GitHub OAuth. Phase 2에서 활성화.
+backend:
+  name: github
+  repo: rudcks0121/asez-website
+  branch: main
+
+# Local development: `npx decap-server` 실행 후 /admin 접속.
+# 이 설정이 true면 production에서도 localhost로 시도하므로
+# 배포 사이트에서 사용하려면 false로 바꾸거나 빌드 시 환경별 분기.
+local_backend: true
+
+# 이미지 업로드 위치
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# 사이트 표시 이름
+site_url: "https://asez-website.rudcks0121.workers.dev"
+display_url: "https://asez-website.rudcks0121.workers.dev"
+
+collections:
+  # ─────────────────────────────────────────────────────────
+  # STORIES — 필드 스토리, 뉴스, 프레스 릴리스
+  # 파일: src/content/stories/{slug}.md
+  # ─────────────────────────────────────────────────────────
+  - name: "stories"
+    label: "Stories"
+    label_singular: "Story"
+    description: "Field stories, news, and press releases."
+    folder: "src/content/stories"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}} — {{date | date('YYYY-MM-DD')}}"
+    sortable_fields: ["date", "title", "category"]
+    view_filters:
+      - label: "Drafts"
+        field: draft
+        pattern: true
+      - label: "Climate action"
+        field: category
+        pattern: "Climate action"
+      - label: "Plastic-free"
+        field: category
+        pattern: "Plastic-free"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - "Climate action"
+          - "Plastic-free"
+          - "Crime prevention"
+          - "Digital rights"
+          - "Diplomacy"
+          - "Recognition"
+          - "Community service"
+          - "Disaster relief"
+      - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Location", name: "location", widget: "string", required: false, hint: "예: Pretoria, South Africa" }
+      - { label: "Excerpt", name: "excerpt", widget: "text", required: false, hint: "카드/리스트에 표시되는 1-2 문장 요약" }
+      - { label: "Cover image URL", name: "image", widget: "string", required: false, hint: "https://... 또는 /uploads/..." }
+      - label: "Pill style"
+        name: "pillBg"
+        widget: "select"
+        default: "var(--brand-50)"
+        options:
+          - { label: "Blue (climate / general)", value: "var(--brand-50)" }
+          - { label: "Teal (plastic / nature)", value: "var(--teal-50)" }
+          - { label: "Amber (diplomacy / recognition)", value: "var(--amber-50)" }
+      - label: "Pill text color"
+        name: "pillColor"
+        widget: "select"
+        default: "var(--brand-900)"
+        options:
+          - { label: "Blue dark", value: "var(--brand-900)" }
+          - { label: "Teal dark", value: "var(--teal-900)" }
+          - { label: "Amber dark", value: "var(--amber-900)" }
+      - { label: "Draft (not published)", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown" }
