@@ -27,6 +27,45 @@ const categories = [
     desc: "Policy recommendations submitted to UN, governments, and partner bodies.",
   },
 ];
+
+const latestReports = [
+  {
+    type: "Annual report",
+    title: "ASEZ 2025 Annual Report",
+    desc: "A full account of programs, partnerships, and impact metrics from 2025.",
+    date: "March 2026",
+    pages: 84,
+    pillBg: "var(--brand-50)",
+    pillColor: "var(--brand-900)",
+  },
+  {
+    type: "SDG progress",
+    title: "Contribution to UN SDG 13: Climate Action",
+    desc: "Field-by-field summary of our Blue Carbon, tree-planting, and climate education work.",
+    date: "January 2026",
+    pages: 36,
+    pillBg: "var(--teal-50)",
+    pillColor: "var(--teal-900)",
+  },
+  {
+    type: "Policy paper",
+    title: "Recommendations for the UN INC-5.2 Plastic Treaty",
+    desc: "Youth-led policy proposals submitted to the Intergovernmental Negotiating Committee.",
+    date: "November 2025",
+    pages: 18,
+    pillBg: "var(--amber-50)",
+    pillColor: "var(--amber-900)",
+  },
+  {
+    type: "Research brief",
+    title: "Digital Human Rights for University Students",
+    desc: "Survey research across 12 countries on privacy, mental health, and digital access.",
+    date: "September 2025",
+    pages: 24,
+    pillBg: "var(--brand-50)",
+    pillColor: "var(--brand-900)",
+  },
+];
 ---
 
 <BaseLayout
@@ -40,6 +79,7 @@ const categories = [
     lead="Documenting our work, measuring our impact, and sharing what we learn — so others can build on it."
   />
   <main>
+    <!-- Categories -->
     <section class="categories reveal">
       <div class="inner">
         <div class="grid">
@@ -53,20 +93,58 @@ const categories = [
         </div>
       </div>
     </section>
+
+    <!-- Latest releases -->
+    <section class="latest reveal">
+      <div class="inner">
+        <div class="head">
+          <div>
+            <p class="eyebrow">Latest releases</p>
+            <h2>Recently published.</h2>
+          </div>
+          <a href="#" class="view-all">
+            All publications <i class="ti ti-arrow-right"></i>
+          </a>
+        </div>
+        <div class="list">
+          {latestReports.map((r) => (
+            <article class="report">
+              <div class="report-main">
+                <span class="pill" style={`background: ${r.pillBg}; color: ${r.pillColor};`}>
+                  {r.type}
+                </span>
+                <h3>{r.title}</h3>
+                <p>{r.desc}</p>
+                <div class="meta">
+                  <span><i class="ti ti-calendar"></i> {r.date}</span>
+                  <span><i class="ti ti-file"></i> {r.pages} pages</span>
+                </div>
+              </div>
+              <a class="download" href="#" aria-label={`Download ${r.title}`}>
+                <i class="ti ti-download"></i>
+                <span>PDF</span>
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <ComingSoon
-      message="Downloadable PDF reports and a research database are coming soon."
+      message="Downloadable PDF reports, a research database, and an annual archive are coming soon."
     />
   </main>
   <Footer />
 </BaseLayout>
 
 <style>
+  /* === Categories === */
   .categories {
     padding: var(--section-pad-y) var(--section-pad-x);
     background: var(--bg-primary);
   }
   .inner { max-width: var(--max-width); margin: 0 auto; }
-  .grid {
+  .categories .grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px;
@@ -88,20 +166,122 @@ const categories = [
     margin-bottom: 14px;
     display: inline-block;
   }
-  h3 {
+  .cat h3 {
     font-size: var(--fs-h3);
     margin: 0 0 8px;
     line-height: var(--lh-snug);
   }
-  p {
+  .cat p {
     font-size: var(--fs-small);
     color: var(--text-secondary);
     line-height: 1.55;
     margin: 0;
   }
 
+  /* === Latest releases === */
+  .latest {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-secondary);
+    border-top: 0.5px solid var(--border);
+  }
+  .head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .head h2 {
+    font-size: var(--fs-h2);
+    margin: 0;
+    letter-spacing: -0.4px;
+  }
+  .view-all {
+    font-size: var(--fs-small);
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .report {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 26px 28px;
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border);
+    background: var(--bg-primary);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .report:hover {
+    border-color: var(--border-strong);
+  }
+  .pill {
+    display: inline-block;
+    font-size: var(--fs-caption);
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 10px;
+  }
+  .report h3 {
+    font-size: 18px;
+    margin: 0 0 8px;
+    line-height: var(--lh-snug);
+    letter-spacing: -0.2px;
+  }
+  .report > .report-main > p {
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0 0 12px;
+  }
+  .meta {
+    display: flex;
+    gap: 18px;
+    font-size: var(--fs-caption);
+    color: var(--text-tertiary);
+    flex-wrap: wrap;
+  }
+  .meta i { margin-right: 4px; }
+  .download {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border-strong);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.2s;
+  }
+  .download:hover {
+    background: var(--brand);
+    color: white;
+    border-color: var(--brand);
+    transform: translateY(-1px);
+  }
+  .download i { font-size: 16px; }
+
+  /* === Responsive === */
   @media (max-width: 768px) {
     .categories { padding: 56px 20px; }
-    .grid { grid-template-columns: 1fr; }
+    .categories .grid { grid-template-columns: 1fr; }
+    .latest { padding: 56px 20px; }
+    .report {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 22px;
+    }
+    .download { justify-self: flex-start; }
   }
 </style>
