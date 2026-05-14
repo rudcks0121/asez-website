@@ -7,12 +7,24 @@ const p = (path: string) => pathLocalized(path, lang);
 // 활동 목록은 짧고 사이트 전반에서 일관됨. 한국어/영문 모두 직관적이라 인라인 매핑.
 const isKo = lang === "ko";
 
+// 대륙 실루엣 SVG path (간소화). viewBox 100x100.
+const continentPath: Record<string, string> = {
+  asia:
+    "M8,38 L18,22 L32,16 L48,14 L62,18 L74,16 L84,22 L92,32 L90,42 L84,46 L78,50 L72,48 L66,54 L60,52 L56,62 L62,68 L58,76 L52,82 L46,80 L42,72 L36,76 L30,72 L24,64 L18,58 L12,50 Z M70,58 L76,62 L74,68 L68,66 Z",
+  americas:
+    "M28,12 L42,8 L52,14 L48,22 L52,30 L48,38 L44,42 L40,48 L46,52 L48,60 L46,68 L48,76 L44,84 L40,90 L34,88 L32,80 L30,72 L28,64 L24,56 L22,48 L20,40 L24,32 L22,24 L24,18 Z",
+  europe:
+    "M14,42 L22,32 L34,28 L46,26 L58,30 L66,26 L74,30 L82,34 L86,42 L82,48 L74,52 L66,50 L58,56 L50,58 L42,60 L34,58 L26,56 L18,52 L14,48 Z M76,22 L82,24 L80,30 L74,28 Z",
+  africa:
+    "M30,16 L46,12 L60,14 L72,20 L78,30 L80,42 L78,52 L72,62 L66,72 L60,80 L52,86 L46,84 L40,76 L36,68 L32,58 L28,48 L26,38 L24,28 L26,20 Z",
+  oceania:
+    "M30,46 L46,40 L62,42 L74,48 L78,56 L72,64 L60,68 L46,66 L34,60 L28,54 Z",
+};
+
 const regions = [
   {
     name: t("region.asia"),
-    icon: "ti-mountain",
-    iconBg: "var(--brand-100)",
-    iconColor: "var(--brand-800)",
+    slug: "asia",
     countries: 48,
     img: "/images/zero-plastic-2040.jpg",
     activities: isKo
@@ -22,9 +34,7 @@ const regions = [
   },
   {
     name: t("region.americas"),
-    icon: "ti-tree",
-    iconBg: "var(--teal-100)",
-    iconColor: "var(--teal-900)",
+    slug: "americas",
     countries: 35,
     img: "/images/award-us-president.png",
     activities: isKo
@@ -34,9 +44,7 @@ const regions = [
   },
   {
     name: t("region.europe"),
-    icon: "ti-building-castle",
-    iconBg: "var(--amber-100)",
-    iconColor: "var(--amber-900)",
+    slug: "europe",
     countries: 44,
     img: "/images/award-green.png",
     activities: isKo
@@ -46,9 +54,7 @@ const regions = [
   },
   {
     name: t("region.africa"),
-    icon: "ti-sun-high",
-    iconBg: "var(--amber-50)",
-    iconColor: "var(--amber-900)",
+    slug: "africa",
     countries: 38,
     img: "/images/pretoria-1000-trees.jpg",
     activities: isKo
@@ -58,9 +64,7 @@ const regions = [
   },
   {
     name: t("region.oceania"),
-    icon: "ti-sailboat",
-    iconBg: "var(--brand-50)",
-    iconColor: "var(--brand-800)",
+    slug: "oceania",
     countries: 10,
     img: "/images/forest-canopy.jpg",
     activities: isKo
@@ -89,15 +93,20 @@ const regions = [
         <a class="region" href={r.href}>
           <div class="media">
             <img src={r.img} alt={r.name} loading="lazy" />
-            <div class="continent" style={`background: ${r.iconBg};`}>
-              <i class={`ti ${r.icon}`} style={`color: ${r.iconColor};`}></i>
-            </div>
             <div class="cnt-badge">
               <span class="cnt">{r.countries}</span>
               <span class="cnt-lbl">{t("region.countries")}</span>
             </div>
           </div>
           <div class="body">
+            <svg
+              class="continent-shape"
+              viewBox="0 0 100 100"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d={continentPath[r.slug]} />
+            </svg>
             <h3>{r.name}</h3>
             <ul class="acts">
               {r.activities.map((a) => (
@@ -160,16 +169,6 @@ const regions = [
   }
   .region:hover .media img { transform: scale(1.08); }
 
-  .continent {
-    position: absolute; top: 12px; right: 12px;
-    width: 38px; height: 38px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  .continent i { font-size: 20px; }
-  .region:hover .continent { transform: rotate(-10deg) scale(1.12); }
-
   .cnt-badge {
     position: absolute; left: 12px; top: 12px;
     background: rgba(255, 255, 255, 0.96);
@@ -181,9 +180,31 @@ const regions = [
   .cnt { font-size: 20px; font-weight: 800; color: var(--brand); line-height: 1; letter-spacing: -0.8px; }
   .cnt-lbl { font-size: 10px; color: var(--text-secondary); letter-spacing: 0.5px; text-transform: uppercase; }
 
-  .body { padding: 18px 18px 20px; flex: 1; display: flex; flex-direction: column; }
-  .body h3 { font-size: 17px; margin: 0 0 12px; letter-spacing: -0.2px; display: flex; align-items: center; gap: 6px; }
-  .acts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .body {
+    padding: 18px 18px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .continent-shape {
+    position: absolute;
+    right: -14px;
+    bottom: -10px;
+    width: 96px;
+    height: 96px;
+    fill: var(--brand-100);
+    opacity: 0.55;
+    pointer-events: none;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s;
+  }
+  .region:hover .continent-shape {
+    transform: translate(-2px, -2px) rotate(-3deg);
+    opacity: 0.75;
+  }
+  .body h3 { font-size: 17px; margin: 0 0 12px; letter-spacing: -0.2px; display: flex; align-items: center; gap: 6px; position: relative; z-index: 1; }
+  .acts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; position: relative; z-index: 1; }
   .acts li {
     font-size: 12px; color: var(--text-secondary); line-height: 1.4;
     display: flex; align-items: flex-start; gap: 4px;
