@@ -232,8 +232,13 @@ for (const [cont, b] of Object.entries(continentBounds)) {
   continentViewBox[cont] = `${x.toFixed(1)} ${y.toFixed(1)} ${side.toFixed(1)} ${side.toFixed(1)}`;
 }
 
+// 대륙 카드의 stamp에 들어갈 country path 집합 — viewBoxFocus와 동일하게 본토만.
+// (시베리아·중동·태평양 미니 섬들이 들어가면 viewBox로 클리핑되지만 path 자체는
+// 렌더되어 메모리/페인트 부담 + 가끔 layout 흔들림 유발.)
 export const countriesByContinent: Record<string, Country[]> = {};
 for (const c of countries) {
+  const focus = viewBoxFocus[c.continent];
+  if (focus && !focus.has(c.name)) continue;
   if (!countriesByContinent[c.continent]) countriesByContinent[c.continent] = [];
   countriesByContinent[c.continent].push(c);
 }
