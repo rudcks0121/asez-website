@@ -3,8 +3,102 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import PageHero from "../components/PageHero.astro";
 import Footer from "../components/Footer.astro";
-import StoryGrid from "../components/StoryGrid.astro";
+import StoryCard from "../components/StoryCard.astro";
 import ComingSoon from "../components/ComingSoon.astro";
+
+/**
+ * Full stories listing.
+ * 이미지는 asez.org에서 가져옴 — 배포 직전 자체 호스팅으로 옮길 예정.
+ */
+const stories = [
+  {
+    category: "Climate action",
+    title: "Planting 1,000 Trees — Sowing the Future in Pretoria, South Africa",
+    date: "March 22, 2026",
+    imgUrl:
+      "https://asez.org/wp-content/uploads/2026/04/20260322_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD_C_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD-%ED%94%84%EB%A6%AC%ED%86%A0%EB%A6%AC%EC%95%84_ASEZ-%EB%82%98%EB%AC%B4%EC%8B%AC%EA%B8%B0-100%EA%B7%B8%EB%A3%A8_%EC%B4%88%EC%BD%94%EC%97%90-%EC%B4%88%EB%93%B1%ED%95%99%EA%B5%90-%ED%8F%AC%ED%95%A8-9%EA%B0%9C-%EC%9E%A5%EC%86%8C_0000181_ASEZIUBA.jpg",
+    pillBg: "var(--brand-50)",
+    pillColor: "var(--brand-900)",
+  },
+  {
+    category: "Plastic-free",
+    title: "Green Concert for a Plastic-Free India in Hyderabad",
+    date: "October 14, 2025",
+    imgUrl: "https://asez.org/wp-content/uploads/2024/10/thum_zero_plastic_2040.jpg",
+    pillBg: "var(--teal-50)",
+    pillColor: "var(--teal-900)",
+  },
+  {
+    category: "Diplomacy",
+    title: "Meeting With the President of East Timor",
+    date: "February 5, 2026",
+    imgUrl:
+      "https://asez.org/wp-content/uploads/2026/02/%ED%8C%A8%EB%84%90-%EC%95%9E-%EB%8B%A8%EC%B2%B4%EC%82%AC%EC%A7%84-2-1.jpg",
+    pillBg: "var(--amber-50)",
+    pillColor: "var(--amber-900)",
+  },
+  {
+    category: "Climate action",
+    title: "Tree-Planting Reaches 20-Tree Milestone on Mears Road",
+    date: "January 25, 2026",
+    imgUrl:
+      "https://asez.org/wp-content/uploads/2026/03/20260125_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD_C_%EB%82%A8%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4%EA%B3%B5%ED%99%94%EA%B5%AD-%ED%94%84%EB%A6%AC%ED%86%A0%EB%A6%AC%EC%95%84_ASEZ-%EB%82%98%EB%AC%B4%EC%8B%AC%EA%B8%B0-20%EA%B7%B8%EB%A3%A8_%EB%AF%B8%EC%96%B4%EC%8A%A4-%EB%8F%84%EB%A1%9C-%EB%A7%88%ED%81%B4%EB%89%B4%ED%81%AC_0000002_ASEZIUBA.jpg",
+    pillBg: "var(--brand-50)",
+    pillColor: "var(--brand-900)",
+  },
+  {
+    category: "Climate action",
+    title: "In the Era of Climate Crisis, Forests Become National Competitiveness",
+    date: "October 8, 2025",
+    imgUrl:
+      "https://asez.org/wp-content/uploads/2026/03/beautiful-canopy-of-green-trees-looking-upwards-2026-01-11-10-01-30-utc-1.jpg",
+    pillBg: "var(--brand-50)",
+    pillColor: "var(--brand-900)",
+  },
+  {
+    category: "Plastic-free",
+    title: "The Cost of Convenience — Reusable Cups Campaign",
+    date: "March 17, 2026",
+    imgUrl:
+      "https://asez.org/wp-content/uploads/2026/04/closeup-image-of-a-couple-people-holding-and-drink-2026-03-17-17-45-23-utc.jpg",
+    pillBg: "var(--teal-50)",
+    pillColor: "var(--teal-900)",
+  },
+  {
+    category: "Digital rights",
+    title: "Digital Human Rights Campaign Launches Across Asia",
+    date: "December 5, 2025",
+    imgUrl: "https://asez.org/wp-content/uploads/2025/12/thum_digital_human_rights.jpg",
+    pillBg: "var(--brand-50)",
+    pillColor: "var(--brand-900)",
+  },
+  {
+    category: "Climate action",
+    title: "Blue Carbon Movement Begins 2026 Coastal Initiatives",
+    date: "April 10, 2026",
+    imgUrl: "https://asez.org/wp-content/uploads/2026/04/thum_blue_carbon_2026.jpg",
+    pillBg: "var(--teal-50)",
+    pillColor: "var(--teal-900)",
+  },
+  {
+    category: "Recognition",
+    title: "ASEZ Honored With UNCCD Executive Secretary's Award",
+    date: "July 15, 2024",
+    imgUrl: "https://asez.org/wp-content/uploads/2024/07/thum_unccd_award.png",
+    pillBg: "var(--amber-50)",
+    pillColor: "var(--amber-900)",
+  },
+];
+
+const filters = [
+  { label: "All stories", active: true },
+  { label: "Climate action" },
+  { label: "Plastic-free" },
+  { label: "Crime prevention" },
+  { label: "Digital rights" },
+  { label: "Diplomacy" },
+  { label: "Recognition" },
+];
 ---
 
 <BaseLayout
@@ -15,13 +109,83 @@ import ComingSoon from "../components/ComingSoon.astro";
   <PageHero
     eyebrow="Stories"
     title="Voices from the field."
-    lead="Updates, field reports, and press releases from ASEZ chapters around the world."
+    lead="Updates, field reports, and press releases from ASEZ chapters around the world — across climate, plastic, crime, digital rights, and diplomacy."
   />
   <main>
-    <StoryGrid />
+    <section class="stories-section reveal">
+      <div class="inner">
+        <div class="filters" role="tablist" aria-label="Story categories">
+          {filters.map((f) => (
+            <button
+              type="button"
+              class:list={["filter", f.active && "active"]}
+              role="tab"
+              aria-selected={f.active ? "true" : "false"}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+        <div class="grid">
+          {stories.map((s) => <StoryCard {...s} />)}
+        </div>
+      </div>
+    </section>
     <ComingSoon
-      message="A full searchable archive with filters by region, program, and year is coming soon."
+      message="Working filters, full-text search, and pagination are coming soon."
     />
   </main>
   <Footer />
 </BaseLayout>
+
+<style>
+  .stories-section {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-primary);
+  }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+
+  .filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .filter {
+    background: transparent;
+    border: 0.5px solid var(--border-strong);
+    color: var(--text-secondary);
+    border-radius: var(--radius-pill);
+    padding: 8px 16px;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .filter:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+  }
+  .filter.active {
+    background: var(--brand);
+    color: white;
+    border-color: var(--brand);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .stories-section { padding: 56px 20px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
