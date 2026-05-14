@@ -5,6 +5,7 @@ import Header from "../../components/Header.astro";
 import PageHero from "../../components/PageHero.astro";
 import Footer from "../../components/Footer.astro";
 import ComingSoon from "../../components/ComingSoon.astro";
+import CtaBanner from "../../components/CtaBanner.astro";
 
 const categories = [
   { icon: "ti-file-text", title: "연간 보고서", desc: "한 해의 활동, 재정, 임팩트를 정리한 연간 보고서." },
@@ -80,6 +81,7 @@ const koType = (t: string) => ({
       </div>
     </section>
 
+    <CtaBanner variant="newsletter" />
     <ComingSoon message="실제 PDF 파일, 연구 데이터베이스, 연도별 아카이브가 곧 공개됩니다." />
   </main>
   <Footer />

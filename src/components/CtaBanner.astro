@@ -1,0 +1,155 @@
+---
+import { useTranslations, getLangFromUrl, pathLocalized } from "../i18n/utils";
+
+/**
+ * 페이지 끝에 일관된 행동 유도 배너.
+ * variant별 카피/링크가 다름:
+ *   - "join"       : Join ASEZ + Contact      (가장 일반적)
+ *   - "newsletter" : Subscribe + Read stories (정보성 페이지 끝)
+ *   - "contact"    : Send message + Events    (관계 시작)
+ */
+interface Props {
+  variant?: "join" | "newsletter" | "contact";
+}
+const { variant = "join" } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const isKo = lang === "ko";
+const p = (path: string) => pathLocalized(path, lang);
+
+const content = {
+  join: {
+    eyebrow: isKo ? "함께하기" : "Take action",
+    title: isKo ? "행동에 함께하실 준비가 되셨나요?" : "Ready to join the movement?",
+    desc: isKo
+      ? "전 세계 175개국 학생 봉사단의 일원이 되어, 더 살기 좋은 지구를 함께 만들어 갑니다."
+      : "Become part of a student volunteer movement spanning 175 countries, working together for a more livable Earth.",
+    primary: { label: isKo ? "ASEZ 참여하기" : "Join ASEZ", href: p("/get-involved") },
+    secondary: { label: isKo ? "문의하기" : "Contact us", href: p("/contact") },
+  },
+  newsletter: {
+    eyebrow: isKo ? "뉴스레터" : "Stay in the loop",
+    title: isKo ? "현장 소식을 받아보세요." : "Get our field updates.",
+    desc: isKo
+      ? "매월 한 번, 현장 보고와 임팩트 리포트가 받은편지함으로 — 광고도, 스팸도 없이."
+      : "Once a month, field reports and impact stories straight to your inbox. No spam, no marketing — just the work.",
+    primary: { label: isKo ? "구독 신청" : "Subscribe", href: p("/contact") },
+    secondary: { label: isKo ? "스토리 보기" : "Read stories", href: p("/stories") },
+  },
+  contact: {
+    eyebrow: isKo ? "문의" : "Get in touch",
+    title: isKo ? "협력 또는 문의가 있으신가요?" : "Have a question or proposal?",
+    desc: isKo
+      ? "언론, 협력 제안, 일반 문의 — 무엇이든 환영합니다. 영업일 기준 3일 이내 답변드립니다."
+      : "Press inquiries, partnership proposals, general questions — we read every message and reply within 3 business days.",
+    primary: { label: isKo ? "문의 보내기" : "Send a message", href: p("/contact") },
+    secondary: { label: isKo ? "예정된 행사" : "Upcoming events", href: p("/get-involved/events") },
+  },
+};
+
+const c = content[variant];
+---
+
+<section class="cta-banner reveal">
+  <div class="inner">
+    <div class="text">
+      <p class="eyebrow light">{c.eyebrow}</p>
+      <h2>{c.title}</h2>
+      <p class="desc">{c.desc}</p>
+    </div>
+    <div class="actions">
+      <a href={c.primary.href} class="btn-primary">
+        {c.primary.label} <i class="ti ti-arrow-right"></i>
+      </a>
+      <a href={c.secondary.href} class="btn-outline">{c.secondary.label}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-banner {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: linear-gradient(135deg, var(--brand-darker) 0%, var(--brand-dark) 60%, var(--brand) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-banner::after {
+    content: "";
+    position: absolute;
+    right: -160px;
+    bottom: -160px;
+    width: 480px;
+    height: 480px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 56px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .eyebrow.light { color: rgba(255, 255, 255, 0.7); margin-bottom: 14px; }
+  h2 {
+    font-size: 32px;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    margin: 0 0 16px;
+    max-width: 580px;
+  }
+  .desc {
+    font-size: var(--fs-body);
+    opacity: 0.85;
+    line-height: 1.6;
+    max-width: 580px;
+    margin: 0;
+  }
+  .actions { display: flex; flex-direction: column; gap: 10px; }
+  .actions .btn-primary,
+  .actions .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 14px 24px;
+    border-radius: var(--radius-md);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .actions .btn-primary {
+    background: white;
+    color: var(--brand);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+  .actions .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  .actions .btn-primary i { transition: transform 0.2s; }
+  .actions .btn-primary:hover i { transform: translateX(3px); }
+  .actions .btn-outline {
+    background: transparent;
+    color: white;
+    border: 0.5px solid rgba(255, 255, 255, 0.5);
+  }
+  .actions .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+  }
+
+  @media (max-width: 900px) {
+    .inner { grid-template-columns: 1fr; gap: 32px; }
+    h2 { font-size: 26px; }
+  }
+  @media (max-width: 560px) {
+    .cta-banner { padding: 56px 20px; }
+  }
+</style>

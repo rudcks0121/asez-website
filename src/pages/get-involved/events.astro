@@ -4,6 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/Header.astro";
 import PageHero from "../../components/PageHero.astro";
 import Footer from "../../components/Footer.astro";
+import CtaBanner from "../../components/CtaBanner.astro";
 
 const now = new Date();
 const all = await getCollection("events", ({ data }) => !data.draft);
@@ -115,6 +116,7 @@ function fmtRange(start: Date, end?: Date) {
         </div>
       </section>
     )}
+  <CtaBanner variant="join" />
   </main>
   <Footer />
 </BaseLayout>

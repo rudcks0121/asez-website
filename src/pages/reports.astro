@@ -5,6 +5,7 @@ import Header from "../components/Header.astro";
 import PageHero from "../components/PageHero.astro";
 import Footer from "../components/Footer.astro";
 import ComingSoon from "../components/ComingSoon.astro";
+import CtaBanner from "../components/CtaBanner.astro";
 
 const categories = [
   {
@@ -106,6 +107,7 @@ const fmt = (d: Date) =>
       </div>
     </section>
 
+    <CtaBanner variant="newsletter" />
     <ComingSoon
       message="Actual PDF files, a research database, and an annual archive are coming soon."
     />
