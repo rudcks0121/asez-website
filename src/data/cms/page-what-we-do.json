@@ -1,0 +1,82 @@
+{
+  "en": {
+    "title": "What we do — ASEZ",
+    "description": "ASEZ tackles climate action, plastic pollution, crime prevention, digital human rights, disaster relief, and community service.",
+    "hero": {
+      "eyebrow": "Our work",
+      "title": "Issues we tackle, every day.",
+      "lead": "ASEZ runs six core programs across 175 countries — addressing the environmental, social, and humanitarian challenges that shape the future of our generation."
+    },
+    "campaigns": {
+      "eyebrow": "Featured campaigns",
+      "title": "Three big bets, right now.",
+      "readMore": "Read more"
+    },
+    "comingSoon": "Detail pages for each program — campaigns, field reports, partner organizations, and ways to participate — are coming soon."
+  },
+  "ko": {
+    "title": "활동 — ASEZ",
+    "description": "ASEZ는 기후 행동, 플라스틱 오염, 범죄 예방, 디지털 인권, 재해 구호, 지역사회 봉사 분야에서 활동합니다.",
+    "hero": {
+      "eyebrow": "주요 활동",
+      "title": "우리가 매일 다루는 이슈들.",
+      "lead": "ASEZ는 175개국에서 6가지 핵심 프로그램을 운영합니다 — 우리 세대의 미래를 결정하는 환경·사회·인도적 과제에 맞섭니다."
+    },
+    "campaigns": {
+      "eyebrow": "주요 캠페인",
+      "title": "지금 진행 중인 3대 캠페인.",
+      "readMore": "자세히 보기"
+    },
+    "comingSoon": "각 프로그램의 상세 페이지 — 캠페인, 현장 보고서, 협력 기관, 참여 방법 — 이 곧 공개됩니다."
+  },
+  "campaigns": [
+    {
+      "pillBg": "var(--teal-50)",
+      "pillColor": "var(--teal-900)",
+      "image": "/images/blue-carbon-2026.jpg",
+      "href": "#",
+      "en": {
+        "pill": "Climate action",
+        "title": "Blue Carbon Movement",
+        "desc": "Protecting and restoring coastal ecosystems — mangroves, seagrass, and tidal marshes — to capture carbon and shield communities from rising seas."
+      },
+      "ko": {
+        "pill": "기후 행동",
+        "title": "Blue Carbon Movement",
+        "desc": "해안 생태계 — 맹그로브, 해초류, 갯벌 — 를 보호하고 복원하여 탄소를 흡수하고 해수면 상승으로부터 지역사회를 보호."
+      }
+    },
+    {
+      "pillBg": "var(--brand-50)",
+      "pillColor": "var(--brand-900)",
+      "image": "/images/zero-plastic-2040.jpg",
+      "href": "#",
+      "en": {
+        "pill": "Plastic-free",
+        "title": "Zero Plastic 2040",
+        "desc": "A global ASEZ campaign to end avoidable plastic pollution by 2040 through campus action, public awareness, and policy engagement at the UN INC meetings."
+      },
+      "ko": {
+        "pill": "플라스틱 프리",
+        "title": "Zero Plastic 2040",
+        "desc": "2040년까지 피할 수 있는 플라스틱 오염을 종식시키기 위한 글로벌 ASEZ 캠페인 — 캠퍼스 행동, 대중 인식, UN INC 정책 참여를 통해."
+      }
+    },
+    {
+      "pillBg": "var(--amber-50)",
+      "pillColor": "var(--amber-900)",
+      "image": "/images/digital-human-rights.jpg",
+      "href": "#",
+      "en": {
+        "pill": "Digital rights",
+        "title": "Digital Human Rights",
+        "desc": "Protecting privacy, dignity, and youth wellbeing in the digital age — through education, research, and partnership with policymakers."
+      },
+      "ko": {
+        "pill": "디지털 인권",
+        "title": "디지털 인권",
+        "desc": "디지털 시대의 사생활, 존엄성, 청년 웰빙 보호 — 교육, 연구, 정책 입안자와의 협력을 통해."
+      }
+    }
+  ]
+}

@@ -6,49 +6,20 @@ import Footer from "../../components/Footer.astro";
 import IssueGrid from "../../components/IssueGrid.astro";
 import ComingSoon from "../../components/ComingSoon.astro";
 import CtaBanner from "../../components/CtaBanner.astro";
+import page from "../../data/cms/page-what-we-do.json";
 
-const campaigns = [
-  {
-    pill: "기후 행동",
-    pillBg: "var(--teal-50)",
-    pillColor: "var(--teal-900)",
-    title: "Blue Carbon Movement",
-    desc: "해안 생태계 — 맹그로브, 해초, 갯벌 — 보호 및 복원을 통해 탄소를 흡수하고 해수면 상승으로부터 지역사회를 지킵니다.",
-    img: "/images/blue-carbon-2026.jpg",
-    href: "#",
-  },
-  {
-    pill: "플라스틱 프리",
-    pillBg: "var(--brand-50)",
-    pillColor: "var(--brand-900)",
-    title: "Zero Plastic 2040",
-    desc: "캠퍼스 활동, 시민 인식 개선, UN INC 정책 참여를 통해 2040년까지 불필요한 플라스틱 오염을 종식시키는 글로벌 ASEZ 캠페인.",
-    img: "/images/zero-plastic-2040.jpg",
-    href: "#",
-  },
-  {
-    pill: "디지털 인권",
-    pillBg: "var(--amber-50)",
-    pillColor: "var(--amber-900)",
-    title: "Digital Human Rights",
-    desc: "디지털 시대의 사생활, 존엄, 청년 정신건강 보호 — 교육, 연구, 정책 입안자와의 협력을 통해.",
-    img: "/images/digital-human-rights.jpg",
-    href: "#",
-  },
-];
+const lang = "ko" as const;
+const c = page.ko;
+const campaigns = page.campaigns.map((cp: any) => ({ ...cp, ...(cp[lang] ?? cp.en) }));
 ---
 
-<BaseLayout
-  lang="kr"
-  title="활동 — ASEZ"
-  description="ASEZ는 기후 행동, 플라스틱 오염, 범죄 예방, 디지털 인권, 재해 구호, 지역사회 봉사 활동을 펼칩니다."
->
+<BaseLayout lang="ko" title={c.title} description={c.description}>
   <Header />
   <PageHero
-    eyebrow="우리의 활동"
+    eyebrow={c.hero.eyebrow}
     icon="ti-target-arrow"
-    title="매일 마주하는 과제들."
-    lead="ASEZ는 전 세계 175개국에서 6개의 핵심 프로그램을 운영합니다 — 우리 세대의 미래를 결정짓는 환경·사회·인도적 도전 과제를 풀어갑니다."
+    title={c.hero.title}
+    lead={c.hero.lead}
   />
   <main>
     <IssueGrid />
@@ -57,19 +28,19 @@ const campaigns = [
       <div class="inner">
         <div class="head">
           <div>
-            <p class="eyebrow">주요 캠페인</p>
-            <h2>지금 우리가 집중하는 세 가지.</h2>
+            <p class="eyebrow">{c.campaigns.eyebrow}</p>
+            <h2>{c.campaigns.title}</h2>
           </div>
         </div>
         <div class="list">
-          {campaigns.map((c, i) => (
-            <a class="campaign" href={c.href} class:list={["campaign", i % 2 === 1 && "reverse"]}>
-              <div class="media"><img src={c.img} alt={c.title} loading="lazy" /></div>
+          {campaigns.map((cp: any, i: number) => (
+            <a class="campaign" href={cp.href} class:list={["campaign", i % 2 === 1 && "reverse"]}>
+              <div class="media"><img src={cp.image} alt={cp.title} loading="lazy" /></div>
               <div class="body">
-                <span class="pill" style={`background: ${c.pillBg}; color: ${c.pillColor};`}>{c.pill}</span>
-                <h3>{c.title}</h3>
-                <p>{c.desc}</p>
-                <span class="more">더 보기 <i class="ti ti-arrow-right"></i></span>
+                <span class="pill" style={`background: ${cp.pillBg}; color: ${cp.pillColor};`}>{cp.pill}</span>
+                <h3>{cp.title}</h3>
+                <p>{cp.desc}</p>
+                <span class="more">{c.campaigns.readMore} <i class="ti ti-arrow-right"></i></span>
               </div>
             </a>
           ))}
@@ -78,7 +49,7 @@ const campaigns = [
     </section>
 
     <CtaBanner variant="join" />
-    <ComingSoon message="각 프로그램의 상세 페이지 — 캠페인, 현장 보고, 협력 기관, 참여 방법 — 은 곧 공개됩니다." />
+    <ComingSoon message={c.comingSoon} />
   </main>
   <Footer />
 </BaseLayout>

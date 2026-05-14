@@ -1,0 +1,89 @@
+{
+  "en": {
+    "title": "Contact — ASEZ",
+    "description": "Reach ASEZ — general inquiries, press, partnerships, regional offices, and a direct contact form.",
+    "hero": {
+      "eyebrow": "Reach us",
+      "title": "Contact ASEZ.",
+      "lead": "Questions, press inquiries, partnership proposals — we'd love to hear from you."
+    },
+    "form": {
+      "eyebrow": "Send a message",
+      "title": "Tell us what you need.",
+      "intro": "For anything that doesn't fit the channels above — drop us a message. We read every one and route it to the right team.",
+      "nameLabel": "Your name",
+      "namePlaceholder": "Jane Park",
+      "emailLabel": "Email",
+      "emailPlaceholder": "jane@example.com",
+      "subjectLabel": "Subject",
+      "messageLabel": "Message",
+      "messagePlaceholder": "What can we help with?",
+      "submit": "Send message",
+      "fine": "We'll only use your details to reply to this message.",
+      "subjects": ["General inquiry", "Press / media", "Partnership proposal", "Volunteer / membership", "Other"]
+    },
+    "offices": {
+      "eyebrow": "Regional offices",
+      "title": "Local contacts.",
+      "intro": "For chapter-level or regional questions, reach the nearest office directly."
+    },
+    "comingSoon": "A full office directory with phone numbers and on-site visit information is coming soon."
+  },
+  "ko": {
+    "title": "문의 — ASEZ",
+    "description": "ASEZ에 문의하기 — 일반 문의, 언론, 파트너십, 지역 사무소 및 직접 문의 양식.",
+    "hero": {
+      "eyebrow": "문의하기",
+      "title": "ASEZ에 문의.",
+      "lead": "질문, 언론 문의, 파트너십 제안 — 무엇이든 환영합니다."
+    },
+    "form": {
+      "eyebrow": "메시지 보내기",
+      "title": "필요한 것을 알려주세요.",
+      "intro": "위 채널에 해당하지 않는 내용이라면 — 메시지를 남겨주세요. 모든 메시지를 읽고 적합한 팀에 전달합니다.",
+      "nameLabel": "이름",
+      "namePlaceholder": "홍길동",
+      "emailLabel": "이메일",
+      "emailPlaceholder": "hong@example.com",
+      "subjectLabel": "제목",
+      "messageLabel": "메시지",
+      "messagePlaceholder": "무엇을 도와드릴까요?",
+      "submit": "메시지 보내기",
+      "fine": "이 메시지에 답변하기 위해서만 정보를 사용합니다.",
+      "subjects": ["일반 문의", "언론 / 미디어", "파트너십 제안", "자원봉사 / 가입", "기타"]
+    },
+    "offices": {
+      "eyebrow": "지역 사무소",
+      "title": "지역별 연락처.",
+      "intro": "챕터·지역 단위 문의는 가까운 사무소로 직접 연락 주세요."
+    },
+    "comingSoon": "전화번호와 방문 정보를 포함한 전체 사무소 디렉토리가 곧 공개됩니다."
+  },
+  "channels": [
+    {
+      "icon": "ti-mail",
+      "detail": "contact@asez.org",
+      "en": { "title": "General inquiries", "sub": "We aim to respond within 3 business days." },
+      "ko": { "title": "일반 문의", "sub": "영업일 기준 3일 이내 답변 드립니다." }
+    },
+    {
+      "icon": "ti-news",
+      "detail": "press@asez.org",
+      "en": { "title": "Press inquiries", "sub": "Media kit, interview, and statement requests." },
+      "ko": { "title": "언론 문의", "sub": "보도자료, 인터뷰, 성명서 요청." }
+    },
+    {
+      "icon": "ti-heart-handshake",
+      "detail": "partners@asez.org",
+      "en": { "title": "Partnerships", "sub": "Governments, NGOs, universities, and corporates." },
+      "ko": { "title": "파트너십", "sub": "정부, NGO, 대학, 기업." }
+    }
+  ],
+  "offices": [
+    { "email": "asia@asez.org",     "en": { "region": "Asia",     "hq": "Seoul, South Korea" },     "ko": { "region": "아시아",     "hq": "한국 서울" } },
+    { "email": "americas@asez.org", "en": { "region": "Americas", "hq": "Los Angeles, USA" },        "ko": { "region": "아메리카",   "hq": "미국 로스앤젤레스" } },
+    { "email": "europe@asez.org",   "en": { "region": "Europe",   "hq": "London, United Kingdom" }, "ko": { "region": "유럽",       "hq": "영국 런던" } },
+    { "email": "africa@asez.org",   "en": { "region": "Africa",   "hq": "Nairobi, Kenya" },          "ko": { "region": "아프리카",   "hq": "케냐 나이로비" } },
+    { "email": "oceania@asez.org",  "en": { "region": "Oceania",  "hq": "Sydney, Australia" },       "ko": { "region": "오세아니아", "hq": "호주 시드니" } }
+  ]
+}

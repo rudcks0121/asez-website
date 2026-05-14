@@ -526,3 +526,594 @@ collections:
             fields:
               - { label: "Image URL", name: "image", widget: "string" }
               - { label: "Alt text", name: "alt", widget: "string" }
+
+  # ─────────────────────────────────────────────────────────
+  # PAGES — 메인 페이지 외 정적 페이지들
+  # 파일: src/data/cms/page-*.json
+  # ─────────────────────────────────────────────────────────
+  - name: "pages"
+    label: "페이지"
+    description: "About, Contact, Where-we-work, What-we-do, Get-involved 등 정적 페이지"
+    files:
+      # ── About 페이지
+      - name: "about"
+        label: "About 페이지"
+        file: "src/data/cms/page-about.json"
+        format: "json"
+        fields:
+          - label: "English"
+            name: "en"
+            widget: "object"
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Mission section"
+                name: "mission"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "S.A.V.E section"
+                name: "save"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+              - label: "Awards section"
+                name: "awards"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Mission section"
+                name: "mission"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "S.A.V.E section"
+                name: "save"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+              - label: "Awards section"
+                name: "awards"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "S.A.V.E 4기둥"
+            name: "savePillars"
+            widget: "list"
+            fields:
+              - { label: "Letter (S/A/V/E)", name: "letter", widget: "string" }
+              - { label: "Background", name: "bg", widget: "string" }
+              - { label: "Color", name: "color", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+          - label: "수상작 카드 (3개)"
+            name: "awards"
+            widget: "list"
+            fields:
+              - { label: "Year", name: "year", widget: "string" }
+              - { label: "Image URL", name: "image", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Body", name: "body", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Body", name: "body", widget: "text" }
+
+      # ── Contact 페이지
+      - name: "contact"
+        label: "Contact 페이지"
+        file: "src/data/cms/page-contact.json"
+        format: "json"
+        fields:
+          - label: "English (전체 페이지 텍스트)"
+            name: "en"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - { label: "Hero — eyebrow", name: "hero.eyebrow", widget: "string", required: false }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Form section"
+                name: "form"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+                  - { label: "Name label", name: "nameLabel", widget: "string" }
+                  - { label: "Name placeholder", name: "namePlaceholder", widget: "string" }
+                  - { label: "Email label", name: "emailLabel", widget: "string" }
+                  - { label: "Email placeholder", name: "emailPlaceholder", widget: "string" }
+                  - { label: "Subject label", name: "subjectLabel", widget: "string" }
+                  - { label: "Message label", name: "messageLabel", widget: "string" }
+                  - { label: "Message placeholder", name: "messagePlaceholder", widget: "string" }
+                  - { label: "Submit button", name: "submit", widget: "string" }
+                  - { label: "Fine print", name: "fine", widget: "text" }
+                  - label: "Subject options"
+                    name: "subjects"
+                    widget: "list"
+                    field: { label: "Subject", name: "subject", widget: "string" }
+              - label: "Offices section"
+                name: "offices"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "한국어 (전체 페이지 텍스트)"
+            name: "ko"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Form section"
+                name: "form"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+                  - { label: "Name label", name: "nameLabel", widget: "string" }
+                  - { label: "Name placeholder", name: "namePlaceholder", widget: "string" }
+                  - { label: "Email label", name: "emailLabel", widget: "string" }
+                  - { label: "Email placeholder", name: "emailPlaceholder", widget: "string" }
+                  - { label: "Subject label", name: "subjectLabel", widget: "string" }
+                  - { label: "Message label", name: "messageLabel", widget: "string" }
+                  - { label: "Message placeholder", name: "messagePlaceholder", widget: "string" }
+                  - { label: "Submit button", name: "submit", widget: "string" }
+                  - { label: "Fine print", name: "fine", widget: "text" }
+                  - label: "Subject options"
+                    name: "subjects"
+                    widget: "list"
+                    field: { label: "Subject", name: "subject", widget: "string" }
+              - label: "Offices section"
+                name: "offices"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "Quick channels (3개)"
+            name: "channels"
+            widget: "list"
+            fields:
+              - { label: "Icon", name: "icon", widget: "string" }
+              - { label: "Email", name: "detail", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Sub", name: "sub", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Sub", name: "sub", widget: "text" }
+          - label: "Regional offices (5개)"
+            name: "offices"
+            widget: "list"
+            fields:
+              - { label: "Email", name: "email", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Region", name: "region", widget: "string" }
+                  - { label: "HQ", name: "hq", widget: "string" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Region", name: "region", widget: "string" }
+                  - { label: "HQ", name: "hq", widget: "string" }
+
+      # ── Where we work 페이지
+      - name: "where_we_work"
+        label: "Where we work 페이지"
+        file: "src/data/cms/page-where-we-work.json"
+        format: "json"
+        fields:
+          - { label: "Get involved CTA 링크", name: "ctaPrimaryHref", widget: "string", default: "/get-involved" }
+          - { label: "Contact CTA 링크", name: "ctaSecondaryHref", widget: "string", default: "/contact" }
+          - label: "English (전체 페이지 텍스트)"
+            name: "en"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Regions 그리드 labels"
+                name: "regions"
+                widget: "object"
+                fields:
+                  - { label: "Countries 단어", name: "countriesLabel", widget: "string" }
+                  - { label: "HQ prefix", name: "hqPrefix", widget: "string" }
+              - label: "Map section"
+                name: "map"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+                  - { label: "Stat: countries", name: "statCountries", widget: "string" }
+                  - { label: "Stat: campuses", name: "statCampuses", widget: "string" }
+                  - { label: "Stat: regional HQs", name: "statHqs", widget: "string" }
+                  - { label: "Legend: HQ", name: "legendHq", widget: "string" }
+                  - { label: "Legend: Campus", name: "legendCampus", widget: "string" }
+                  - { label: "Legend: Active", name: "legendActive", widget: "string" }
+                  - { label: "Legend: Other", name: "legendOther", widget: "string" }
+              - label: "Campuses section"
+                name: "campuses"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+              - label: "Find CTA card"
+                name: "findCta"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+                  - { label: "Primary button", name: "ctaPrimary", widget: "string" }
+                  - { label: "Secondary button", name: "ctaSecondary", widget: "string" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "한국어 (전체 페이지 텍스트)"
+            name: "ko"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Regions 그리드 labels"
+                name: "regions"
+                widget: "object"
+                fields:
+                  - { label: "Countries 단어", name: "countriesLabel", widget: "string" }
+                  - { label: "HQ prefix", name: "hqPrefix", widget: "string" }
+              - label: "Map section"
+                name: "map"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+                  - { label: "Stat: countries", name: "statCountries", widget: "string" }
+                  - { label: "Stat: campuses", name: "statCampuses", widget: "string" }
+                  - { label: "Stat: regional HQs", name: "statHqs", widget: "string" }
+                  - { label: "Legend: HQ", name: "legendHq", widget: "string" }
+                  - { label: "Legend: Campus", name: "legendCampus", widget: "string" }
+                  - { label: "Legend: Active", name: "legendActive", widget: "string" }
+                  - { label: "Legend: Other", name: "legendOther", widget: "string" }
+              - label: "Campuses section"
+                name: "campuses"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+              - label: "Find CTA card"
+                name: "findCta"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+                  - { label: "Primary button", name: "ctaPrimary", widget: "string" }
+                  - { label: "Secondary button", name: "ctaSecondary", widget: "string" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "5개 대륙 (상단 통계 + HQ)"
+            name: "regions"
+            widget: "list"
+            fields:
+              - { label: "Slug", name: "slug", widget: "select", options: ["asia", "americas", "europe", "africa", "oceania"] }
+              - { label: "Countries 수", name: "countries", widget: "number", value_type: "int" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+                  - { label: "HQ", name: "hq", widget: "string" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+                  - { label: "HQ", name: "hq", widget: "string" }
+          - label: "Featured 캠퍼스 (8개)"
+            name: "featuredCampuses"
+            widget: "list"
+            fields:
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "City", name: "city", widget: "string" }
+                  - { label: "Country", name: "country", widget: "string" }
+                  - { label: "Note", name: "note", widget: "string" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "City", name: "city", widget: "string" }
+                  - { label: "Country", name: "country", widget: "string" }
+                  - { label: "Note", name: "note", widget: "string" }
+
+      # ── What we do 페이지
+      - name: "what_we_do"
+        label: "What we do 페이지"
+        file: "src/data/cms/page-what-we-do.json"
+        format: "json"
+        fields:
+          - label: "English"
+            name: "en"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Campaigns section"
+                name: "campaigns"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Read more 텍스트", name: "readMore", widget: "string" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Campaigns section"
+                name: "campaigns"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Read more 텍스트", name: "readMore", widget: "string" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "캠페인 카드 (3개)"
+            name: "campaigns"
+            widget: "list"
+            fields:
+              - { label: "Pill background", name: "pillBg", widget: "string" }
+              - { label: "Pill text color", name: "pillColor", widget: "string" }
+              - { label: "Image URL", name: "image", widget: "string" }
+              - { label: "Link 경로", name: "href", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Pill text", name: "pill", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Pill text", name: "pill", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+
+      # ── Get involved 메인
+      - name: "get_involved"
+        label: "Get involved 메인"
+        file: "src/data/cms/page-get-involved.json"
+        format: "json"
+        fields:
+          - label: "English"
+            name: "en"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Paths section"
+                name: "paths"
+                widget: "object"
+                fields:
+                  - { label: "Learn more 텍스트", name: "learnMore", widget: "string" }
+              - label: "Why section"
+                name: "why"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+              - label: "Signup section"
+                name: "signup"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+                  - { label: "Email label", name: "emailLabel", widget: "string" }
+                  - { label: "Email placeholder", name: "emailPlaceholder", widget: "string" }
+                  - { label: "Campus label", name: "campusLabel", widget: "string" }
+                  - { label: "Campus placeholder", name: "campusPlaceholder", widget: "string" }
+                  - { label: "Submit", name: "submit", widget: "string" }
+                  - { label: "Fine print", name: "fine", widget: "text" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Paths section"
+                name: "paths"
+                widget: "object"
+                fields:
+                  - { label: "Learn more 텍스트", name: "learnMore", widget: "string" }
+              - label: "Why section"
+                name: "why"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Intro", name: "intro", widget: "text" }
+              - label: "Signup section"
+                name: "signup"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+                  - { label: "Email label", name: "emailLabel", widget: "string" }
+                  - { label: "Email placeholder", name: "emailPlaceholder", widget: "string" }
+                  - { label: "Campus label", name: "campusLabel", widget: "string" }
+                  - { label: "Campus placeholder", name: "campusPlaceholder", widget: "string" }
+                  - { label: "Submit", name: "submit", widget: "string" }
+                  - { label: "Fine print", name: "fine", widget: "text" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "참여 경로 카드 (5개)"
+            name: "paths"
+            widget: "list"
+            fields:
+              - { label: "Icon", name: "icon", widget: "string" }
+              - { label: "Link 경로", name: "href", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+          - label: "참여 이유 카드 (4개)"
+            name: "reasons"
+            widget: "list"
+            fields:
+              - { label: "Icon", name: "icon", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }

@@ -6,70 +6,24 @@ import Footer from "../components/Footer.astro";
 import Stats from "../components/Stats.astro";
 import ComingSoon from "../components/ComingSoon.astro";
 import CtaBanner from "../components/CtaBanner.astro";
+import page from "../data/cms/page-about.json";
 
-const savePillars = [
-  {
-    letter: "S",
-    title: "Social service",
-    desc: "Volunteering with local communities — clean-ups, elderly care, school support.",
-    bg: "var(--teal-100)",
-    color: "var(--teal-900)",
-  },
-  {
-    letter: "A",
-    title: "Awareness",
-    desc: "Forums, seminars, and campaigns that turn knowledge into action.",
-    bg: "var(--brand-100)",
-    color: "var(--brand-900)",
-  },
-  {
-    letter: "V",
-    title: "Victim relief",
-    desc: "Emergency response and long-term recovery in disaster-affected regions.",
-    bg: "var(--amber-100)",
-    color: "var(--amber-900)",
-  },
-  {
-    letter: "E",
-    title: "Environmental",
-    desc: "Climate action, plastic-free campaigns, tree planting, coastal protection.",
-    bg: "var(--brand-400)",
-    color: "#ffffff",
-  },
-];
-
-const awards = [
-  {
-    year: "2024",
-    title: "UNCCD Executive Secretary's Award",
-    body: "Recognized by the UN Convention to Combat Desertification for our tree-planting and land restoration work.",
-    img: "/images/award-unccd.png",
-  },
-  {
-    year: "2023",
-    title: "U.S. President's Volunteer Service Award",
-    body: "Awarded to ASEZ chapters in the United States for sustained, exceptional volunteer service.",
-    img: "/images/award-us-president.png",
-  },
-  {
-    year: "2022",
-    title: "Green Apple & Green World Awards",
-    body: "International environmental awards recognizing our climate and plastic-free campaigns.",
-    img: "/images/award-green.png",
-  },
-];
+const lang = "en" as const;
+const c = page.en;
+const savePillars = page.savePillars.map((p: any) => ({ ...p, ...(p[lang] ?? p.en) }));
+const awards = page.awards.map((a: any) => ({ ...a, ...(a[lang] ?? a.en) }));
 ---
 
 <BaseLayout
-  title="About — ASEZ"
-  description="ASEZ is a global network of university student volunteers active in 175 countries, working through the S.A.V.E framework to leave a more livable Earth."
+  title={c.title}
+  description={c.description}
 >
   <Header />
   <PageHero
-    eyebrow="About ASEZ"
+    eyebrow={c.hero.eyebrow}
     icon="ti-info-circle"
-    title="University students, building a more livable Earth."
-    lead="ASEZ — Save the Earth from A to Z — is a global network of Church of God university student volunteers active across 175 countries and 7,500 campuses."
+    title={c.hero.title}
+    lead={c.hero.lead}
   />
   <main>
     <Stats />
@@ -77,29 +31,20 @@ const awards = [
     <!-- Mission -->
     <section class="mission reveal">
       <div class="inner">
-        <p class="eyebrow">Mission</p>
-        <h2>Leaving a more livable Earth for the next generation.</h2>
-        <p class="lead">
-          ASEZ believes that small actions, repeated by millions of young
-          people, can rewrite the future. We organize university students
-          worldwide to confront the most urgent environmental, social,
-          and humanitarian challenges of our time — and to do so without
-          waiting for permission.
-        </p>
+        <p class="eyebrow">{c.mission.eyebrow}</p>
+        <h2>{c.mission.title}</h2>
+        <p class="lead">{c.mission.lead}</p>
       </div>
     </section>
 
     <!-- S.A.V.E framework -->
     <section class="save reveal">
       <div class="inner">
-        <p class="eyebrow">The S.A.V.E movement</p>
-        <h2>Four pillars. One movement.</h2>
-        <p class="intro">
-          All ASEZ activities fall under one of four pillars — together
-          they form the S.A.V.E framework, the spine of everything we do.
-        </p>
+        <p class="eyebrow">{c.save.eyebrow}</p>
+        <h2>{c.save.title}</h2>
+        <p class="intro">{c.save.intro}</p>
         <div class="grid">
-          {savePillars.map((p) => (
+          {savePillars.map((p: any) => (
             <div class="pillar">
               <div class="badge" style={`background: ${p.bg}; color: ${p.color};`}>
                 {p.letter}
@@ -115,17 +60,14 @@ const awards = [
     <!-- Awards -->
     <section class="awards reveal">
       <div class="inner">
-        <p class="eyebrow">Recognition</p>
-        <h2>Awards & honors.</h2>
-        <p class="intro">
-          Our work has been recognized by the United Nations, national
-          governments, and international environmental bodies.
-        </p>
+        <p class="eyebrow">{c.awards.eyebrow}</p>
+        <h2>{c.awards.title}</h2>
+        <p class="intro">{c.awards.intro}</p>
         <div class="grid">
-          {awards.map((a) => (
+          {awards.map((a: any) => (
             <article class="award">
               <div class="img-wrap">
-                <img src={a.img} alt={a.title} loading="lazy" />
+                <img src={a.image} alt={a.title} loading="lazy" />
               </div>
               <div class="body">
                 <p class="year">{a.year}</p>
@@ -139,9 +81,7 @@ const awards = [
     </section>
 
     <CtaBanner variant="join" />
-    <ComingSoon
-      message="Our story (timeline) and full Partners directory are coming soon."
-    />
+    <ComingSoon message={c.comingSoon} />
   </main>
   <Footer />
 </BaseLayout>

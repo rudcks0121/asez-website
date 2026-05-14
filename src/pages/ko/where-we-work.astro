@@ -4,104 +4,159 @@ import Header from "../../components/Header.astro";
 import PageHero from "../../components/PageHero.astro";
 import Footer from "../../components/Footer.astro";
 import ComingSoon from "../../components/ComingSoon.astro";
+import { countries, markers, viewBox, mapWidth, mapHeight } from "../../lib/world-map";
+import page from "../../data/cms/page-where-we-work.json";
+import { pathLocalized } from "../../i18n/utils";
 
-const regions = [
-  { name: "아시아",     countries: 48, hq: "한국 서울" },
-  { name: "아메리카",   countries: 35, hq: "미국 로스앤젤레스" },
-  { name: "유럽",       countries: 44, hq: "영국 런던" },
-  { name: "아프리카",   countries: 38, hq: "케냐 나이로비" },
-  { name: "오세아니아", countries: 10, hq: "호주 시드니" },
-];
+export const prerender = true;
 
-const featuredCampuses = [
-  { city: "서울",         country: "대한민국",     note: "아시아 지역 HQ" },
-  { city: "뉴델리",       country: "인도",         note: "Plastic-Free India 거점" },
-  { city: "프리토리아",   country: "남아프리카공화국", note: "나무 심기 프로그램" },
-  { city: "마닐라",       country: "필리핀",       note: "Reduce Crime Together" },
-  { city: "리마",         country: "페루",         note: "아마존 보호" },
-  { city: "딜리",         country: "동티모르",     note: "국가 협력" },
-  { city: "시드니",       country: "호주",         note: "Blue Carbon 태평양" },
-  { city: "나이로비",     country: "케냐",         note: "아프리카 지역 HQ" },
-];
+const lang = "ko" as const;
+const c = page.ko;
+const regions = page.regions.map((r: any) => ({ ...r, ...(r[lang] ?? r.en) }));
+const featuredCampuses = page.featuredCampuses.map((cm: any) => cm[lang] ?? cm.en);
+const p = (path: string) => pathLocalized(path, lang);
 ---
 
 <BaseLayout
-  lang="kr"
-  title="활동 지역 — ASEZ"
-  description="ASEZ는 전 대륙에서 활동합니다. 지역별 현황과 가까운 캠퍼스 챕터를 찾아보세요."
+  lang="ko"
+  title={c.title}
+  description={c.description}
 >
   <Header />
   <PageHero
-    eyebrow="글로벌 네트워크"
+    eyebrow={c.hero.eyebrow}
     icon="ti-world"
-    title="175개국. 7,500개 캠퍼스. 하나의 운동."
-    lead="ASEZ 챕터는 전 세계 모든 대륙에서 활동합니다. 가까운 챕터를 찾거나, 새로 만들어 보세요."
+    title={c.hero.title}
+    lead={c.hero.lead}
   />
   <main>
+    <!-- Regions -->
     <section class="regions reveal">
       <div class="inner">
         <div class="grid">
-          {regions.map((r) => (
+          {regions.map((r: any) => (
             <div class="region">
               <div class="num">{r.countries}</div>
               <div class="label">{r.name}</div>
-              <div class="sub">개국</div>
-              <div class="hq">본부 — {r.hq}</div>
+              <div class="sub">{c.regions.countriesLabel}</div>
+              <div class="hq">{c.regions.hqPrefix} {r.hq}</div>
             </div>
           ))}
         </div>
       </div>
     </section>
 
+    <!-- Coverage map -->
     <section class="map-section reveal">
       <div class="inner">
         <div class="head">
-          <p class="eyebrow">활동 지도</p>
-          <h2>모든 대륙의 네트워크.</h2>
-          <p class="intro">서울에서 상파울루까지, 케이프타운에서 시드니까지 — ASEZ 챕터가 주요 지역에서 활동 중.</p>
+          <p class="eyebrow">{c.map.eyebrow}</p>
+          <h2>{c.map.title}</h2>
+          <p class="intro">{c.map.intro}</p>
         </div>
-        <div class="map-frame">
-          <div class="map-overlay"><i class="ti ti-map-2"></i><p>인터랙티브 지도는 곧 공개됩니다.</p></div>
+        <div class="map-card">
+          <div class="map-frame">
+            <svg
+              class="world-map"
+              viewBox={viewBox}
+              preserveAspectRatio="xMidYMid meet"
+              role="img"
+              aria-label="ASEZ 활동 지역 세계지도"
+            >
+              <defs>
+                <radialGradient id="map-glow-ko" cx="50%" cy="50%" r="65%">
+                  <stop offset="0%" stop-color="#dbeafe" stop-opacity="0.55"/>
+                  <stop offset="100%" stop-color="#dbeafe" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <rect width={mapWidth} height={mapHeight} fill="url(#map-glow-ko)" />
+
+              <g class="countries">
+                {countries.map((cn) => (
+                  <path
+                    d={cn.d}
+                    class:list={[
+                      "country",
+                      { "is-active": cn.active },
+                      `cont-${cn.continent}`,
+                    ]}
+                    data-name={cn.name}
+                  />
+                ))}
+              </g>
+
+              <g class="markers">
+                {markers.map((m) => (
+                  <g class:list={["marker", `marker-${m.kind}`]} tabindex="0">
+                    <circle class="ring" cx={m.x} cy={m.y} r="9" />
+                    <circle class="halo" cx={m.x} cy={m.y} r="6.5" />
+                    <circle class="dot" cx={m.x} cy={m.y} r="3.2" />
+                    <g class="tip" transform={`translate(${m.x},${m.y})`}>
+                      <rect x="11" y="-32" rx="6" ry="6" width="160" height="50" />
+                      <text x="20" y="-15" class="tip-city">{m.city}</text>
+                      <text x="20" y="-1" class="tip-meta">{m.country}</text>
+                      <text x="20" y="12" class="tip-role">{m.role}</text>
+                    </g>
+                  </g>
+                ))}
+              </g>
+            </svg>
+
+            <div class="map-stats">
+              <div class="stat"><span class="n">175</span><span class="l">{c.map.statCountries}</span></div>
+              <div class="stat"><span class="n">7,500</span><span class="l">{c.map.statCampuses}</span></div>
+              <div class="stat"><span class="n">5</span><span class="l">{c.map.statHqs}</span></div>
+            </div>
+          </div>
+
+          <div class="legend">
+            <span class="lg lg-hq"><i></i> {c.map.legendHq}</span>
+            <span class="lg lg-campus"><i></i> {c.map.legendCampus}</span>
+            <span class="lg lg-presence"><i></i> {c.map.legendActive}</span>
+            <span class="lg lg-other"><i></i> {c.map.legendOther}</span>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- Featured campuses -->
     <section class="campuses reveal">
       <div class="inner">
         <div class="head">
-          <p class="eyebrow">현장</p>
-          <h2>주요 챕터.</h2>
-          <p class="intro">대표적인 활동을 이끄는 캠퍼스 일부 — 전체 디렉토리는 준비 중입니다.</p>
+          <p class="eyebrow">{c.campuses.eyebrow}</p>
+          <h2>{c.campuses.title}</h2>
+          <p class="intro">{c.campuses.intro}</p>
         </div>
         <div class="grid">
-          {featuredCampuses.map((c) => (
+          {featuredCampuses.map((cm: any) => (
             <div class="campus">
-              <div class="city">{c.city}</div>
-              <div class="country">{c.country}</div>
-              <div class="note">{c.note}</div>
+              <div class="city">{cm.city}</div>
+              <div class="country">{cm.country}</div>
+              <div class="note">{cm.note}</div>
             </div>
           ))}
         </div>
       </div>
     </section>
 
+    <!-- Find chapter CTA -->
     <section class="find-cta reveal">
       <div class="inner">
         <div class="cta-card">
           <div>
-            <p class="eyebrow light">대학생 여러분</p>
-            <h2>가까운 캠퍼스 챕터를 찾아보세요.</h2>
-            <p class="desc">검색 가능한 챕터 디렉토리와 신규 챕터 개설 절차는 준비 중입니다. 그동안은 문의 주시면 가장 가까운 팀을 연결해 드립니다.</p>
+            <p class="eyebrow light">{c.findCta.eyebrow}</p>
+            <h2>{c.findCta.title}</h2>
+            <p class="desc">{c.findCta.desc}</p>
           </div>
           <div class="cta-actions">
-            <a href="/ko/get-involved" class="btn-primary">참여하기</a>
-            <a href="/ko/contact" class="btn-outline">문의하기</a>
+            <a href={p(page.ctaPrimaryHref)} class="btn-primary">{c.findCta.ctaPrimary}</a>
+            <a href={p(page.ctaSecondaryHref)} class="btn-outline">{c.findCta.ctaSecondary}</a>
           </div>
         </div>
       </div>
     </section>
 
-    <ComingSoon message="인터랙티브 지도, 지역 사무소 디렉토리, 전체 챕터 목록이 곧 공개됩니다." />
+    <ComingSoon message={c.comingSoon} />
   </main>
   <Footer />
 </BaseLayout>
@@ -116,15 +171,99 @@ const featuredCampuses = [
   .sub { font-size: var(--fs-small); color: var(--text-secondary); margin-top: 2px; }
   .hq { font-size: var(--fs-caption); color: var(--text-tertiary); margin-top: 12px; }
 
-  .map-section { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .map-section {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background:
+      radial-gradient(circle at 80% -10%, rgba(32, 96, 173, 0.06), transparent 50%),
+      var(--bg-secondary);
+    border-top: 0.5px solid var(--border);
+  }
   .map-section .inner { max-width: var(--max-width); margin: 0 auto; }
   .head { margin-bottom: 36px; max-width: 680px; }
   .head h2 { font-size: var(--fs-h2); margin: 0 0 14px; letter-spacing: -0.4px; }
   .head .intro { font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.6; margin: 0; }
-  .map-frame { aspect-ratio: 16/8; background: var(--brand-50); border-radius: var(--radius-lg); border: 0.5px solid var(--border); position: relative; overflow: hidden; background-image: radial-gradient(circle at 30% 50%, var(--brand-100) 0%, var(--brand-50) 60%); }
-  .map-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--brand-800); gap: 14px; }
-  .map-overlay i { font-size: 56px; opacity: 0.6; }
-  .map-overlay p { font-size: var(--fs-body); font-weight: 500; margin: 0; opacity: 0.7; }
+
+  .map-card {
+    position: relative;
+    background:
+      radial-gradient(ellipse at 25% 100%, rgba(32, 96, 173, 0.04), transparent 60%),
+      linear-gradient(180deg, #ffffff 0%, #fbfcfd 100%);
+    border-radius: 20px;
+    border: 0.5px solid var(--border);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.6) inset,
+      0 30px 60px -30px rgba(4, 44, 83, 0.18),
+      0 8px 24px -12px rgba(4, 44, 83, 0.08);
+    overflow: hidden;
+  }
+  .map-frame { position: relative; padding: 24px 28px 12px; }
+  .world-map { display: block; width: 100%; height: auto; font-family: var(--font-sans, "Inter", system-ui, sans-serif); }
+
+  .country { fill: #e8eef5; stroke: #ffffff; stroke-width: 0.5; stroke-linejoin: round; transition: fill 0.25s ease; }
+  .country.is-active { fill: var(--brand); }
+  .country:not(.is-active):hover { fill: #c7d3e0; }
+  .country.is-active:hover { fill: var(--brand-darker, #1a4d8c); }
+  .country.cont-antarctica { opacity: 0.35; }
+
+  .marker { cursor: pointer; outline: none; }
+  .marker .ring {
+    fill: none; stroke: var(--brand); stroke-width: 1; opacity: 0;
+    transform-origin: center; transform-box: fill-box;
+    animation: ringPulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+  .marker-campus .ring { stroke: #ea580c; }
+  .marker .halo { fill: var(--brand); opacity: 0.18; }
+  .marker-campus .halo { fill: #ea580c; opacity: 0.22; }
+  .marker .dot { fill: white; stroke: var(--brand); stroke-width: 2; transition: r 0.2s ease; }
+  .marker-campus .dot { stroke: #ea580c; }
+  .marker:hover .dot, .marker:focus .dot { r: 4.6; }
+
+  .marker .tip { opacity: 0; pointer-events: none; transition: opacity 0.18s ease; }
+  .marker:hover .tip, .marker:focus .tip { opacity: 1; }
+  .tip rect {
+    fill: white; stroke: rgba(4, 44, 83, 0.08); stroke-width: 0.5;
+    filter: drop-shadow(0 6px 16px rgba(4, 44, 83, 0.22));
+  }
+  .tip-city { font-size: 11px; font-weight: 600; fill: var(--text-primary); letter-spacing: -0.1px; }
+  .tip-meta { font-size: 9.5px; fill: var(--text-secondary); }
+  .tip-role { font-size: 9.5px; font-weight: 500; fill: var(--brand); }
+  .marker-campus .tip-role { fill: #ea580c; }
+
+  @keyframes ringPulse {
+    0%   { r: 6;  opacity: 0.55; }
+    70%  { r: 16; opacity: 0; }
+    100% { r: 16; opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marker .ring { animation: none; opacity: 0; }
+  }
+
+  .map-stats {
+    position: absolute; left: 28px; bottom: 16px;
+    display: flex; gap: 18px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 0.5px solid var(--border); border-radius: 12px;
+    box-shadow: 0 6px 20px -10px rgba(4, 44, 83, 0.18);
+  }
+  .stat { display: flex; flex-direction: column; align-items: flex-start; }
+  .stat .n { font-size: 18px; font-weight: 800; color: var(--brand); line-height: 1; letter-spacing: -0.4px; }
+  .stat .l { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 22px;
+    padding: 16px 28px 22px;
+    border-top: 0.5px solid var(--border);
+    background: rgba(248, 250, 252, 0.6);
+    font-size: var(--fs-caption); color: var(--text-secondary);
+  }
+  .lg { display: inline-flex; align-items: center; gap: 8px; }
+  .lg i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .lg-hq i { background: white; border: 2px solid var(--brand); }
+  .lg-campus i { background: white; border: 2px solid #ea580c; }
+  .lg-presence i { background: var(--brand); }
+  .lg-other i { background: #e8eef5; border: 0.5px solid #c7d3e0; }
 
   .campuses { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); border-top: 0.5px solid var(--border); }
   .campuses .inner { max-width: var(--max-width); margin: 0 auto; }
@@ -136,7 +275,12 @@ const featuredCampuses = [
   .note { font-size: var(--fs-caption); color: var(--brand); font-weight: 500; }
 
   .find-cta { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); }
-  .cta-card { max-width: var(--max-width); margin: 0 auto; background-image: linear-gradient(135deg, var(--brand-darker) 0%, var(--brand-dark) 100%); color: white; border-radius: var(--radius-lg); padding: 56px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: center; }
+  .cta-card {
+    max-width: var(--max-width); margin: 0 auto;
+    background-image: linear-gradient(135deg, var(--brand-darker) 0%, var(--brand-dark) 100%);
+    color: white; border-radius: var(--radius-lg);
+    padding: 56px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: center;
+  }
   .cta-card .eyebrow.light { color: rgba(255, 255, 255, 0.7); }
   .cta-card h2 { font-size: 28px; margin: 0 0 14px; letter-spacing: -0.4px; line-height: 1.2; }
   .cta-card .desc { font-size: var(--fs-body); opacity: 0.85; line-height: 1.6; margin: 0; max-width: 480px; }
@@ -147,6 +291,14 @@ const featuredCampuses = [
   .cta-actions .btn-outline { background: transparent; color: white; border: 0.5px solid rgba(255, 255, 255, 0.5); }
   .cta-actions .btn-outline:hover { background: rgba(255, 255, 255, 0.1); border-color: white; }
 
+  @media (max-width: 768px) {
+    .map-frame { padding: 18px 14px 8px; }
+    .map-stats { position: static; margin-top: 12px; width: 100%; justify-content: space-between; }
+    .stat .n { font-size: 16px; }
+    .legend { padding: 14px 18px 18px; gap: 14px 18px; }
+    .tip-city { font-size: 13px; }
+    .tip-meta, .tip-role { font-size: 11px; }
+  }
   @media (max-width: 900px) {
     .regions .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
     .campuses .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -158,5 +310,10 @@ const featuredCampuses = [
     .num { font-size: 36px; }
     .campuses .grid { grid-template-columns: 1fr; }
     .cta-card { padding: 32px 24px; }
+  }
+  @media (max-width: 480px) {
+    .map-card { border-radius: 14px; }
+    .map-frame { padding: 14px 10px 6px; }
+    .map-stats { gap: 10px; padding: 10px 12px; }
   }
 </style>

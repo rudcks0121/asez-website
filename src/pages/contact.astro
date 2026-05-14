@@ -4,128 +4,83 @@ import Header from "../components/Header.astro";
 import PageHero from "../components/PageHero.astro";
 import Footer from "../components/Footer.astro";
 import ComingSoon from "../components/ComingSoon.astro";
+import page from "../data/cms/page-contact.json";
 
-const channels = [
-  {
-    icon: "ti-mail",
-    title: "General inquiries",
-    detail: "contact@asez.org",
-    sub: "We aim to respond within 3 business days.",
-  },
-  {
-    icon: "ti-news",
-    title: "Press inquiries",
-    detail: "press@asez.org",
-    sub: "Media kit, interview, and statement requests.",
-  },
-  {
-    icon: "ti-handshake",
-    title: "Partnerships",
-    detail: "partners@asez.org",
-    sub: "Governments, NGOs, universities, and corporates.",
-  },
-];
-
-const offices = [
-  { region: "Asia",     hq: "Seoul, South Korea",     email: "asia@asez.org" },
-  { region: "Americas", hq: "Los Angeles, USA",       email: "americas@asez.org" },
-  { region: "Europe",   hq: "London, United Kingdom", email: "europe@asez.org" },
-  { region: "Africa",   hq: "Nairobi, Kenya",         email: "africa@asez.org" },
-  { region: "Oceania",  hq: "Sydney, Australia",      email: "oceania@asez.org" },
-];
-
-const subjects = [
-  "General inquiry",
-  "Press / media",
-  "Partnership proposal",
-  "Volunteer / membership",
-  "Other",
-];
+const lang = "en" as const;
+const c = page.en;
+const channels = page.channels.map((ch: any) => ({ ...ch, ...(ch[lang] ?? ch.en) }));
+const offices = page.offices.map((o: any) => ({ ...o, ...(o[lang] ?? o.en) }));
 ---
 
-<BaseLayout
-  title="Contact — ASEZ"
-  description="Reach ASEZ — general inquiries, press, partnerships, regional offices, and a direct contact form."
->
+<BaseLayout title={c.title} description={c.description}>
   <Header />
   <PageHero
-    eyebrow="Reach us"
+    eyebrow={c.hero.eyebrow}
     icon="ti-mail"
-    title="Contact ASEZ."
-    lead="Questions, press inquiries, partnership proposals — we'd love to hear from you."
+    title={c.hero.title}
+    lead={c.hero.lead}
   />
   <main>
-    <!-- Quick channels -->
     <section class="channels reveal">
       <div class="inner">
         <div class="grid">
-          {channels.map((c) => (
+          {channels.map((ch: any) => (
             <div class="channel">
-              <i class={`ti ${c.icon} icon`}></i>
-              <h3>{c.title}</h3>
-              <p class="detail">{c.detail}</p>
-              <p class="sub">{c.sub}</p>
+              <i class={`ti ${ch.icon} icon`}></i>
+              <h3>{ch.title}</h3>
+              <p class="detail">{ch.detail}</p>
+              <p class="sub">{ch.sub}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
 
-    <!-- Contact form -->
     <section class="form-section reveal">
       <div class="inner">
         <div class="form-grid">
           <div class="copy">
-            <p class="eyebrow">Send a message</p>
-            <h2>Tell us what you need.</h2>
-            <p>
-              For anything that doesn't fit the channels above — drop us
-              a message. We read every one and route it to the right team.
-            </p>
+            <p class="eyebrow">{c.form.eyebrow}</p>
+            <h2>{c.form.title}</h2>
+            <p>{c.form.intro}</p>
           </div>
           <form class="form" onsubmit="event.preventDefault();">
             <div class="row">
               <label>
-                <span>Your name</span>
-                <input type="text" placeholder="Jane Park" required />
+                <span>{c.form.nameLabel}</span>
+                <input type="text" placeholder={c.form.namePlaceholder} required />
               </label>
               <label>
-                <span>Email</span>
-                <input type="email" placeholder="jane@example.com" required />
+                <span>{c.form.emailLabel}</span>
+                <input type="email" placeholder={c.form.emailPlaceholder} required />
               </label>
             </div>
             <label>
-              <span>Subject</span>
+              <span>{c.form.subjectLabel}</span>
               <select required>
-                {subjects.map((s) => <option>{s}</option>)}
+                {c.form.subjects.map((s: string) => <option>{s}</option>)}
               </select>
             </label>
             <label>
-              <span>Message</span>
-              <textarea rows="6" placeholder="What can we help with?" required></textarea>
+              <span>{c.form.messageLabel}</span>
+              <textarea rows="6" placeholder={c.form.messagePlaceholder} required></textarea>
             </label>
             <button type="submit" class="submit">
-              Send message <i class="ti ti-arrow-right"></i>
+              {c.form.submit} <i class="ti ti-arrow-right"></i>
             </button>
-            <p class="fine">
-              We'll only use your details to reply to this message.
-            </p>
+            <p class="fine">{c.form.fine}</p>
           </form>
         </div>
       </div>
     </section>
 
-    <!-- Regional offices -->
     <section class="offices reveal">
       <div class="inner">
-        <p class="eyebrow">Regional offices</p>
-        <h2>Local contacts.</h2>
-        <p class="intro">
-          For chapter-level or regional questions, reach the nearest
-          office directly.
-        </p>
+        <p class="eyebrow">{c.offices.eyebrow}</p>
+        <h2>{c.offices.title}</h2>
+        <p class="intro">{c.offices.intro}</p>
         <div class="grid">
-          {offices.map((o) => (
+          {offices.map((o: any) => (
             <div class="office">
               <p class="region">{o.region}</p>
               <p class="hq">{o.hq}</p>
@@ -136,9 +91,7 @@ const subjects = [
       </div>
     </section>
 
-    <ComingSoon
-      message="A full office directory with phone numbers and on-site visit information is coming soon."
-    />
+    <ComingSoon message={c.comingSoon} />
   </main>
   <Footer />
 </BaseLayout>

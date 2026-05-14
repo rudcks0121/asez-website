@@ -1,0 +1,97 @@
+{
+  "ctaPrimaryHref": "/get-involved",
+  "ctaSecondaryHref": "/contact",
+  "en": {
+    "title": "Where we work — ASEZ",
+    "description": "ASEZ operates on every continent. Explore our regional presence and find a campus chapter near you.",
+    "hero": {
+      "eyebrow": "Global presence",
+      "title": "175 countries. 7,500 campuses. One movement.",
+      "lead": "ASEZ chapters operate on every continent. Find a chapter near you, or start one."
+    },
+    "regions": {
+      "countriesLabel": "countries",
+      "hqPrefix": "HQ —"
+    },
+    "map": {
+      "eyebrow": "Coverage map",
+      "title": "A network on every continent.",
+      "intro": "From Seoul to São Paulo, Cape Town to Sydney — ASEZ chapters are active in every major region. Hover or tap the markers to see regional headquarters and flagship campuses.",
+      "statCountries": "countries",
+      "statCampuses": "campuses",
+      "statHqs": "regional HQs",
+      "legendHq": "Regional HQ",
+      "legendCampus": "Featured campus",
+      "legendActive": "Active chapters",
+      "legendOther": "Other countries"
+    },
+    "campuses": {
+      "eyebrow": "On the ground",
+      "title": "Featured chapters.",
+      "intro": "A small selection of campuses leading flagship programs. The complete chapter directory is in development."
+    },
+    "findCta": {
+      "eyebrow": "For students",
+      "title": "Find your campus chapter.",
+      "desc": "Searchable chapter directory and a \"start a new chapter\" process are coming soon. In the meantime, contact us and we'll connect you to the nearest team.",
+      "ctaPrimary": "Get involved",
+      "ctaSecondary": "Contact us"
+    },
+    "comingSoon": "Regional offices directory and the full campus chapter listing are coming soon."
+  },
+  "ko": {
+    "title": "활동 지역 — ASEZ",
+    "description": "ASEZ는 전 대륙에서 활동합니다. 지역별 현황과 가까운 캠퍼스 챕터를 찾아보세요.",
+    "hero": {
+      "eyebrow": "글로벌 네트워크",
+      "title": "175개국. 7,500개 캠퍼스. 하나의 운동.",
+      "lead": "ASEZ 챕터는 전 세계 모든 대륙에서 활동합니다. 가까운 챕터를 찾거나, 새로 만들어 보세요."
+    },
+    "regions": {
+      "countriesLabel": "개국",
+      "hqPrefix": "본부 —"
+    },
+    "map": {
+      "eyebrow": "활동 지도",
+      "title": "모든 대륙의 네트워크.",
+      "intro": "서울에서 상파울루까지, 케이프타운에서 시드니까지 — ASEZ 챕터가 주요 지역에서 활동 중. 마커를 호버하거나 탭하여 지역 본부와 주요 캠퍼스 정보를 확인하세요.",
+      "statCountries": "개국",
+      "statCampuses": "캠퍼스",
+      "statHqs": "지역 본부",
+      "legendHq": "지역 본부",
+      "legendCampus": "주요 캠퍼스",
+      "legendActive": "활동 챕터",
+      "legendOther": "기타 국가"
+    },
+    "campuses": {
+      "eyebrow": "현장",
+      "title": "주요 챕터.",
+      "intro": "대표적인 활동을 이끄는 캠퍼스 일부 — 전체 디렉토리는 준비 중입니다."
+    },
+    "findCta": {
+      "eyebrow": "대학생 여러분",
+      "title": "가까운 캠퍼스 챕터를 찾아보세요.",
+      "desc": "검색 가능한 챕터 디렉토리와 신규 챕터 개설 절차는 준비 중입니다. 그동안은 문의 주시면 가장 가까운 팀을 연결해 드립니다.",
+      "ctaPrimary": "참여하기",
+      "ctaSecondary": "문의하기"
+    },
+    "comingSoon": "지역 사무소 디렉토리와 전체 캠퍼스 챕터 목록이 곧 공개됩니다."
+  },
+  "regions": [
+    { "slug": "asia",     "countries": 48, "en": { "name": "Asia",     "hq": "Seoul, South Korea" },     "ko": { "name": "아시아",     "hq": "한국 서울" } },
+    { "slug": "americas", "countries": 35, "en": { "name": "Americas", "hq": "Los Angeles, USA" },        "ko": { "name": "아메리카",   "hq": "미국 로스앤젤레스" } },
+    { "slug": "europe",   "countries": 44, "en": { "name": "Europe",   "hq": "London, United Kingdom" }, "ko": { "name": "유럽",       "hq": "영국 런던" } },
+    { "slug": "africa",   "countries": 38, "en": { "name": "Africa",   "hq": "Nairobi, Kenya" },          "ko": { "name": "아프리카",   "hq": "케냐 나이로비" } },
+    { "slug": "oceania",  "countries": 10, "en": { "name": "Oceania",  "hq": "Sydney, Australia" },       "ko": { "name": "오세아니아", "hq": "호주 시드니" } }
+  ],
+  "featuredCampuses": [
+    { "en": { "city": "Seoul",     "country": "South Korea",    "note": "Asia regional HQ" },     "ko": { "city": "서울",       "country": "대한민국",       "note": "아시아 지역 HQ" } },
+    { "en": { "city": "New Delhi", "country": "India",          "note": "Plastic-Free India hub" }, "ko": { "city": "뉴델리",     "country": "인도",         "note": "Plastic-Free India 거점" } },
+    { "en": { "city": "Pretoria",  "country": "South Africa",   "note": "Tree-planting program" },  "ko": { "city": "프리토리아", "country": "남아프리카공화국", "note": "나무 심기 프로그램" } },
+    { "en": { "city": "Manila",    "country": "Philippines",    "note": "Reduce Crime Together" },  "ko": { "city": "마닐라",     "country": "필리핀",       "note": "Reduce Crime Together" } },
+    { "en": { "city": "Lima",      "country": "Peru",           "note": "Amazon protection" },      "ko": { "city": "리마",       "country": "페루",         "note": "아마존 보호" } },
+    { "en": { "city": "Dili",      "country": "Timor-Leste",    "note": "National partnership" },   "ko": { "city": "딜리",       "country": "동티모르",     "note": "국가 협력" } },
+    { "en": { "city": "Sydney",    "country": "Australia",      "note": "Blue Carbon Pacific" },    "ko": { "city": "시드니",     "country": "호주",         "note": "Blue Carbon 태평양" } },
+    { "en": { "city": "Nairobi",   "country": "Kenya",          "note": "Africa regional HQ" },     "ko": { "city": "나이로비",   "country": "케냐",         "note": "아프리카 지역 HQ" } }
+  ]
+}

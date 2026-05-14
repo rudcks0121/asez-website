@@ -6,55 +6,44 @@ import Footer from "../../components/Footer.astro";
 import Stats from "../../components/Stats.astro";
 import ComingSoon from "../../components/ComingSoon.astro";
 import CtaBanner from "../../components/CtaBanner.astro";
+import page from "../../data/cms/page-about.json";
 
-const savePillars = [
-  { letter: "S", title: "사회 봉사", desc: "지역사회와 함께하는 봉사 — 환경 정화, 어르신 돌봄, 학교 지원.", bg: "var(--teal-100)", color: "var(--teal-900)" },
-  { letter: "A", title: "인식 개선", desc: "포럼, 세미나, 캠페인을 통해 인식을 행동으로 바꿉니다.", bg: "var(--brand-100)", color: "var(--brand-900)" },
-  { letter: "V", title: "재해 구호", desc: "재해 지역에서의 긴급 대응과 장기 회복 활동.", bg: "var(--amber-100)", color: "var(--amber-900)" },
-  { letter: "E", title: "환경 보호", desc: "기후 행동, 플라스틱 프리 캠페인, 나무 심기, 해안 보호.", bg: "var(--brand-400)", color: "#ffffff" },
-];
-
-const awards = [
-  { year: "2024", title: "UNCCD 사무총장상", body: "UN 사막화방지협약으로부터 받은 표창 — 나무 심기 및 토지 복원 활동을 인정받음.", img: "/images/award-unccd.png" },
-  { year: "2023", title: "미국 대통령 봉사상", body: "미국 내 ASEZ 챕터의 지속적이고 탁월한 봉사 활동에 수여.", img: "/images/award-us-president.png" },
-  { year: "2022", title: "Green Apple & Green World Awards", body: "기후 및 플라스틱 프리 캠페인을 인정받은 국제 환경 부문 수상.", img: "/images/award-green.png" },
-];
+const lang = "ko" as const;
+const c = page.ko;
+const savePillars = page.savePillars.map((p: any) => ({ ...p, ...(p[lang] ?? p.en) }));
+const awards = page.awards.map((a: any) => ({ ...a, ...(a[lang] ?? a.en) }));
 ---
 
 <BaseLayout
-  lang="kr"
-  title="소개 — ASEZ"
-  description="ASEZ는 전 세계 175개국에서 활동하는 대학생 봉사단입니다. S.A.V.E 프레임워크를 통해 더 살기 좋은 지구를 만들어 갑니다."
+  lang="ko"
+  title={c.title}
+  description={c.description}
 >
   <Header />
   <PageHero
-    eyebrow="ASEZ 소개"
+    eyebrow={c.hero.eyebrow}
     icon="ti-info-circle"
-    title="대학생들이 만들어가는 더 살기 좋은 지구."
-    lead="ASEZ — Save the Earth from A to Z — 는 전 세계 175개국 7,500여 캠퍼스에서 활동하는 하나님의교회 대학생 봉사단 글로벌 네트워크입니다."
+    title={c.hero.title}
+    lead={c.hero.lead}
   />
   <main>
     <Stats />
 
     <section class="mission reveal">
       <div class="inner">
-        <p class="eyebrow">미션</p>
-        <h2>다음 세대를 위한 더 살기 좋은 지구를 남깁니다.</h2>
-        <p class="lead">
-          ASEZ는 수많은 청년들의 작은 행동이 모여 미래를 다시 쓸 수 있다고 믿습니다.
-          전 세계 대학생들이 함께 우리 시대의 가장 시급한 환경·사회·인도적 문제에
-          맞서 — 누구의 허락도 기다리지 않고 — 행동합니다.
-        </p>
+        <p class="eyebrow">{c.mission.eyebrow}</p>
+        <h2>{c.mission.title}</h2>
+        <p class="lead">{c.mission.lead}</p>
       </div>
     </section>
 
     <section class="save reveal">
       <div class="inner">
-        <p class="eyebrow">S.A.V.E 운동</p>
-        <h2>네 가지 기둥. 하나의 운동.</h2>
-        <p class="intro">ASEZ의 모든 활동은 네 가지 영역을 중심으로 조직됩니다 — 함께 S.A.V.E 프레임워크를 이룹니다.</p>
+        <p class="eyebrow">{c.save.eyebrow}</p>
+        <h2>{c.save.title}</h2>
+        <p class="intro">{c.save.intro}</p>
         <div class="grid">
-          {savePillars.map((pl) => (
+          {savePillars.map((pl: any) => (
             <div class="pillar">
               <div class="badge" style={`background: ${pl.bg}; color: ${pl.color};`}>{pl.letter}</div>
               <h3>{pl.title}</h3>
@@ -67,13 +56,13 @@ const awards = [
 
     <section class="awards reveal">
       <div class="inner">
-        <p class="eyebrow">수상 및 인정</p>
-        <h2>수상 내역.</h2>
-        <p class="intro">UN, 각국 정부, 국제 환경 기구로부터 받은 인정.</p>
+        <p class="eyebrow">{c.awards.eyebrow}</p>
+        <h2>{c.awards.title}</h2>
+        <p class="intro">{c.awards.intro}</p>
         <div class="grid">
-          {awards.map((a) => (
+          {awards.map((a: any) => (
             <article class="award">
-              <div class="img-wrap"><img src={a.img} alt={a.title} loading="lazy" /></div>
+              <div class="img-wrap"><img src={a.image} alt={a.title} loading="lazy" /></div>
               <div class="body">
                 <p class="year">{a.year}</p>
                 <h3>{a.title}</h3>
@@ -86,7 +75,7 @@ const awards = [
     </section>
 
     <CtaBanner variant="join" />
-    <ComingSoon message="우리의 이야기(연혁)와 파트너 디렉토리는 곧 공개됩니다." />
+    <ComingSoon message={c.comingSoon} />
   </main>
   <Footer />
 </BaseLayout>

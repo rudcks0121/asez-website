@@ -4,41 +4,34 @@ import Header from "../../components/Header.astro";
 import PageHero from "../../components/PageHero.astro";
 import Footer from "../../components/Footer.astro";
 import ComingSoon from "../../components/ComingSoon.astro";
+import { pathLocalized } from "../../i18n/utils";
+import page from "../../data/cms/page-get-involved.json";
 
-const paths = [
-  { icon: "ti-school", title: "ASEZ 가입", desc: "대학생이라면 가까운 캠퍼스 챕터를 찾아 멤버가 되어보세요.", href: "#" },
-  { icon: "ti-flag", title: "챕터 만들기", desc: "캠퍼스에 챕터가 없다면 새로 만들어보세요. 우리가 도와드립니다.", href: "#" },
-  { icon: "ti-hand-stop", title: "자원봉사 참여", desc: "모든 연령대에 열려 있습니다. 지역 정화 활동, 포럼, 캠페인 참여.", href: "#" },
-  { icon: "ti-building-bank", title: "협력 제안", desc: "정부, 대학, NGO, 기업의 SDG 협력 제안 환영.", href: "#" },
-  { icon: "ti-calendar-event", title: "예정된 행사", desc: "이번 시즌의 포럼, 서밋, 현장 캠페인.", href: "/ko/get-involved/events" },
-];
-
-const reasons = [
-  { icon: "ti-world", title: "글로벌 임팩트", desc: "한 캠퍼스의 활동이 175개국 7,500개 캠퍼스의 조직적인 행동과 연결됩니다." },
-  { icon: "ti-bolt", title: "말이 아닌 행동", desc: "나무 심기, 플라스틱 정화, 재해 구호, 정책 입안자와의 포럼 — 우리는 미래를 만들지, 말만 하지 않습니다." },
-  { icon: "ti-award", title: "공인된 활동", desc: "UNCCD, 미국 대통령상, 국제 환경 기구로부터 인정받았습니다." },
-  { icon: "ti-users", title: "지속되는 커뮤니티", desc: "평생의 친구, 멘토, 모든 대륙을 잇는 동료 네트워크." },
-];
+const lang = "ko" as const;
+const c = page.ko;
+const p = (path: string) => pathLocalized(path, lang);
+const paths = page.paths.map((pt: any) => ({ ...pt, ...(pt[lang] ?? pt.en) }));
+const reasons = page.reasons.map((r: any) => ({ ...r, ...(r[lang] ?? r.en) }));
 ---
 
-<BaseLayout lang="kr" title="참여하기 — ASEZ" description="ASEZ의 활동에 참여하는 5가지 방법 — 학생 회원, 자원봉사자, 파트너 기관, 행사 참가자.">
+<BaseLayout lang="ko" title={c.title} description={c.description}>
   <Header />
   <PageHero
-    eyebrow="함께하기"
+    eyebrow={c.hero.eyebrow}
     icon="ti-hand-stop"
-    title="참여하기."
-    lead="대학생, 자원봉사자, 파트너 기관, 포럼·캠페인 참가자 — ASEZ에 함께할 수 있는 다양한 방법이 있습니다."
+    title={c.hero.title}
+    lead={c.hero.lead}
   />
   <main>
     <section class="paths reveal">
       <div class="inner">
         <div class="grid">
-          {paths.map((p) => (
-            <a class="path" href={p.href}>
-              <i class={`ti ${p.icon} icon`}></i>
-              <h3>{p.title}</h3>
-              <p>{p.desc}</p>
-              <span class="more">더 보기 <i class="ti ti-arrow-right"></i></span>
+          {paths.map((pt: any) => (
+            <a class="path" href={p(pt.href)}>
+              <i class={`ti ${pt.icon} icon`}></i>
+              <h3>{pt.title}</h3>
+              <p>{pt.desc}</p>
+              <span class="more">{c.paths.learnMore} <i class="ti ti-arrow-right"></i></span>
             </a>
           ))}
         </div>
@@ -47,11 +40,11 @@ const reasons = [
 
     <section class="why reveal">
       <div class="inner">
-        <p class="eyebrow">왜 ASEZ인가</p>
-        <h2>참여했을 때 얻을 수 있는 것들.</h2>
-        <p class="intro">ASEZ는 회원증이 아니라 운동입니다. 멤버들이 계속 함께하는 이유.</p>
+        <p class="eyebrow">{c.why.eyebrow}</p>
+        <h2>{c.why.title}</h2>
+        <p class="intro">{c.why.intro}</p>
         <div class="grid">
-          {reasons.map((r) => (
+          {reasons.map((r: any) => (
             <div class="reason">
               <i class={`ti ${r.icon} icon`}></i>
               <h3>{r.title}</h3>
@@ -66,27 +59,27 @@ const reasons = [
       <div class="inner">
         <div class="signup-card">
           <div class="copy">
-            <p class="eyebrow light">시작하기</p>
-            <h2>당신의 캠퍼스를 알려주세요.</h2>
-            <p class="desc">이메일과 캠퍼스를 입력하시면 가까운 챕터와 연결해 드립니다 — 또는 새 챕터 시작을 도와드립니다.</p>
+            <p class="eyebrow light">{c.signup.eyebrow}</p>
+            <h2>{c.signup.title}</h2>
+            <p class="desc">{c.signup.desc}</p>
           </div>
           <form class="form" onsubmit="event.preventDefault();">
             <label>
-              <span>이메일</span>
-              <input type="email" placeholder="your@email.com" required />
+              <span>{c.signup.emailLabel}</span>
+              <input type="email" placeholder={c.signup.emailPlaceholder} required />
             </label>
             <label>
-              <span>캠퍼스 / 도시</span>
-              <input type="text" placeholder="예: 서울대학교" required />
+              <span>{c.signup.campusLabel}</span>
+              <input type="text" placeholder={c.signup.campusPlaceholder} required />
             </label>
-            <button type="submit" class="submit">연결 요청 <i class="ti ti-arrow-right"></i></button>
-            <p class="fine">제출하시면 ASEZ 챕터 코디네이터로부터 한 번의 후속 이메일을 받게 됩니다.</p>
+            <button type="submit" class="submit">{c.signup.submit} <i class="ti ti-arrow-right"></i></button>
+            <p class="fine">{c.signup.fine}</p>
           </form>
         </div>
       </div>
     </section>
 
-    <ComingSoon message="각 경로별 상세 가입 폼과 협력 문의 페이지는 곧 공개됩니다." />
+    <ComingSoon message={c.comingSoon} />
   </main>
   <Footer />
 </BaseLayout>

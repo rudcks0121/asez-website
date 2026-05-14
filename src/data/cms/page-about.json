@@ -1,0 +1,102 @@
+{
+  "en": {
+    "title": "About — ASEZ",
+    "description": "ASEZ is a global network of university student volunteers active in 175 countries, working through the S.A.V.E framework to leave a more livable Earth.",
+    "hero": {
+      "eyebrow": "About ASEZ",
+      "title": "University students, building a more livable Earth.",
+      "lead": "ASEZ — Save the Earth from A to Z — is a global network of Church of God university student volunteers active across 175 countries and 7,500 campuses."
+    },
+    "mission": {
+      "eyebrow": "Mission",
+      "title": "Leaving a more livable Earth for the next generation.",
+      "lead": "ASEZ believes that small actions, repeated by millions of young people, can rewrite the future. We organize university students worldwide to confront the most urgent environmental, social, and humanitarian challenges of our time — and to do so without waiting for permission."
+    },
+    "save": {
+      "eyebrow": "The S.A.V.E movement",
+      "title": "Four pillars. One movement.",
+      "intro": "All ASEZ activities fall under one of four pillars — together they form the S.A.V.E framework, the spine of everything we do."
+    },
+    "awards": {
+      "eyebrow": "Recognition",
+      "title": "Awards & honors.",
+      "intro": "Our work has been recognized by the United Nations, national governments, and international environmental bodies."
+    },
+    "comingSoon": "Our story (timeline) and full Partners directory are coming soon."
+  },
+  "ko": {
+    "title": "소개 — ASEZ",
+    "description": "ASEZ는 175개국에서 활동하는 대학생 봉사 단체로, S.A.V.E 프레임워크를 통해 다음 세대를 위한 더 살기 좋은 지구를 만들어 갑니다.",
+    "hero": {
+      "eyebrow": "ASEZ 소개",
+      "title": "대학생들이 만들어 가는 더 살기 좋은 지구.",
+      "lead": "ASEZ — Save the Earth from A to Z — 는 175개국 7,500개 캠퍼스에서 활동하는 하나님의교회 대학생 봉사 단체 글로벌 네트워크입니다."
+    },
+    "mission": {
+      "eyebrow": "미션",
+      "title": "다음 세대를 위한 더 살기 좋은 지구를 만들어 갑니다.",
+      "lead": "ASEZ는 수많은 청년들이 매일 반복하는 작은 행동이 미래를 바꿀 수 있다고 믿습니다. 우리는 전 세계 대학생들을 조직하여 우리 시대의 가장 시급한 환경, 사회, 인도주의적 과제에 맞섭니다 — 허락을 기다리지 않고."
+    },
+    "save": {
+      "eyebrow": "S.A.V.E 운동",
+      "title": "4가지 기둥. 하나의 운동.",
+      "intro": "ASEZ의 모든 활동은 4가지 기둥 중 하나에 속합니다 — 이것들이 모여 우리의 모든 활동의 뼈대인 S.A.V.E 프레임워크를 이룹니다."
+    },
+    "awards": {
+      "eyebrow": "수상",
+      "title": "수상 및 명예.",
+      "intro": "우리의 활동은 UN, 각국 정부, 국제 환경 기구로부터 인정받아 왔습니다."
+    },
+    "comingSoon": "우리의 이야기(연혁)와 전체 파트너 디렉토리는 곧 공개됩니다."
+  },
+  "savePillars": [
+    {
+      "letter": "S",
+      "bg": "var(--teal-100)",
+      "color": "var(--teal-900)",
+      "en": { "title": "Social service", "desc": "Volunteering with local communities — clean-ups, elderly care, school support." },
+      "ko": { "title": "지역사회 봉사", "desc": "지역사회와 함께하는 봉사 — 정화 활동, 어르신 돌봄, 학교 지원." }
+    },
+    {
+      "letter": "A",
+      "bg": "var(--brand-100)",
+      "color": "var(--brand-900)",
+      "en": { "title": "Awareness", "desc": "Forums, seminars, and campaigns that turn knowledge into action." },
+      "ko": { "title": "인식 개선", "desc": "지식을 행동으로 바꾸는 포럼, 세미나, 캠페인." }
+    },
+    {
+      "letter": "V",
+      "bg": "var(--amber-100)",
+      "color": "var(--amber-900)",
+      "en": { "title": "Victim relief", "desc": "Emergency response and long-term recovery in disaster-affected regions." },
+      "ko": { "title": "피해자 구호", "desc": "재해 지역의 긴급 대응과 장기 복구 활동." }
+    },
+    {
+      "letter": "E",
+      "bg": "var(--brand-400)",
+      "color": "#ffffff",
+      "en": { "title": "Environmental", "desc": "Climate action, plastic-free campaigns, tree planting, coastal protection." },
+      "ko": { "title": "환경 보호", "desc": "기후 행동, 플라스틱 프리 캠페인, 나무 심기, 해안 보호." }
+    }
+  ],
+  "awards": [
+    {
+      "year": "2024",
+      "image": "/images/award-unccd.png",
+      "en": { "title": "UNCCD Executive Secretary's Award", "body": "Recognized by the UN Convention to Combat Desertification for our tree-planting and land restoration work." },
+      "ko": { "title": "UNCCD 사무총장상", "body": "나무 심기와 토지 복원 활동을 인정받아 UN 사막화방지협약으로부터 받은 표창." }
+    },
+    {
+      "year": "2023",
+      "image": "/images/award-us-president.png",
+      "en": { "title": "U.S. President's Volunteer Service Award", "body": "Awarded to ASEZ chapters in the United States for sustained, exceptional volunteer service." },
+      "ko": { "title": "미국 대통령 봉사상", "body": "지속적이고 탁월한 봉사 활동을 인정받아 미국 ASEZ 챕터가 수상." }
+    },
+    {
+      "year": "2022",
+      "image": "/images/award-green.png",
+      "en": { "title": "Green Apple & Green World Awards", "body": "International environmental awards recognizing our climate and plastic-free campaigns." },
+      "ko": { "title": "Green Apple & Green World Awards", "body": "기후 및 플라스틱 프리 캠페인을 인정받은 국제 환경 부문 수상." }
+    }
+  ]
+}

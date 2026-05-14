@@ -1,0 +1,69 @@
+{
+  "en": {
+    "title": "Get involved — ASEZ",
+    "description": "Five ways to be part of ASEZ — as a student member, volunteer, partner organization, or event attendee.",
+    "hero": {
+      "eyebrow": "Take part",
+      "title": "Get involved.",
+      "lead": "There are many ways to join the movement — as a student, a volunteer, a partner organization, or a participant in our forums and field campaigns."
+    },
+    "paths": { "learnMore": "Learn more" },
+    "why": {
+      "eyebrow": "Why ASEZ",
+      "title": "What you get back when you join.",
+      "intro": "ASEZ isn't a membership card — it's a movement. Here's what members consistently say keeps them coming back."
+    },
+    "signup": {
+      "eyebrow": "Get started",
+      "title": "Tell us where you are.",
+      "desc": "Drop your email and your campus, and we'll connect you to the nearest chapter — or help you start a new one.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "your@email.com",
+      "campusLabel": "Campus / city",
+      "campusPlaceholder": "e.g. Seoul National University",
+      "submit": "Connect me",
+      "fine": "By submitting, you agree to receive a single follow-up email from an ASEZ chapter coordinator."
+    },
+    "comingSoon": "Detailed sign-up forms for each path and a partnership inquiry page are coming soon."
+  },
+  "ko": {
+    "title": "참여하기 — ASEZ",
+    "description": "ASEZ에 참여하는 5가지 방법 — 학생 회원, 자원봉사자, 협력 기관, 행사 참가자.",
+    "hero": {
+      "eyebrow": "함께하기",
+      "title": "참여하기.",
+      "lead": "이 운동에 함께하는 여러 방법이 있습니다 — 학생, 자원봉사자, 협력 기관, 또는 포럼과 현장 캠페인 참가자."
+    },
+    "paths": { "learnMore": "자세히 보기" },
+    "why": {
+      "eyebrow": "ASEZ인 이유",
+      "title": "함께할 때 얻는 것들.",
+      "intro": "ASEZ는 회원증이 아닌 — 운동입니다. 멤버들이 계속 돌아오는 이유."
+    },
+    "signup": {
+      "eyebrow": "시작하기",
+      "title": "어디 계신지 알려주세요.",
+      "desc": "이메일과 캠퍼스를 알려주시면 — 가장 가까운 챕터로 연결해 드리거나, 새 챕터 개설을 도와드립니다.",
+      "emailLabel": "이메일",
+      "emailPlaceholder": "your@email.com",
+      "campusLabel": "캠퍼스 / 도시",
+      "campusPlaceholder": "예: 서울대학교",
+      "submit": "연결해 주세요",
+      "fine": "제출하시면 ASEZ 챕터 코디네이터로부터 1회의 후속 이메일을 받게 됩니다."
+    },
+    "comingSoon": "각 경로의 상세 가입 양식과 협력 제안 페이지가 곧 공개됩니다."
+  },
+  "paths": [
+    { "icon": "ti-school",         "href": "/get-involved/join",          "en": { "title": "Join ASEZ",       "desc": "If you're a university student, find your campus chapter and become a member." },          "ko": { "title": "ASEZ 가입",     "desc": "대학생이라면 가까운 캠퍼스 챕터를 찾아 멤버가 되어보세요." } },
+    { "icon": "ti-flag",           "href": "/get-involved/start-chapter", "en": { "title": "Start a chapter", "desc": "No ASEZ chapter on your campus yet? We'll help you start one." },                              "ko": { "title": "챕터 만들기",   "desc": "캠퍼스에 ASEZ 챕터가 없다면 — 새로 만들 수 있게 도와드립니다." } },
+    { "icon": "ti-hand-stop",      "href": "/get-involved/volunteer",     "en": { "title": "Volunteer with us", "desc": "Open to community members of all ages. Join a local cleanup, forum, or campaign." },         "ko": { "title": "자원봉사 참여", "desc": "모든 연령대에 열려 있습니다. 지역 정화 활동, 포럼, 캠페인에 참여해 보세요." } },
+    { "icon": "ti-building-bank",  "href": "/get-involved/partner",       "en": { "title": "Partner with us", "desc": "For governments, universities, NGOs, and corporations seeking collaboration on SDGs." },        "ko": { "title": "협력 제안",     "desc": "SDG 협력을 모색하는 정부, 대학, NGO, 기업을 위한 협력 채널." } },
+    { "icon": "ti-calendar-event", "href": "/get-involved/events",        "en": { "title": "Upcoming events", "desc": "Forums, summits, and field campaigns happening this season." },                                  "ko": { "title": "예정된 행사",   "desc": "이번 시즌의 포럼, 서밋, 현장 캠페인 일정." } }
+  ],
+  "reasons": [
+    { "icon": "ti-world", "en": { "title": "Global impact",                 "desc": "Your work in one campus connects to coordinated action in 7,500 campuses across 175 countries." }, "ko": { "title": "글로벌 임팩트",            "desc": "한 캠퍼스의 활동이 175개국 7,500개 캠퍼스의 협력 활동으로 이어집니다." } },
+    { "icon": "ti-bolt",  "en": { "title": "Real action, not just awareness", "desc": "Tree planting, plastic cleanups, disaster relief, forums with policymakers — we build the future, not just talk about it." }, "ko": { "title": "말이 아닌 진짜 행동",       "desc": "나무 심기, 플라스틱 정화, 재해 구호, 정책 입안자와의 포럼 — 미래를 말이 아닌 실제로 만들어 갑니다." } },
+    { "icon": "ti-award", "en": { "title": "Recognized work",              "desc": "ASEZ has been honored by the UNCCD, U.S. presidency, and international environmental bodies." },         "ko": { "title": "인정받은 활동",            "desc": "ASEZ는 UNCCD, 미국 대통령상, 국제 환경 기구로부터 수상한 단체입니다." } },
+    { "icon": "ti-users", "en": { "title": "A community that lasts",       "desc": "Lifelong friendships, mentors, and a peer network that spans every continent." },                       "ko": { "title": "오래가는 공동체",          "desc": "평생의 우정, 멘토, 모든 대륙을 잇는 동료 네트워크." } }
+  ]
+}
