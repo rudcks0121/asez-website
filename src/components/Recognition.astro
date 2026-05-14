@@ -2,12 +2,16 @@
 const bigStats = [
   {
     num: "12+",
+    target: 12,
+    suffix: "+",
     label: "International awards",
     sub: "UNCCD, U.S. Presidency, Green Apple Awards, and more.",
     icon: "ti-award",
   },
   {
     num: "80+",
+    target: 80,
+    suffix: "+",
     label: "Partnerships & MOUs",
     sub: "UN agencies, governments, universities, and global NGOs.",
     icon: "ti-handshake",
@@ -52,7 +56,13 @@ const awards = [
       {bigStats.map((s) => (
         <div class="big">
           <i class={`ti ${s.icon} big-icon`}></i>
-          <div class="num">{s.num}</div>
+          <div
+            class="num"
+            data-count-target={s.target}
+            data-count-suffix={s.suffix}
+          >
+            {s.num}
+          </div>
           <div class="label">{s.label}</div>
           <p class="sub">{s.sub}</p>
         </div>

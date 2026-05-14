@@ -1,9 +1,18 @@
 ---
-const stats = [
-  { num: "175",   label: "Countries",         icon: "ti-world" },
-  { num: "7,500", label: "Campuses",          icon: "ti-school" },
-  { num: "2.1M+", label: "Volunteer hours",   icon: "ti-clock-hour-4" },
-  { num: "17",    label: "UN SDGs supported", icon: "ti-target-arrow" },
+interface Stat {
+  num: string;
+  label: string;
+  icon: string;
+  target: number;
+  suffix?: string;
+  decimals?: number;
+  format?: "comma";
+}
+const stats: Stat[] = [
+  { num: "175",   label: "Countries",         icon: "ti-world",         target: 175 },
+  { num: "7,500", label: "Campuses",          icon: "ti-school",        target: 7500, format: "comma" },
+  { num: "2.1M+", label: "Volunteer hours",   icon: "ti-clock-hour-4",  target: 2.1, suffix: "M+", decimals: 1 },
+  { num: "17",    label: "UN SDGs supported", icon: "ti-target-arrow",  target: 17 },
 ];
 ---
 
@@ -17,7 +26,15 @@ const stats = [
       {stats.map((s) => (
         <div class="stat">
           <i class={`ti ${s.icon} icon`}></i>
-          <div class="num">{s.num}</div>
+          <div
+            class="num"
+            data-count-target={s.target}
+            data-count-suffix={s.suffix}
+            data-count-decimals={s.decimals}
+            data-count-format={s.format}
+          >
+            {s.num}
+          </div>
           <div class="label">{s.label}</div>
         </div>
       ))}
