@@ -171,6 +171,13 @@ export const viewBox = `0 0 ${WIDTH} ${HEIGHT}`;
 export const mapWidth = WIDTH;
 export const mapHeight = HEIGHT;
 
+// bbox 계산에서 제외할 국가 — path가 본토 멀리까지 늘어나서 viewBox를 망치는 케이스.
+// 렌더는 정상적으로 됨 (overflow:hidden으로 viewBox 밖은 잘림).
+const bboxExclude: Record<string, Set<string>> = {
+  // France: French Guiana(남미)까지 path가 묶여 있어서 Europe bbox가 남미까지 늘어남.
+  europe: new Set(["France"]),
+};
+
 // 각 대륙 viewBox는 "주요 본토" 국가들의 bbox만 사용 — Asia 안에 시베리아 끝, Oceania
 // 안에 솔로몬 제도까지 포함되면 정작 핵심 대륙이 작아져서 안 보임.
 const viewBoxFocus: Record<string, Set<string> | null> = {
@@ -191,7 +198,7 @@ const viewBoxFocus: Record<string, Set<string> | null> = {
     "Italy", "Switzerland", "Austria", "Netherlands", "Belgium", "Luxembourg",
     "Denmark", "Norway", "Sweden", "Finland",
     "Poland", "Czechia", "Slovakia", "Hungary", "Romania", "Bulgaria",
-    "Serbia", "Croatia", "Bosnia and Herz.", "Slovenia",
+    "Greece", "Serbia", "Croatia", "Bosnia and Herz.", "Slovenia",
     "Albania", "Macedonia", "Montenegro", "Kosovo",
     "Ukraine", "Belarus", "Lithuania", "Latvia", "Estonia", "Moldova",
   ]),
@@ -206,6 +213,7 @@ for (const f of features) {
   if (!cont || cont === "antarctica") continue;
   const focus = viewBoxFocus[cont];
   if (focus && !focus.has(name)) continue;
+  if (bboxExclude[cont]?.has(name)) continue;
   const b = pathGen.bounds(f);
   const cur = continentBounds[cont];
   if (!cur) {
