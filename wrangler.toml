@@ -1,0 +1,15 @@
+# Cloudflare Workers + Static Assets 설정.
+#
+# 이 파일은 Cloudflare 빌드 시 자동 인식되어, dist/_worker.js를 Workers
+# entry로 사용하고 같은 dist 폴더를 정적 자산으로 서빙하도록 함.
+#
+# 환경 변수 (GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET)는 대시보드에서
+# 별도로 설정되어 있으며, Worker 코드에서 env.GITHUB_CLIENT_ID 등으로 접근.
+
+name = "asez-website"
+compatibility_date = "2025-01-01"
+main = "./dist/_worker.js"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
