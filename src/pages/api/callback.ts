@@ -1,4 +1,6 @@
 import type { APIRoute } from "astro";
+// @ts-ignore — module exists at runtime in Cloudflare Workers
+import { env } from "cloudflare:workers";
 
 /**
  * Decap CMS OAuth — 2단계: GitHub callback.
@@ -6,10 +8,11 @@ import type { APIRoute } from "astro";
  */
 export const prerender = false;
 
-interface Env {
+interface CfEnv {
   GITHUB_CLIENT_ID?: string;
   GITHUB_CLIENT_SECRET?: string;
 }
+const cfEnv = env as CfEnv;
 
 interface TokenResp {
   access_token?: string;
@@ -17,44 +20,43 @@ interface TokenResp {
   error_description?: string;
 }
 
-export const GET: APIRoute = async ({ request, locals, url }) => {
-  const env = (locals as any).runtime?.env as Env | undefined;
+export const GET: APIRoute = async ({ request, url }) => {
+  try {
+    const code = url.searchParams.get("code");
+    const state = url.searchParams.get("state");
 
-  const code = url.searchParams.get("code");
-  const state = url.searchParams.get("state");
+    if (!code) return htmlError("Missing authorization code.", 400);
 
-  if (!code) return htmlError("Missing authorization code.", 400);
+    const cookieState = getCookie(request.headers.get("Cookie") || "", "oauth_state");
+    if (!cookieState || cookieState !== state) {
+      return htmlError("OAuth state mismatch. Try logging in again.", 400);
+    }
 
-  const cookieState = getCookie(request.headers.get("Cookie") || "", "oauth_state");
-  if (!cookieState || cookieState !== state) {
-    return htmlError("OAuth state mismatch. Try logging in again.", 400);
-  }
+    const tokenResp = await fetch("https://github.com/login/oauth/access_token", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        client_id: cfEnv.GITHUB_CLIENT_ID,
+        client_secret: cfEnv.GITHUB_CLIENT_SECRET,
+        code,
+      }),
+    });
+    const tokenData = (await tokenResp.json()) as TokenResp;
 
-  const tokenResp = await fetch("https://github.com/login/oauth/access_token", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({
-      client_id: env?.GITHUB_CLIENT_ID,
-      client_secret: env?.GITHUB_CLIENT_SECRET,
-      code,
-    }),
-  });
-  const tokenData = (await tokenResp.json()) as TokenResp;
+    if (tokenData.error || !tokenData.access_token) {
+      return htmlError(
+        `GitHub error: ${tokenData.error_description || tokenData.error || "no token"}`,
+        400
+      );
+    }
 
-  if (tokenData.error || !tokenData.access_token) {
-    return htmlError(
-      `GitHub error: ${tokenData.error_description || tokenData.error || "no token"}`,
-      400
-    );
-  }
+    const payload = JSON.stringify({
+      token: tokenData.access_token,
+      provider: "github",
+    });
+    const successMessage = `authorization:github:success:${payload}`;
 
-  const payload = JSON.stringify({
-    token: tokenData.access_token,
-    provider: "github",
-  });
-  const successMessage = `authorization:github:success:${payload}`;
-
-  const html = `<!doctype html>
+    const html = `<!doctype html>
 <html lang="en">
 <head><meta charset="utf-8"><title>Authorizing…</title></head>
 <body>
@@ -77,12 +79,18 @@ export const GET: APIRoute = async ({ request, locals, url }) => {
 </body>
 </html>`;
 
-  return new Response(html, {
-    headers: {
-      "Content-Type": "text/html; charset=utf-8",
-      "Set-Cookie": "oauth_state=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0",
-    },
-  });
+    return new Response(html, {
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+        "Set-Cookie": "oauth_state=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0",
+      },
+    });
+  } catch (err: any) {
+    return new Response(
+      `callback error: ${err?.message || String(err)}\n${err?.stack || ""}`,
+      { status: 500, headers: { "Content-Type": "text/plain; charset=utf-8" } }
+    );
+  }
 };
 
 function getCookie(header: string, name: string): string | null {
