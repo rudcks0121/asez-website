@@ -87,21 +87,7 @@ const regions = [
             </div>
           </div>
           <div class="body">
-            <div class="body-head">
-              <h3>{r.name}</h3>
-              <span class="cont-badge" aria-hidden="true">
-                <svg
-                  class="cont-icon"
-                  viewBox={continentViewBox[r.slug]}
-                  preserveAspectRatio="xMidYMid meet"
-                  focusable="false"
-                >
-                  {(countriesByContinent[r.slug] ?? []).map((c) => (
-                    <path d={c.d} />
-                  ))}
-                </svg>
-              </span>
-            </div>
+            <h3>{r.name}</h3>
             <ul class="acts">
               {r.activities.map((a) => (
                 <li>
@@ -109,6 +95,18 @@ const regions = [
                 </li>
               ))}
             </ul>
+            <div class="cont-stamp" aria-hidden="true">
+              <svg
+                class="cont-icon"
+                viewBox={continentViewBox[r.slug]}
+                preserveAspectRatio="xMidYMid meet"
+                focusable="false"
+              >
+                {(countriesByContinent[r.slug] ?? []).map((c) => (
+                  <path d={c.d} />
+                ))}
+              </svg>
+            </div>
           </div>
         </a>
       ))}
@@ -175,55 +173,74 @@ const regions = [
   .cnt-lbl { font-size: 10px; color: var(--text-secondary); letter-spacing: 0.5px; text-transform: uppercase; }
 
   .body {
-    padding: 18px 18px 20px;
+    position: relative;
+    padding: 20px 20px 22px;
     flex: 1;
     display: flex;
     flex-direction: column;
   }
-  .body-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
   .body h3 {
     font-size: 17px;
-    margin: 0;
+    margin: 0 0 12px;
     letter-spacing: -0.2px;
-    flex: 1;
-    min-width: 0;
+    max-width: calc(100% - 84px);
   }
-  .cont-badge {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: var(--brand-50);
-    display: inline-flex;
+  .acts {
+    list-style: none;
+    margin: 0;
+    padding: 0 84px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .cont-stamp {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    padding: 10px;
+    background:
+      radial-gradient(circle at 30% 25%, rgba(255,255,255,0.9), rgba(255,255,255,0) 70%),
+      linear-gradient(135deg, var(--brand-50) 0%, var(--brand-100) 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      0 2px 8px rgba(32, 96, 173, 0.08);
+    display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    transition: background 0.25s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transition:
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.3s ease,
+      box-shadow 0.3s ease;
   }
   .cont-icon {
-    width: 28px;
-    height: 28px;
+    width: 100%;
+    height: 100%;
     display: block;
+    overflow: visible;
   }
   .cont-icon :global(path) {
     fill: var(--brand);
     stroke: white;
-    stroke-width: 0.3;
+    stroke-width: 0.5;
+    stroke-linejoin: round;
     transition: fill 0.25s ease;
   }
-  .region:hover .cont-badge {
-    background: var(--brand);
-    transform: rotate(-3deg) scale(1.06);
+  .region:hover .cont-stamp {
+    transform: rotate(-5deg) scale(1.08);
+    background:
+      radial-gradient(circle at 30% 25%, rgba(255,255,255,0.5), rgba(255,255,255,0) 70%),
+      linear-gradient(135deg, var(--brand) 0%, var(--brand-dark, #1a4d8c) 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.25),
+      0 8px 20px rgba(32, 96, 173, 0.25);
   }
   .region:hover .cont-icon :global(path) {
     fill: white;
+    stroke: rgba(255, 255, 255, 0.4);
   }
-  .acts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
   .acts li {
     font-size: 12px; color: var(--text-secondary); line-height: 1.4;
     display: flex; align-items: flex-start; gap: 4px;

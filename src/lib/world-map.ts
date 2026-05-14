@@ -171,12 +171,41 @@ export const viewBox = `0 0 ${WIDTH} ${HEIGHT}`;
 export const mapWidth = WIDTH;
 export const mapHeight = HEIGHT;
 
-// 각 대륙별 viewBox — 해당 대륙 country path들의 bounding box를 d3-geoPath.bounds()로 계산.
+// 각 대륙 viewBox는 "주요 본토" 국가들의 bbox만 사용 — Asia 안에 시베리아 끝, Oceania
+// 안에 솔로몬 제도까지 포함되면 정작 핵심 대륙이 작아져서 안 보임.
+const viewBoxFocus: Record<string, Set<string> | null> = {
+  asia: new Set([
+    "China", "Japan", "South Korea", "North Korea", "Mongolia",
+    "India", "Pakistan", "Bangladesh", "Nepal", "Bhutan", "Sri Lanka",
+    "Myanmar", "Thailand", "Vietnam", "Laos", "Cambodia",
+    "Malaysia", "Indonesia", "Philippines", "Brunei", "Timor-Leste", "Taiwan",
+  ]),
+  americas: new Set([
+    "Canada", "United States of America", "Mexico", "Guatemala", "Honduras",
+    "Nicaragua", "Costa Rica", "Panama", "El Salvador", "Belize",
+    "Brazil", "Argentina", "Chile", "Peru", "Colombia", "Venezuela",
+    "Ecuador", "Bolivia", "Paraguay", "Uruguay", "Guyana", "Suriname",
+  ]),
+  europe: new Set([
+    "United Kingdom", "Ireland", "France", "Germany", "Spain", "Portugal",
+    "Italy", "Switzerland", "Austria", "Netherlands", "Belgium", "Luxembourg",
+    "Denmark", "Norway", "Sweden", "Finland",
+    "Poland", "Czechia", "Slovakia", "Hungary", "Romania", "Bulgaria",
+    "Greece", "Serbia", "Croatia", "Bosnia and Herz.", "Slovenia",
+    "Albania", "Macedonia", "Montenegro", "Kosovo",
+    "Ukraine", "Belarus", "Lithuania", "Latvia", "Estonia", "Moldova",
+  ]),
+  africa: null, // 아프리카는 그대로 다 포함해도 깔끔
+  oceania: new Set(["Australia", "Papua New Guinea", "New Zealand"]),
+};
+
 const continentBounds: Record<string, [number, number, number, number]> = {};
 for (const f of features) {
   const name = f.properties?.name ?? "";
   const cont = continentByName[name];
   if (!cont || cont === "antarctica") continue;
+  const focus = viewBoxFocus[cont];
+  if (focus && !focus.has(name)) continue;
   const b = pathGen.bounds(f);
   const cur = continentBounds[cont];
   if (!cur) {
