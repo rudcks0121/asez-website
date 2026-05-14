@@ -82,3 +82,51 @@ collections:
           - { label: "Amber dark", value: "var(--amber-900)" }
       - { label: "Draft (not published)", name: "draft", widget: "boolean", default: false }
       - { label: "Body", name: "body", widget: "markdown" }
+
+  # ─────────────────────────────────────────────────────────
+  # REPORTS — 연간 보고서 / SDG / 리서치 / 정책 페이퍼
+  # 파일: src/content/reports/{slug}.md
+  # ─────────────────────────────────────────────────────────
+  - name: "reports"
+    label: "Reports"
+    label_singular: "Report"
+    description: "Annual reports, SDG progress, research briefs, and policy papers."
+    folder: "src/content/reports"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}} — {{date | date('YYYY-MM')}} · {{pages}}p"
+    sortable_fields: ["date", "title", "type"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Type"
+        name: "type"
+        widget: "select"
+        options:
+          - "Annual report"
+          - "SDG progress"
+          - "Research brief"
+          - "Policy paper"
+      - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Pages", name: "pages", widget: "number", value_type: "int", min: 1 }
+      - { label: "Excerpt", name: "excerpt", widget: "text", hint: "1-2 문장 요약" }
+      - { label: "PDF URL", name: "pdfUrl", widget: "string", default: "#", hint: "PDF 파일 링크 (없으면 #)" }
+      - label: "Pill background"
+        name: "pillBg"
+        widget: "select"
+        default: "var(--brand-50)"
+        options:
+          - { label: "Blue", value: "var(--brand-50)" }
+          - { label: "Teal", value: "var(--teal-50)" }
+          - { label: "Amber", value: "var(--amber-50)" }
+      - label: "Pill text color"
+        name: "pillColor"
+        widget: "select"
+        default: "var(--brand-900)"
+        options:
+          - { label: "Blue dark", value: "var(--brand-900)" }
+          - { label: "Teal dark", value: "var(--teal-900)" }
+          - { label: "Amber dark", value: "var(--amber-900)" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body (optional)", name: "body", widget: "markdown", required: false }

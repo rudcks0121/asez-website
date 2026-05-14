@@ -1,4 +1,5 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import PageHero from "../components/PageHero.astro";
@@ -28,44 +29,12 @@ const categories = [
   },
 ];
 
-const latestReports = [
-  {
-    type: "Annual report",
-    title: "ASEZ 2025 Annual Report",
-    desc: "A full account of programs, partnerships, and impact metrics from 2025.",
-    date: "March 2026",
-    pages: 84,
-    pillBg: "var(--brand-50)",
-    pillColor: "var(--brand-900)",
-  },
-  {
-    type: "SDG progress",
-    title: "Contribution to UN SDG 13: Climate Action",
-    desc: "Field-by-field summary of our Blue Carbon, tree-planting, and climate education work.",
-    date: "January 2026",
-    pages: 36,
-    pillBg: "var(--teal-50)",
-    pillColor: "var(--teal-900)",
-  },
-  {
-    type: "Policy paper",
-    title: "Recommendations for the UN INC-5.2 Plastic Treaty",
-    desc: "Youth-led policy proposals submitted to the Intergovernmental Negotiating Committee.",
-    date: "November 2025",
-    pages: 18,
-    pillBg: "var(--amber-50)",
-    pillColor: "var(--amber-900)",
-  },
-  {
-    type: "Research brief",
-    title: "Digital Human Rights for University Students",
-    desc: "Survey research across 12 countries on privacy, mental health, and digital access.",
-    date: "September 2025",
-    pages: 24,
-    pillBg: "var(--brand-50)",
-    pillColor: "var(--brand-900)",
-  },
-];
+// 컬렉션에서 보고서 로드, 날짜 최신순
+const all = await getCollection("reports", ({ data }) => !data.draft);
+const reports = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long" });
 ---
 
 <BaseLayout
@@ -94,7 +63,7 @@ const latestReports = [
       </div>
     </section>
 
-    <!-- Latest releases -->
+    <!-- Latest releases (컬렉션 기반) -->
     <section class="latest reveal">
       <div class="inner">
         <div class="head">
@@ -107,20 +76,26 @@ const latestReports = [
           </a>
         </div>
         <div class="list">
-          {latestReports.map((r) => (
+          {reports.map((r) => (
             <article class="report">
               <div class="report-main">
-                <span class="pill" style={`background: ${r.pillBg}; color: ${r.pillColor};`}>
-                  {r.type}
+                <span class="pill" style={`background: ${r.data.pillBg}; color: ${r.data.pillColor};`}>
+                  {r.data.type}
                 </span>
-                <h3>{r.title}</h3>
-                <p>{r.desc}</p>
+                <h3>{r.data.title}</h3>
+                <p>{r.data.excerpt}</p>
                 <div class="meta">
-                  <span><i class="ti ti-calendar"></i> {r.date}</span>
-                  <span><i class="ti ti-file"></i> {r.pages} pages</span>
+                  <span><i class="ti ti-calendar"></i> {fmt(r.data.date)}</span>
+                  <span><i class="ti ti-file"></i> {r.data.pages} pages</span>
                 </div>
               </div>
-              <a class="download" href="#" aria-label={`Download ${r.title}`}>
+              <a
+                class="download"
+                href={r.data.pdfUrl}
+                aria-label={`Download ${r.data.title}`}
+                target={r.data.pdfUrl !== "#" ? "_blank" : undefined}
+                rel={r.data.pdfUrl !== "#" ? "noopener" : undefined}
+              >
                 <i class="ti ti-download"></i>
                 <span>PDF</span>
               </a>
@@ -131,14 +106,13 @@ const latestReports = [
     </section>
 
     <ComingSoon
-      message="Downloadable PDF reports, a research database, and an annual archive are coming soon."
+      message="Actual PDF files, a research database, and an annual archive are coming soon."
     />
   </main>
   <Footer />
 </BaseLayout>
 
 <style>
-  /* === Categories === */
   .categories {
     padding: var(--section-pad-y) var(--section-pad-x);
     background: var(--bg-primary);
@@ -165,7 +139,9 @@ const latestReports = [
     color: var(--brand);
     margin-bottom: 14px;
     display: inline-block;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+  .cat:hover .icon { transform: scale(1.15) rotate(-6deg); }
   .cat h3 {
     font-size: var(--fs-h3);
     margin: 0 0 8px;
@@ -178,7 +154,6 @@ const latestReports = [
     margin: 0;
   }
 
-  /* === Latest releases === */
   .latest {
     padding: var(--section-pad-y) var(--section-pad-x);
     background: var(--bg-secondary);
@@ -219,9 +194,7 @@ const latestReports = [
     background: var(--bg-primary);
     transition: border-color 0.2s, transform 0.2s;
   }
-  .report:hover {
-    border-color: var(--border-strong);
-  }
+  .report:hover { border-color: var(--border-strong); }
   .pill {
     display: inline-block;
     font-size: var(--fs-caption);
@@ -272,7 +245,6 @@ const latestReports = [
   }
   .download i { font-size: 16px; }
 
-  /* === Responsive === */
   @media (max-width: 768px) {
     .categories { padding: 56px 20px; }
     .categories .grid { grid-template-columns: 1fr; }
