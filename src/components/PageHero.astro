@@ -1,34 +1,186 @@
 ---
+import { useTranslations, getLangFromUrl, pathLocalized } from "../i18n/utils";
+
 /**
  * 내부 페이지 공통 헤더.
- * 홈의 Hero(full-bleed 이미지)와 달리 가볍고 차분한 톤.
+ * - 그라데이션 배경 + 우측 상단 데코 blob (subtle)
+ * - 자동 breadcrumb (URL segment 기반, 한/영 자동)
+ * - optional 우측 큰 아이콘 (페이지 정체성)
  */
 interface Props {
   eyebrow?: string;
   title: string;
   lead?: string;
+  icon?: string;        // Tabler icon class — 우측 데코 아이콘
+  showCrumbs?: boolean; // 기본 true, 동적 슬러그 페이지는 false 가능
 }
-const { eyebrow, title, lead } = Astro.props;
+const { eyebrow, title, lead, icon, showCrumbs = true } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+
+// === 자동 breadcrumb ===
+const segments = Astro.url.pathname.split("/").filter(Boolean);
+// /ko prefix는 표시에서 빼고, 항상 'Home'으로 시작
+const visible = lang === "ko" ? segments.slice(1) : segments;
+
+const labels: Record<string, string> = lang === "ko"
+  ? {
+      about: "소개",
+      "what-we-do": "활동",
+      "where-we-work": "활동 지역",
+      stories: "소식",
+      reports: "보고서",
+      "get-involved": "참여하기",
+      contact: "문의",
+      events: "행사",
+      join: "가입",
+      "start-chapter": "챕터 만들기",
+      volunteer: "자원봉사",
+      partner: "협력",
+    }
+  : {
+      about: "About",
+      "what-we-do": "What we do",
+      "where-we-work": "Where we work",
+      stories: "Stories",
+      reports: "Reports",
+      "get-involved": "Get involved",
+      contact: "Contact",
+      events: "Events",
+      join: "Join ASEZ",
+      "start-chapter": "Start a chapter",
+      volunteer: "Volunteer",
+      partner: "Partner",
+    };
+
+const homeLabel = lang === "ko" ? "홈" : "Home";
+
+// breadcrumb 항목 — 마지막은 현재 페이지(no link), 나머지는 link
+const crumbs = visible.map((seg, i) => {
+  const isLast = i === visible.length - 1;
+  const path = "/" + visible.slice(0, i + 1).join("/");
+  return {
+    label: labels[seg] ?? decodeURIComponent(seg).replace(/-/g, " "),
+    href: isLast ? null : pathLocalized(path, lang),
+  };
+});
 ---
 
 <section class="page-hero">
+  <div class="bg-decor" aria-hidden="true"></div>
   <div class="inner">
-    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-    <h1>{title}</h1>
-    {lead && <p class="lead">{lead}</p>}
+    {showCrumbs && crumbs.length > 0 && (
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li>
+            <a href={pathLocalized("/", lang)}>
+              <i class="ti ti-home"></i>
+              <span>{homeLabel}</span>
+            </a>
+          </li>
+          {crumbs.map((c) => (
+            <li>
+              <i class="ti ti-chevron-right sep" aria-hidden="true"></i>
+              {c.href ? <a href={c.href}>{c.label}</a> : <span class="current">{c.label}</span>}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+
+    <div class="content">
+      <div class="text">
+        {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+        <h1>{title}</h1>
+        {lead && <p class="lead">{lead}</p>}
+      </div>
+      {icon && (
+        <div class="icon-wrap" aria-hidden="true">
+          <i class={`ti ${icon}`}></i>
+        </div>
+      )}
+    </div>
   </div>
 </section>
 
 <style>
   .page-hero {
-    background: var(--bg-secondary);
+    position: relative;
+    background: linear-gradient(135deg, var(--brand-50) 0%, var(--bg-secondary) 60%);
     border-bottom: 0.5px solid var(--border);
-    padding: 80px var(--section-pad-x) 72px;
+    padding: 48px var(--section-pad-x) 72px;
+    overflow: hidden;
+  }
+  .bg-decor {
+    position: absolute;
+    top: -120px;
+    right: -120px;
+    width: 460px;
+    height: 460px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--brand-100) 0%, transparent 60%);
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
   }
   .inner {
     max-width: var(--max-width);
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
   }
+
+  /* === Breadcrumb === */
+  .breadcrumb { margin-bottom: 32px; }
+  .breadcrumb ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .breadcrumb li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: var(--fs-small);
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .breadcrumb a:hover {
+    color: var(--brand);
+    background: rgba(255, 255, 255, 0.6);
+  }
+  .breadcrumb a i { font-size: 14px; }
+  .breadcrumb .current {
+    color: var(--text-primary);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    padding: 4px 8px;
+  }
+  .breadcrumb .sep {
+    color: var(--text-tertiary);
+    font-size: 12px;
+  }
+
+  /* === Content === */
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .text { flex: 1; min-width: 0; }
   h1 {
     font-size: var(--fs-h1);
     font-weight: 500;
@@ -44,9 +196,32 @@ const { eyebrow, title, lead } = Astro.props;
     max-width: 680px;
   }
 
+  /* === Decorative icon (optional) === */
+  .icon-wrap {
+    flex-shrink: 0;
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 32px rgba(4, 44, 83, 0.08);
+    border: 0.5px solid var(--border);
+  }
+  .icon-wrap i {
+    font-size: 52px;
+    color: var(--brand);
+  }
+
   @media (max-width: 768px) {
-    .page-hero { padding: 56px 20px 48px; }
+    .page-hero { padding: 32px 20px 56px; }
+    .bg-decor { width: 320px; height: 320px; top: -100px; right: -100px; }
     h1 { font-size: 28px; letter-spacing: -0.5px; }
     .lead { font-size: 16px; }
+    .content { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .icon-wrap { width: 64px; height: 64px; order: -1; }
+    .icon-wrap i { font-size: 32px; }
+    .breadcrumb { margin-bottom: 24px; }
   }
 </style>
