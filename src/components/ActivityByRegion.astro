@@ -87,7 +87,21 @@ const regions = [
             </div>
           </div>
           <div class="body">
-            <h3>{r.name}</h3>
+            <div class="body-head">
+              <h3>{r.name}</h3>
+              <div class="cont-stamp" aria-hidden="true">
+                <svg
+                  class="cont-icon"
+                  viewBox={continentViewBox[r.slug]}
+                  preserveAspectRatio="xMidYMid meet"
+                  focusable="false"
+                >
+                  {(countriesByContinent[r.slug] ?? []).map((c) => (
+                    <path d={c.d} />
+                  ))}
+                </svg>
+              </div>
+            </div>
             <ul class="acts">
               {r.activities.map((a) => (
                 <li>
@@ -95,18 +109,6 @@ const regions = [
                 </li>
               ))}
             </ul>
-            <div class="cont-stamp" aria-hidden="true">
-              <svg
-                class="cont-icon"
-                viewBox={continentViewBox[r.slug]}
-                preserveAspectRatio="xMidYMid meet"
-                focusable="false"
-              >
-                {(countriesByContinent[r.slug] ?? []).map((c) => (
-                  <path d={c.d} />
-                ))}
-              </svg>
-            </div>
           </div>
         </a>
       ))}
@@ -173,34 +175,39 @@ const regions = [
   .cnt-lbl { font-size: 10px; color: var(--text-secondary); letter-spacing: 0.5px; text-transform: uppercase; }
 
   .body {
-    position: relative;
-    padding: 20px 20px 22px;
+    padding: 18px 18px 20px;
     flex: 1;
     display: flex;
     flex-direction: column;
   }
+  .body-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
   .body h3 {
     font-size: 17px;
-    margin: 0 0 12px;
+    margin: 0;
     letter-spacing: -0.2px;
-    max-width: calc(100% - 84px);
+    flex: 1;
+    min-width: 0;
   }
   .acts {
     list-style: none;
     margin: 0;
-    padding: 0 84px 0 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     gap: 7px;
   }
   .cont-stamp {
-    position: absolute;
-    right: 16px;
-    bottom: 16px;
-    width: 72px;
-    height: 72px;
-    border-radius: 18px;
-    padding: 10px;
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    padding: 7px;
+    flex-shrink: 0;
     background:
       radial-gradient(circle at 30% 25%, rgba(255,255,255,0.9), rgba(255,255,255,0) 70%),
       linear-gradient(135deg, var(--brand-50) 0%, var(--brand-100) 100%);
