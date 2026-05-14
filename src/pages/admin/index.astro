@@ -1,0 +1,23 @@
+---
+// Decap CMS bootstrap.
+// config.yml은 /public/admin/config.yml에 있어 /admin/config.yml로 fetch됨.
+// is:inline로 Astro 빌드 처리 없이 그대로 페이지에 삽입.
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <!-- config.yml 위치 명시: trailing slash 유무와 무관하게 항상 같은 경로 fetch -->
+    <link rel="cms-config-url" type="text/yaml" href="/admin/config.yml" />
+    <title>ASEZ Content Manager</title>
+  </head>
+  <body>
+    <script
+      is:inline
+      src="https://unpkg.com/decap-cms@^3.4.0/dist/decap-cms.js"
+    ></script>
+  </body>
+</html>
