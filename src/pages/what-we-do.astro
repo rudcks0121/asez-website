@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import PageHero from "../components/PageHero.astro";
+import Footer from "../components/Footer.astro";
+import IssueGrid from "../components/IssueGrid.astro";
+import ComingSoon from "../components/ComingSoon.astro";
+---
+
+<BaseLayout
+  title="What we do — ASEZ"
+  description="ASEZ tackles climate action, plastic pollution, crime prevention, digital human rights, disaster relief, and community service."
+>
+  <Header />
+  <PageHero
+    eyebrow="Our work"
+    title="Issues we tackle, every day."
+    lead="ASEZ runs six core programs across 175 countries — addressing the environmental, social, and humanitarian challenges that shape the future of our generation."
+  />
+  <main>
+    <IssueGrid />
+    <ComingSoon
+      message="Detail pages for each program — campaigns, field reports, partner organizations, and ways to participate — are coming soon."
+    />
+  </main>
+  <Footer />
+</BaseLayout>

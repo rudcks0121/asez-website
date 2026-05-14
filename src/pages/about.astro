@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import PageHero from "../components/PageHero.astro";
+import Footer from "../components/Footer.astro";
+import Stats from "../components/Stats.astro";
+import ComingSoon from "../components/ComingSoon.astro";
+---
+
+<BaseLayout
+  title="About — ASEZ"
+  description="ASEZ is a global network of university student volunteers working to leave a more livable Earth for the next generation."
+>
+  <Header />
+  <PageHero
+    eyebrow="About ASEZ"
+    title="University students, building a more livable Earth."
+    lead="ASEZ — Save the Earth from A to Z — is a global network of Church of God university student volunteers active across 175 countries and 7,500 campuses. We respond to climate, plastic, crime, disaster, and digital-rights challenges through the S.A.V.E framework."
+  />
+  <main>
+    <Stats />
+    <ComingSoon
+      message="Detailed sections — Who we are · Our story · The S.A.V.E movement · Awards & recognition · Partners — are coming soon."
+    />
+  </main>
+  <Footer />
+</BaseLayout>

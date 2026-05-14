@@ -1,0 +1,52 @@
+---
+/**
+ * 내부 페이지 공통 헤더.
+ * 홈의 Hero(full-bleed 이미지)와 달리 가볍고 차분한 톤.
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+}
+const { eyebrow, title, lead } = Astro.props;
+---
+
+<section class="page-hero">
+  <div class="inner">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    background: var(--bg-secondary);
+    border-bottom: 0.5px solid var(--border);
+    padding: 80px var(--section-pad-x) 72px;
+  }
+  .inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: var(--fs-h1);
+    font-weight: 500;
+    line-height: var(--lh-tight);
+    letter-spacing: -0.8px;
+    margin: 0 0 18px;
+    max-width: 820px;
+  }
+  .lead {
+    font-size: 18px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    max-width: 680px;
+  }
+
+  @media (max-width: 768px) {
+    .page-hero { padding: 56px 20px 48px; }
+    h1 { font-size: 28px; letter-spacing: -0.5px; }
+    .lead { font-size: 16px; }
+  }
+</style>

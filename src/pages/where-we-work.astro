@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import PageHero from "../components/PageHero.astro";
+import Footer from "../components/Footer.astro";
+import ComingSoon from "../components/ComingSoon.astro";
+
+const regions = [
+  { name: "Asia", countries: 48 },
+  { name: "Americas", countries: 35 },
+  { name: "Europe", countries: 44 },
+  { name: "Africa", countries: 38 },
+  { name: "Oceania", countries: 10 },
+];
+---
+
+<BaseLayout
+  title="Where we work — ASEZ"
+  description="ASEZ operates on every continent. Explore our regional presence and find a campus chapter near you."
+>
+  <Header />
+  <PageHero
+    eyebrow="Global presence"
+    title="175 countries. 7,500 campuses. One movement."
+    lead="ASEZ chapters operate on every continent. Find a chapter near you, or start one."
+  />
+  <main>
+    <section class="regions reveal">
+      <div class="inner">
+        <div class="grid">
+          {regions.map((r) => (
+            <div class="region">
+              <div class="num">{r.countries}</div>
+              <div class="label">{r.name}</div>
+              <div class="sub">countries</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+    <ComingSoon
+      message="Interactive map, regional offices, and campus chapter directory are coming soon."
+    />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .regions {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-primary);
+  }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 24px;
+  }
+  .region {
+    border-top: 0.5px solid var(--border-strong);
+    padding-top: 22px;
+  }
+  .num {
+    font-size: 44px;
+    font-weight: 500;
+    color: var(--brand);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .label {
+    font-size: 17px;
+    font-weight: 500;
+    margin-top: 14px;
+  }
+  .sub {
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  }
+  @media (max-width: 560px) {
+    .regions { padding: 48px 20px; }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .num { font-size: 36px; }
+  }
+</style>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import PageHero from "../components/PageHero.astro";
+import Footer from "../components/Footer.astro";
+import StoryGrid from "../components/StoryGrid.astro";
+import ComingSoon from "../components/ComingSoon.astro";
+---
+
+<BaseLayout
+  title="Stories — ASEZ"
+  description="Field stories, press releases, and updates from ASEZ chapters around the world."
+>
+  <Header />
+  <PageHero
+    eyebrow="Stories"
+    title="Voices from the field."
+    lead="Updates, field reports, and press releases from ASEZ chapters around the world."
+  />
+  <main>
+    <StoryGrid />
+    <ComingSoon
+      message="A full searchable archive with filters by region, program, and year is coming soon."
+    />
+  </main>
+  <Footer />
+</BaseLayout>
