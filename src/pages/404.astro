@@ -1,0 +1,135 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { useTranslations, getLangFromUrl, pathLocalized } from "../i18n/utils";
+
+const t = useTranslations(Astro.url);
+const lang = getLangFromUrl(Astro.url);
+const p = (path: string) => pathLocalized(path, lang);
+
+// 한국어/영문 자동
+const isKo = lang === "ko";
+
+const copy = isKo
+  ? {
+      title: "이 페이지를 찾을 수 없습니다.",
+      lead: "주소가 잘못됐거나, 페이지가 이동되었거나, 아직 준비되지 않은 페이지일 수 있어요.",
+      shortcuts: "이런 페이지를 찾고 계셨나요?",
+      home: "홈으로 돌아가기",
+      stories: "최신 소식 보기",
+      contact: "문의하기",
+    }
+  : {
+      title: "We can't find that page.",
+      lead: "The URL might be wrong, the page might have moved, or it might not be published yet.",
+      shortcuts: "Maybe you were looking for…",
+      home: "Back to home",
+      stories: "Latest stories",
+      contact: "Contact us",
+    };
+
+const shortcuts = [
+  { icon: "ti-home", label: copy.home, href: p("/") },
+  { icon: "ti-news", label: copy.stories, href: p("/stories") },
+  { icon: "ti-mail", label: copy.contact, href: p("/contact") },
+];
+---
+
+<BaseLayout
+  title={isKo ? "404 — ASEZ" : "404 — Page not found — ASEZ"}
+  description={copy.lead}
+>
+  <Header />
+  <main class="not-found">
+    <div class="inner">
+      <div class="code">404</div>
+      <h1>{copy.title}</h1>
+      <p class="lead">{copy.lead}</p>
+      <p class="eyebrow shortcut-label">{copy.shortcuts}</p>
+      <div class="shortcuts">
+        {shortcuts.map((s) => (
+          <a class="shortcut" href={s.href}>
+            <i class={`ti ${s.icon}`}></i>
+            <span>{s.label}</span>
+            <i class="ti ti-arrow-right tail"></i>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding: 96px var(--section-pad-x);
+    background: var(--bg-primary);
+    min-height: 60vh;
+  }
+  .inner {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .code {
+    font-size: 96px;
+    font-weight: 800;
+    color: var(--brand);
+    line-height: 1;
+    letter-spacing: -4px;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: 32px;
+    line-height: 1.2;
+    letter-spacing: -0.6px;
+    margin: 0 0 16px;
+  }
+  .lead {
+    font-size: 17px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0 0 40px;
+  }
+  .shortcut-label {
+    margin-bottom: 18px;
+  }
+  .shortcuts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+  .shortcut {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    text-align: left;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+  .shortcut:hover {
+    border-color: var(--brand);
+    background: var(--bg-primary);
+    transform: translateY(-1px);
+  }
+  .shortcut i { color: var(--brand); font-size: 18px; }
+  .shortcut span { flex: 1; }
+  .shortcut .tail { font-size: 14px; opacity: 0.6; transition: transform 0.2s; }
+  .shortcut:hover .tail { transform: translateX(3px); opacity: 1; }
+
+  @media (max-width: 600px) {
+    .not-found { padding: 64px 20px; }
+    .code { font-size: 72px; }
+    h1 { font-size: 26px; }
+  }
+</style>
