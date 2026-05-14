@@ -5,9 +5,7 @@ import Header from "../components/Header.astro";
 import PageHero from "../components/PageHero.astro";
 import Footer from "../components/Footer.astro";
 import StoryCard from "../components/StoryCard.astro";
-import ComingSoon from "../components/ComingSoon.astro";
 
-// 컬렉션에서 공개 스토리만 불러오고 날짜순 정렬
 const allStories = await getCollection("stories", ({ data }) => !data.draft);
 const stories = allStories.sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -16,9 +14,9 @@ const stories = allStories.sort(
 const fmt = (d: Date) =>
   d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 
-// 카테고리 동적 추출 (중복 제거)
-const cats = Array.from(new Set(stories.map((s) => s.data.category)));
-const filters = [{ label: "All stories", active: true }, ...cats.map((c) => ({ label: c, active: false }))];
+// 카테고리 동적 추출, 알파벳 정렬
+const cats = Array.from(new Set(stories.map((s) => s.data.category))).sort();
+const filters = [{ label: "All stories", value: "all" }, ...cats.map((c) => ({ label: c, value: c }))];
 ---
 
 <BaseLayout
@@ -34,39 +32,75 @@ const filters = [{ label: "All stories", active: true }, ...cats.map((c) => ({ l
   <main>
     <section class="stories-section reveal">
       <div class="inner">
-        <div class="filters" role="tablist" aria-label="Story categories">
-          {filters.map((f) => (
+        <div class="filters" role="tablist" aria-label="Story categories" data-filters>
+          {filters.map((f, i) => (
             <button
               type="button"
-              class:list={["filter", f.active && "active"]}
+              class:list={["filter", i === 0 && "active"]}
               role="tab"
-              aria-selected={f.active ? "true" : "false"}
+              aria-selected={i === 0 ? "true" : "false"}
+              data-filter={f.value}
             >
               {f.label}
             </button>
           ))}
         </div>
-        <div class="grid">
+        <div class="grid" data-grid>
           {stories.map((s) => (
-            <StoryCard
-              category={s.data.category}
-              title={s.data.title}
-              date={fmt(s.data.date)}
-              imgUrl={s.data.image}
-              pillBg={s.data.pillBg}
-              pillColor={s.data.pillColor}
-              href={`/stories/${s.id}`}
-            />
+            <div class="grid-item" data-category={s.data.category}>
+              <StoryCard
+                category={s.data.category}
+                title={s.data.title}
+                date={fmt(s.data.date)}
+                imgUrl={s.data.image}
+                pillBg={s.data.pillBg}
+                pillColor={s.data.pillColor}
+                href={`/stories/${s.id}`}
+              />
+            </div>
           ))}
+        </div>
+        <div class="empty" data-empty hidden>
+          <i class="ti ti-mood-search"></i>
+          <p>No stories in this category yet.</p>
         </div>
       </div>
     </section>
-    <ComingSoon
-      message="Working filters, full-text search, and pagination are coming soon."
-    />
   </main>
   <Footer />
 </BaseLayout>
+
+<script>
+  /* 카테고리 필터 — chip 클릭 시 즉시 카드 보임/숨김.
+     CSS transition으로 부드럽게 fade. */
+  const root = document.querySelector<HTMLElement>("[data-filters]");
+  const grid = document.querySelector<HTMLElement>("[data-grid]");
+  const empty = document.querySelector<HTMLElement>("[data-empty]");
+  if (root && grid && empty) {
+    const buttons = root.querySelectorAll<HTMLButtonElement>(".filter");
+    const items = grid.querySelectorAll<HTMLElement>(".grid-item");
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const value = btn.dataset.filter || "all";
+        // 활성 chip 상태
+        buttons.forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle("active", active);
+          b.setAttribute("aria-selected", active ? "true" : "false");
+        });
+        // 카드 보임/숨김
+        let visible = 0;
+        items.forEach((item) => {
+          const show = value === "all" || item.dataset.category === value;
+          item.classList.toggle("hidden", !show);
+          if (show) visible += 1;
+        });
+        empty.hidden = visible > 0;
+      });
+    });
+  }
+</script>
 
 <style>
   .stories-section {
@@ -74,6 +108,7 @@ const filters = [{ label: "All stories", active: true }, ...cats.map((c) => ({ l
     background: var(--bg-primary);
   }
   .inner { max-width: var(--max-width); margin: 0 auto; }
+
   .filters {
     display: flex;
     gap: 8px;
@@ -92,22 +127,39 @@ const filters = [{ label: "All stories", active: true }, ...cats.map((c) => ({ l
     font-weight: 500;
     cursor: pointer;
     font-family: inherit;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    transition: background 0.18s, color 0.18s, border-color 0.18s, transform 0.15s;
   }
   .filter:hover {
     background: var(--bg-secondary);
     color: var(--text-primary);
   }
+  .filter:active { transform: scale(0.96); }
   .filter.active {
     background: var(--brand);
     color: white;
     border-color: var(--brand);
   }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
   }
+  .grid-item {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .grid-item.hidden {
+    display: none;
+  }
+
+  .empty {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--text-tertiary);
+  }
+  .empty i { font-size: 44px; margin-bottom: 12px; display: inline-block; }
+  .empty p { font-size: var(--fs-body); margin: 0; }
+
   @media (max-width: 900px) {
     .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
