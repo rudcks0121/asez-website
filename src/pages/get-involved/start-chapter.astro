@@ -5,40 +5,24 @@ import PageHero from "../../components/PageHero.astro";
 import Footer from "../../components/Footer.astro";
 import ComingSoon from "../../components/ComingSoon.astro";
 import CtaBanner from "../../components/CtaBanner.astro";
+import page from "../../data/cms/page-start-chapter.json";
 
-const steps = [
-  { num: "1", title: "Gather 3–5 founding students", desc: "ASEZ chapters work best with a small founding team. Reach out to friends across departments who share your values." },
-  { num: "2", title: "Submit a new-chapter application", desc: "Tell us your campus, founding members, and the issues you most want to tackle. We'll review within 7 days." },
-  { num: "3", title: "Get matched with a regional mentor", desc: "An experienced chapter coordinator from your region guides the first 90 days — campus approval, first events, recruitment." },
-  { num: "4", title: "Launch your first action", desc: "Most new chapters run a small tree-planting, cleanup, or forum within the first quarter. The playbook is ready when you are." },
-];
-
-const support = [
-  { icon: "ti-book", title: "Founder's handbook", desc: "Step-by-step launch playbook from chapters who've done it." },
-  { icon: "ti-users", title: "Peer network", desc: "Direct connection to nearby chapters for advice and joint events." },
-  { icon: "ti-presentation", title: "Training materials", desc: "Workshop templates, campaign kits, presentation decks." },
-  { icon: "ti-shield-check", title: "Brand assets", desc: "Logos, fonts, photography library — ready to use." },
-];
+const lang = "en" as const;
+const c = page.en;
+const steps = page.steps.map((s: any) => ({ ...s, ...(s[lang] ?? s.en) }));
+const support = page.support.map((b: any) => ({ ...b, ...(b[lang] ?? b.en) }));
 ---
 
-<BaseLayout
-  title="Start a chapter — ASEZ"
-  description="No ASEZ chapter on your campus yet? We'll help you start one."
->
+<BaseLayout title={c.title} description={c.description}>
   <Header />
-  <PageHero
-    eyebrow="Take part"
-    icon="ti-flag"
-    title="Start an ASEZ chapter."
-    lead="No chapter on your campus yet? We'll help. ASEZ supports new chapter founders with playbooks, regional mentorship, and a global peer network."
-  />
+  <PageHero eyebrow={c.hero.eyebrow} icon="ti-flag" title={c.hero.title} lead={c.hero.lead} />
   <main>
     <section class="steps reveal">
       <div class="inner">
-        <p class="eyebrow">The process</p>
-        <h2>Four steps to your launch day.</h2>
+        <p class="eyebrow">{c.steps.eyebrow}</p>
+        <h2>{c.steps.title}</h2>
         <div class="grid">
-          {steps.map((s) => (
+          {steps.map((s: any) => (
             <div class="step">
               <div class="num">{s.num}</div>
               <h3>{s.title}</h3>
@@ -51,10 +35,10 @@ const support = [
 
     <section class="support reveal">
       <div class="inner">
-        <p class="eyebrow">What we provide</p>
-        <h2>You won't start from zero.</h2>
+        <p class="eyebrow">{c.support.eyebrow}</p>
+        <h2>{c.support.title}</h2>
         <div class="grid">
-          {support.map((b) => (
+          {support.map((b: any) => (
             <div class="card">
               <i class={`ti ${b.icon}`}></i>
               <h3>{b.title}</h3>
@@ -66,7 +50,7 @@ const support = [
     </section>
 
     <CtaBanner variant="contact" />
-    <ComingSoon message="The new-chapter application form is being finalized. For now, please contact us to start the conversation." />
+    <ComingSoon message={c.comingSoon} />
   </main>
   <Footer />
 </BaseLayout>

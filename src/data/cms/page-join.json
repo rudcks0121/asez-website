@@ -1,0 +1,49 @@
+{
+  "en": {
+    "title": "Join ASEZ — ASEZ",
+    "description": "University students from any campus can join an ASEZ chapter — find a nearby team or start a new one.",
+    "hero": {
+      "eyebrow": "Take part",
+      "title": "Join ASEZ.",
+      "lead": "If you're a university student, find your campus chapter and become a member. Membership is open to students at any of our 7,500 partner campuses worldwide."
+    },
+    "steps": {
+      "eyebrow": "How to join",
+      "title": "Three steps to your first meeting."
+    },
+    "benefits": {
+      "eyebrow": "Why members stay",
+      "title": "What you get when you join."
+    },
+    "comingSoon": "A searchable chapter directory and online membership application are coming soon."
+  },
+  "ko": {
+    "title": "ASEZ 가입 — ASEZ",
+    "description": "대학생이라면 누구나 ASEZ 챕터에 가입할 수 있습니다 — 가까운 팀을 찾거나 새 팀을 만들어 보세요.",
+    "hero": {
+      "eyebrow": "함께하기",
+      "title": "ASEZ 가입.",
+      "lead": "대학생이라면 가까운 캠퍼스 챕터를 찾아 멤버가 되어보세요. 전 세계 7,500개 협력 캠퍼스의 학생 누구나 참여할 수 있습니다."
+    },
+    "steps": {
+      "eyebrow": "가입 절차",
+      "title": "첫 모임까지 3단계."
+    },
+    "benefits": {
+      "eyebrow": "멤버가 머무는 이유",
+      "title": "가입했을 때 얻는 것들."
+    },
+    "comingSoon": "검색 가능한 챕터 디렉토리와 온라인 가입 신청은 곧 공개됩니다."
+  },
+  "steps": [
+    { "num": "1", "en": { "title": "Find your campus chapter", "desc": "ASEZ has chapters at 7,500 universities. Use the Contact page or our regional offices to identify the chapter nearest you." }, "ko": { "title": "캠퍼스 챕터 찾기", "desc": "ASEZ는 전 세계 7,500개 대학에 챕터가 있습니다. 문의 페이지나 지역 사무소를 통해 가까운 챕터를 안내받으세요." } },
+    { "num": "2", "en": { "title": "Reach out to the coordinator", "desc": "Send a short intro — your university, what brought you to ASEZ, and which causes you care about most." }, "ko": { "title": "코디네이터에게 연락", "desc": "짧은 소개를 보내주세요 — 소속 대학, ASEZ에 관심 갖게 된 계기, 가장 관심 있는 활동 분야." } },
+    { "num": "3", "en": { "title": "Attend your first meeting", "desc": "Meet current members, learn about ongoing projects, and pick one or more programs to plug into." }, "ko": { "title": "첫 모임 참석", "desc": "기존 멤버들을 만나고, 진행 중인 프로젝트를 소개받고, 참여할 활동을 선택하세요." } }
+  ],
+  "benefits": [
+    { "icon": "ti-world",  "en": { "text": "Global network of 7,500 campuses across 175 countries" }, "ko": { "text": "전 세계 175개국 7,500개 캠퍼스의 글로벌 네트워크" } },
+    { "icon": "ti-bolt",   "en": { "text": "Real action — not awareness theater" },                  "ko": { "text": "말이 아닌 진짜 행동 — 보여주기식 인식 캠페인 X" } },
+    { "icon": "ti-school", "en": { "text": "Free of charge; open to any university student" },       "ko": { "text": "무료 가입 — 대학생이면 누구나" } },
+    { "icon": "ti-users",  "en": { "text": "Lifelong peer mentorship" },                              "ko": { "text": "평생의 동료 멘토 네트워크" } }
+  ]
+}

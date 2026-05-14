@@ -1117,3 +1117,381 @@ collections:
                 fields:
                   - { label: "Title", name: "title", widget: "string" }
                   - { label: "Description", name: "desc", widget: "text" }
+
+      # ── Join 페이지
+      - name: "join"
+        label: "Get involved — Join"
+        file: "src/data/cms/page-join.json"
+        format: "json"
+        fields:
+          - label: "English"
+            name: "en"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Steps section"
+                name: "steps"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - label: "Benefits section"
+                name: "benefits"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Steps section"
+                name: "steps"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - label: "Benefits section"
+                name: "benefits"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "절차 (3단계)"
+            name: "steps"
+            widget: "list"
+            fields:
+              - { label: "Number", name: "num", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+          - label: "혜택 (4개)"
+            name: "benefits"
+            widget: "list"
+            fields:
+              - { label: "Icon", name: "icon", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Text", name: "text", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Text", name: "text", widget: "text" }
+
+      # ── Start chapter 페이지
+      - name: "start_chapter"
+        label: "Get involved — Start chapter"
+        file: "src/data/cms/page-start-chapter.json"
+        format: "json"
+        fields:
+          - label: "English"
+            name: "en"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Steps section"
+                name: "steps"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - label: "Support section"
+                name: "support"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Steps section"
+                name: "steps"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - label: "Support section"
+                name: "support"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "절차 (4단계)"
+            name: "steps"
+            widget: "list"
+            fields:
+              - { label: "Number", name: "num", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+          - label: "지원 (4개)"
+            name: "support"
+            widget: "list"
+            fields:
+              - { label: "Icon", name: "icon", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+
+      # ── Volunteer 페이지
+      - name: "volunteer"
+        label: "Get involved — Volunteer"
+        file: "src/data/cms/page-volunteer.json"
+        format: "json"
+        fields:
+          - label: "English"
+            name: "en"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Options section"
+                name: "options"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - label: "Steps section"
+                name: "steps"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Options section"
+                name: "options"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - label: "Steps section"
+                name: "steps"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "참여 방식 (4개)"
+            name: "options"
+            widget: "list"
+            fields:
+              - { label: "Icon", name: "icon", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+          - label: "절차 (3단계)"
+            name: "steps"
+            widget: "list"
+            fields:
+              - { label: "Number", name: "num", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+
+      # ── Partner 페이지
+      - name: "partner"
+        label: "Get involved — Partner"
+        file: "src/data/cms/page-partner.json"
+        format: "json"
+        fields:
+          - label: "English"
+            name: "en"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Types section"
+                name: "types"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - label: "Steps section"
+                name: "steps"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Browser title", name: "title", widget: "string" }
+              - { label: "Meta description", name: "description", widget: "text" }
+              - label: "Hero"
+                name: "hero"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Lead", name: "lead", widget: "text" }
+              - label: "Types section"
+                name: "types"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - label: "Steps section"
+                name: "steps"
+                widget: "object"
+                fields:
+                  - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+              - { label: "Coming soon msg", name: "comingSoon", widget: "string" }
+          - label: "협력 유형 (4개)"
+            name: "types"
+            widget: "list"
+            fields:
+              - { label: "Icon", name: "icon", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+          - label: "절차 (3단계)"
+            name: "steps"
+            widget: "list"
+            fields:
+              - { label: "Number", name: "num", widget: "string" }
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "text" }

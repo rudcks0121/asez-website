@@ -5,40 +5,24 @@ import PageHero from "../../../components/PageHero.astro";
 import Footer from "../../../components/Footer.astro";
 import ComingSoon from "../../../components/ComingSoon.astro";
 import CtaBanner from "../../../components/CtaBanner.astro";
+import page from "../../../data/cms/page-volunteer.json";
 
-const options = [
-  { icon: "ti-leaf", title: "일회성 활동", desc: "나무 심기, 해변 정화, 동네 포럼 — 한 번 참여해 보고 활동을 경험하세요." },
-  { icon: "ti-calendar", title: "정기 참여", desc: "주간 어르신 돌봄, 월간 지역 봉사, 정기 환경 프로젝트. 루틴을 만들어 보세요." },
-  { icon: "ti-microphone", title: "포럼·컨퍼런스", desc: "기후, 플라스틱, 디지털 인권, 청년 참여 등 ASEZ 주최 포럼의 기획 또는 발표에 참여." },
-  { icon: "ti-heart-handshake", title: "재해 대응", desc: "재해가 발생하면 지역 팀이 48시간 이내 자원봉사자 모집을 시작합니다." },
-];
-
-const steps = [
-  { num: "1", title: "지역 알려주기", desc: "국가와 도시만 알려주시면 지역 팀으로 연결해 드립니다." },
-  { num: "2", title: "시작 활동 선택", desc: "행사 목록을 둘러보거나 코디네이터가 추천하는 활동을 받으세요." },
-  { num: "3", title: "참여하기", desc: "첫 참여가 가장 어렵습니다. 한 번 해보면 어디에 끼어들어야 할지 보입니다." },
-];
+const lang = "ko" as const;
+const c = page.ko;
+const options = page.options.map((o: any) => ({ ...o, ...(o[lang] ?? o.en) }));
+const steps = page.steps.map((s: any) => ({ ...s, ...(s[lang] ?? s.en) }));
 ---
 
-<BaseLayout
-  lang="ko"
-  title="자원봉사 참여 — ASEZ"
-  description="모든 연령대에 열려 있습니다. 지역 정화 활동, 포럼, 캠페인에 참여해 보세요."
->
+<BaseLayout lang="ko" title={c.title} description={c.description}>
   <Header />
-  <PageHero
-    eyebrow="함께하기"
-    icon="ti-heart"
-    title="ASEZ 자원봉사."
-    lead="대학생이 아니어도 좋습니다 — 나무 심기, 플라스틱 정화, 재해 구호, 지역 포럼에 모든 연령대의 자원봉사자를 환영합니다."
-  />
+  <PageHero eyebrow={c.hero.eyebrow} icon="ti-heart" title={c.hero.title} lead={c.hero.lead} />
   <main>
     <section class="options reveal">
       <div class="inner">
-        <p class="eyebrow">참여 방법</p>
-        <h2>4가지 봉사 방식.</h2>
+        <p class="eyebrow">{c.options.eyebrow}</p>
+        <h2>{c.options.title}</h2>
         <div class="grid">
-          {options.map((o) => (
+          {options.map((o: any) => (
             <div class="opt">
               <i class={`ti ${o.icon}`}></i>
               <h3>{o.title}</h3>
@@ -51,10 +35,10 @@ const steps = [
 
     <section class="steps reveal">
       <div class="inner">
-        <p class="eyebrow">시작 절차</p>
-        <h2>첫 활동까지 3단계.</h2>
+        <p class="eyebrow">{c.steps.eyebrow}</p>
+        <h2>{c.steps.title}</h2>
         <div class="grid">
-          {steps.map((s) => (
+          {steps.map((s: any) => (
             <div class="step">
               <div class="num">{s.num}</div>
               <h3>{s.title}</h3>
@@ -66,7 +50,7 @@ const steps = [
     </section>
 
     <CtaBanner variant="contact" />
-    <ComingSoon message="가까운 행사 찾기와 일회성 봉사 신청 페이지는 곧 공개됩니다." />
+    <ComingSoon message={c.comingSoon} />
   </main>
   <Footer />
 </BaseLayout>

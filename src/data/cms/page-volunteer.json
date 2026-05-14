@@ -1,0 +1,37 @@
+{
+  "en": {
+    "title": "Volunteer with us — ASEZ",
+    "description": "Open to community members of all ages. Join a local cleanup, forum, or campaign.",
+    "hero": {
+      "eyebrow": "Take part",
+      "title": "Volunteer with ASEZ.",
+      "lead": "Not a university student? We welcome volunteers of all ages — for tree plantings, plastic cleanups, disaster relief, and community forums."
+    },
+    "options": { "eyebrow": "Ways to help", "title": "Four kinds of volunteering." },
+    "steps": { "eyebrow": "How to start", "title": "Three steps to your first activity." },
+    "comingSoon": "A nearby-event finder and one-time volunteer sign-up are coming soon."
+  },
+  "ko": {
+    "title": "자원봉사 참여 — ASEZ",
+    "description": "모든 연령대에 열려 있습니다. 지역 정화 활동, 포럼, 캠페인에 참여해 보세요.",
+    "hero": {
+      "eyebrow": "함께하기",
+      "title": "ASEZ 자원봉사.",
+      "lead": "대학생이 아니어도 좋습니다 — 나무 심기, 플라스틱 정화, 재해 구호, 지역 포럼에 모든 연령대의 자원봉사자를 환영합니다."
+    },
+    "options": { "eyebrow": "참여 방법", "title": "4가지 봉사 방식." },
+    "steps": { "eyebrow": "시작 절차", "title": "첫 활동까지 3단계." },
+    "comingSoon": "가까운 행사 찾기와 일회성 봉사 신청 페이지는 곧 공개됩니다."
+  },
+  "options": [
+    { "icon": "ti-leaf",            "en": { "title": "One-day actions",         "desc": "Tree plantings, beach cleanups, neighborhood forums — show up once and see what the work feels like." }, "ko": { "title": "일회성 활동",   "desc": "나무 심기, 해변 정화, 동네 포럼 — 한 번 참여해 보고 활동을 경험하세요." } },
+    { "icon": "ti-calendar",        "en": { "title": "Recurring commitments",   "desc": "Weekly elderly care, monthly community service, or a recurring environmental project. Build a routine." },        "ko": { "title": "정기 참여",     "desc": "주간 어르신 돌봄, 월간 지역 봉사, 정기 환경 프로젝트. 루틴을 만들어 보세요." } },
+    { "icon": "ti-microphone",      "en": { "title": "Forums and conferences",  "desc": "Help organize or speak at ASEZ-hosted forums on climate, plastic, digital rights, and youth participation." },   "ko": { "title": "포럼·컨퍼런스",  "desc": "기후, 플라스틱, 디지털 인권, 청년 참여 등 ASEZ 주최 포럼의 기획 또는 발표에 참여." } },
+    { "icon": "ti-heart-handshake", "en": { "title": "Disaster response",       "desc": "When a disaster strikes nearby, our regional teams activate volunteer drives within 48 hours." },                "ko": { "title": "재해 대응",     "desc": "재해가 발생하면 지역 팀이 48시간 이내 자원봉사자 모집을 시작합니다." } }
+  ],
+  "steps": [
+    { "num": "1", "en": { "title": "Tell us where you are",  "desc": "Country and city are enough — we route you to the regional team." },             "ko": { "title": "지역 알려주기",  "desc": "국가와 도시만 알려주시면 지역 팀으로 연결해 드립니다." } },
+    { "num": "2", "en": { "title": "Pick a starting point",  "desc": "Browse the events list, or let a coordinator suggest something for you." },       "ko": { "title": "시작 활동 선택", "desc": "행사 목록을 둘러보거나 코디네이터가 추천하는 활동을 받으세요." } },
+    { "num": "3", "en": { "title": "Show up",                "desc": "First time is the hardest. After that, you'll know where to plug in." },          "ko": { "title": "참여하기",      "desc": "첫 참여가 가장 어렵습니다. 한 번 해보면 어디에 끼어들어야 할지 보입니다." } }
+  ]
+}

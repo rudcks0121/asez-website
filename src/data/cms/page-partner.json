@@ -1,0 +1,37 @@
+{
+  "en": {
+    "title": "Partner with us — ASEZ",
+    "description": "For governments, universities, NGOs, and corporations seeking collaboration on SDGs.",
+    "hero": {
+      "eyebrow": "Take part",
+      "title": "Partner with ASEZ.",
+      "lead": "ASEZ has signed MOUs with 80+ organizations — UN agencies, governments, universities, and global NGOs. We're open to new partnerships aligned with the UN SDGs."
+    },
+    "types": { "eyebrow": "Who we work with", "title": "Four kinds of partnerships." },
+    "steps": { "eyebrow": "How partnerships start", "title": "Three steps, three weeks." },
+    "comingSoon": "A partnership inquiry form with proposal templates is in development."
+  },
+  "ko": {
+    "title": "협력 제안 — ASEZ",
+    "description": "정부, 대학, NGO, 기업의 SDG 협력 제안 환영.",
+    "hero": {
+      "eyebrow": "함께하기",
+      "title": "ASEZ와 협력하기.",
+      "lead": "ASEZ는 UN 기관, 정부, 대학, 글로벌 NGO 등 80여 기관과 MOU를 체결했습니다. UN SDG에 부합하는 새로운 협력을 환영합니다."
+    },
+    "types": { "eyebrow": "협력 대상", "title": "4가지 협력 유형." },
+    "steps": { "eyebrow": "협력 시작 절차", "title": "3단계, 3주." },
+    "comingSoon": "협력 제안 폼과 제안서 템플릿이 준비 중입니다."
+  },
+  "types": [
+    { "icon": "ti-building-bank",  "en": { "title": "Governments",            "desc": "MOUs with municipal, regional, and national governments on climate, environmental policy, and youth engagement." }, "ko": { "title": "정부 기관",        "desc": "지자체, 광역, 중앙 정부와의 MOU — 기후, 환경 정책, 청년 참여 협력." } },
+    { "icon": "ti-school",         "en": { "title": "Universities",           "desc": "Joint research, student exchange programs, joint hosting of forums and conferences." },                              "ko": { "title": "대학",            "desc": "공동 연구, 학생 교환 프로그램, 포럼·컨퍼런스 공동 주최." } },
+    { "icon": "ti-briefcase",      "en": { "title": "NGOs & multilaterals",   "desc": "Co-implementation of SDG-aligned programs. We bring volunteer capacity; you bring sector expertise." },              "ko": { "title": "NGO·다자기구",    "desc": "SDG 정렬 프로그램 공동 실행. ASEZ는 자원봉사 역량, 파트너는 분야 전문성을 제공." } },
+    { "icon": "ti-building-store", "en": { "title": "Corporations",           "desc": "ESG and CSR partnerships focused on measurable outcomes — not greenwashing. Plant trees we'll actually grow." },     "ko": { "title": "기업",            "desc": "측정 가능한 성과 중심의 ESG·CSR 협력 — 그린워싱이 아닌 실제 결과." } }
+  ],
+  "steps": [
+    { "num": "1", "en": { "title": "Send a proposal",    "desc": "Email partners@asez.org with a one-page outline — what you're proposing, expected outcome, timeline." }, "ko": { "title": "제안서 보내기",      "desc": "partners@asez.org로 한 페이지 분량 — 제안 내용, 기대 효과, 일정을 보내주세요." } },
+    { "num": "2", "en": { "title": "Scoping call",       "desc": "A 30-minute call within 5 business days. We'll discuss fit, scale, and your operational counterpart." }, "ko": { "title": "스코핑 미팅",        "desc": "영업일 기준 5일 이내 30분 통화. 적합도, 규모, 운영 카운터파트를 논의." } },
+    { "num": "3", "en": { "title": "Pilot + MOU",        "desc": "Most partnerships start with a 90-day pilot. If it works, we formalize via MOU." },                       "ko": { "title": "파일럿 + MOU",       "desc": "대부분의 협력은 90일 파일럿으로 시작. 결과가 좋으면 MOU로 공식화." } }
+  ]
+}

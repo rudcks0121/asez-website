@@ -5,39 +5,24 @@ import PageHero from "../../components/PageHero.astro";
 import Footer from "../../components/Footer.astro";
 import ComingSoon from "../../components/ComingSoon.astro";
 import CtaBanner from "../../components/CtaBanner.astro";
+import page from "../../data/cms/page-volunteer.json";
 
-const options = [
-  { icon: "ti-leaf", title: "One-day actions", desc: "Tree plantings, beach cleanups, neighborhood forums — show up once and see what the work feels like." },
-  { icon: "ti-calendar", title: "Recurring commitments", desc: "Weekly elderly care, monthly community service, or a recurring environmental project. Build a routine." },
-  { icon: "ti-microphone", title: "Forums and conferences", desc: "Help organize or speak at ASEZ-hosted forums on climate, plastic, digital rights, and youth participation." },
-  { icon: "ti-heart-handshake", title: "Disaster response", desc: "When a disaster strikes nearby, our regional teams activate volunteer drives within 48 hours." },
-];
-
-const steps = [
-  { num: "1", title: "Tell us where you are", desc: "Country and city are enough — we route you to the regional team." },
-  { num: "2", title: "Pick a starting point", desc: "Browse the events list, or let a coordinator suggest something for you." },
-  { num: "3", title: "Show up", desc: "First time is the hardest. After that, you'll know where to plug in." },
-];
+const lang = "en" as const;
+const c = page.en;
+const options = page.options.map((o: any) => ({ ...o, ...(o[lang] ?? o.en) }));
+const steps = page.steps.map((s: any) => ({ ...s, ...(s[lang] ?? s.en) }));
 ---
 
-<BaseLayout
-  title="Volunteer with us — ASEZ"
-  description="Open to community members of all ages. Join a local cleanup, forum, or campaign."
->
+<BaseLayout title={c.title} description={c.description}>
   <Header />
-  <PageHero
-    eyebrow="Take part"
-    icon="ti-heart"
-    title="Volunteer with ASEZ."
-    lead="Not a university student? We welcome volunteers of all ages — for tree plantings, plastic cleanups, disaster relief, and community forums."
-  />
+  <PageHero eyebrow={c.hero.eyebrow} icon="ti-heart" title={c.hero.title} lead={c.hero.lead} />
   <main>
     <section class="options reveal">
       <div class="inner">
-        <p class="eyebrow">Ways to help</p>
-        <h2>Four kinds of volunteering.</h2>
+        <p class="eyebrow">{c.options.eyebrow}</p>
+        <h2>{c.options.title}</h2>
         <div class="grid">
-          {options.map((o) => (
+          {options.map((o: any) => (
             <div class="opt">
               <i class={`ti ${o.icon}`}></i>
               <h3>{o.title}</h3>
@@ -50,10 +35,10 @@ const steps = [
 
     <section class="steps reveal">
       <div class="inner">
-        <p class="eyebrow">How to start</p>
-        <h2>Three steps to your first activity.</h2>
+        <p class="eyebrow">{c.steps.eyebrow}</p>
+        <h2>{c.steps.title}</h2>
         <div class="grid">
-          {steps.map((s) => (
+          {steps.map((s: any) => (
             <div class="step">
               <div class="num">{s.num}</div>
               <h3>{s.title}</h3>
@@ -65,7 +50,7 @@ const steps = [
     </section>
 
     <CtaBanner variant="contact" />
-    <ComingSoon message="A nearby-event finder and one-time volunteer sign-up are coming soon." />
+    <ComingSoon message={c.comingSoon} />
   </main>
   <Footer />
 </BaseLayout>

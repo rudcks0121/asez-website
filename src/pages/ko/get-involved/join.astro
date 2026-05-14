@@ -5,40 +5,24 @@ import PageHero from "../../../components/PageHero.astro";
 import Footer from "../../../components/Footer.astro";
 import ComingSoon from "../../../components/ComingSoon.astro";
 import CtaBanner from "../../../components/CtaBanner.astro";
+import page from "../../../data/cms/page-join.json";
 
-const steps = [
-  { num: "1", title: "캠퍼스 챕터 찾기", desc: "ASEZ는 전 세계 7,500개 대학에 챕터가 있습니다. 문의 페이지나 지역 사무소를 통해 가까운 챕터를 안내받으세요." },
-  { num: "2", title: "코디네이터에게 연락", desc: "짧은 소개를 보내주세요 — 소속 대학, ASEZ에 관심 갖게 된 계기, 가장 관심 있는 활동 분야." },
-  { num: "3", title: "첫 모임 참석", desc: "기존 멤버들을 만나고, 진행 중인 프로젝트를 소개받고, 참여할 활동을 선택하세요." },
-];
-
-const benefits = [
-  { icon: "ti-world", text: "전 세계 175개국 7,500개 캠퍼스의 글로벌 네트워크" },
-  { icon: "ti-bolt", text: "말이 아닌 진짜 행동 — 보여주기식 인식 캠페인 X" },
-  { icon: "ti-school", text: "무료 가입 — 대학생이면 누구나" },
-  { icon: "ti-users", text: "평생의 동료 멘토 네트워크" },
-];
+const lang = "ko" as const;
+const c = page.ko;
+const steps = page.steps.map((s: any) => ({ ...s, ...(s[lang] ?? s.en) }));
+const benefits = page.benefits.map((b: any) => ({ ...b, ...(b[lang] ?? b.en) }));
 ---
 
-<BaseLayout
-  lang="ko"
-  title="ASEZ 가입 — ASEZ"
-  description="대학생이라면 누구나 ASEZ 챕터에 가입할 수 있습니다 — 가까운 팀을 찾거나 새 팀을 만들어 보세요."
->
+<BaseLayout lang="ko" title={c.title} description={c.description}>
   <Header />
-  <PageHero
-    eyebrow="함께하기"
-    icon="ti-school"
-    title="ASEZ 가입."
-    lead="대학생이라면 가까운 캠퍼스 챕터를 찾아 멤버가 되어보세요. 전 세계 7,500개 협력 캠퍼스의 학생 누구나 참여할 수 있습니다."
-  />
+  <PageHero eyebrow={c.hero.eyebrow} icon="ti-school" title={c.hero.title} lead={c.hero.lead} />
   <main>
     <section class="steps reveal">
       <div class="inner">
-        <p class="eyebrow">가입 절차</p>
-        <h2>첫 모임까지 3단계.</h2>
+        <p class="eyebrow">{c.steps.eyebrow}</p>
+        <h2>{c.steps.title}</h2>
         <div class="grid">
-          {steps.map((s) => (
+          {steps.map((s: any) => (
             <div class="step">
               <div class="num">{s.num}</div>
               <h3>{s.title}</h3>
@@ -51,10 +35,10 @@ const benefits = [
 
     <section class="benefits reveal">
       <div class="inner">
-        <p class="eyebrow">멤버가 머무는 이유</p>
-        <h2>가입했을 때 얻는 것들.</h2>
+        <p class="eyebrow">{c.benefits.eyebrow}</p>
+        <h2>{c.benefits.title}</h2>
         <div class="grid">
-          {benefits.map((b) => (
+          {benefits.map((b: any) => (
             <div class="benefit">
               <i class={`ti ${b.icon}`}></i>
               <p>{b.text}</p>
@@ -65,7 +49,7 @@ const benefits = [
     </section>
 
     <CtaBanner variant="contact" />
-    <ComingSoon message="검색 가능한 챕터 디렉토리와 온라인 가입 신청은 곧 공개됩니다." />
+    <ComingSoon message={c.comingSoon} />
   </main>
   <Footer />
 </BaseLayout>
