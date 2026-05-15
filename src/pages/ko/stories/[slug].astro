@@ -22,6 +22,17 @@ const related = all
   .filter((s) => s.id !== story.id && s.data.category === story.data.category)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
+
+const body = (story as any).body ?? "";
+const hasKorean = /[ㄱ-힝]/.test(body);
+const wordCount = body.trim().split(/\s+/).filter(Boolean).length;
+const readingMinutes = hasKorean
+  ? Math.max(1, Math.round(body.length / 500))
+  : Math.max(1, Math.round(wordCount / 225));
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site || "https://asez-website.rudcks0121.workers.dev").toString();
+const shareText = encodeURIComponent(story.data.title);
+const shareUrl = encodeURIComponent(canonicalUrl);
 ---
 
 <BaseLayout
@@ -41,6 +52,14 @@ const related = all
         <div class="meta">
           <span><i class="ti ti-calendar"></i> {fmt(story.data.date)}</span>
           {story.data.location && <span><i class="ti ti-map-pin"></i> {story.data.location}</span>}
+          <span><i class="ti ti-clock"></i> {readingMinutes}분 읽기</span>
+        </div>
+        <div class="share" aria-label="이 소식 공유">
+          <span class="share-label">공유:</span>
+          <a class="share-btn" href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`} target="_blank" rel="noopener" aria-label="X에 공유"><i class="ti ti-brand-x"></i></a>
+          <a class="share-btn" href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} target="_blank" rel="noopener" aria-label="Facebook에 공유"><i class="ti ti-brand-facebook"></i></a>
+          <a class="share-btn" href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`} target="_blank" rel="noopener" aria-label="LinkedIn에 공유"><i class="ti ti-brand-linkedin"></i></a>
+          <button class="share-btn share-copy" type="button" data-url={canonicalUrl} aria-label="링크 복사"><i class="ti ti-link"></i></button>
         </div>
       </div>
     </div>
@@ -72,6 +91,28 @@ const related = all
   <Footer />
 </BaseLayout>
 
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".share-copy").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const url = btn.dataset.url;
+      if (!url) return;
+      try {
+        await navigator.clipboard.writeText(url);
+        btn.classList.add("copied");
+        const icon = btn.querySelector("i");
+        const original = icon?.className;
+        if (icon) icon.className = "ti ti-check";
+        setTimeout(() => {
+          btn.classList.remove("copied");
+          if (icon && original) icon.className = original;
+        }, 1800);
+      } catch {
+        prompt("링크 복사:", url);
+      }
+    });
+  });
+</script>
+
 <style>
   .story { background: var(--bg-primary); }
   .hero { padding: 64px var(--section-pad-x) 40px; background: var(--bg-secondary); border-bottom: 0.5px solid var(--border); }
@@ -84,6 +125,12 @@ const related = all
   .hero h1 { font-size: 42px; line-height: 1.15; letter-spacing: -0.8px; margin: 0 0 20px; }
   .meta { display: flex; gap: 22px; flex-wrap: wrap; font-size: var(--fs-small); color: var(--text-secondary); }
   .meta i { color: var(--brand); margin-right: 4px; }
+  .share { display: flex; align-items: center; gap: 8px; margin-top: 22px; flex-wrap: wrap; }
+  .share-label { font-size: var(--fs-caption); color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 1.2px; margin-right: 4px; }
+  .share-btn { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: white; border: 0.5px solid var(--border); color: var(--text-secondary); text-decoration: none; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s; padding: 0; font: inherit; }
+  .share-btn:hover { background: var(--brand); color: white; border-color: var(--brand); transform: translateY(-2px); }
+  .share-btn i { font-size: 15px; }
+  .share-btn.copied { background: #16a34a; color: white; border-color: #16a34a; }
   .cover { background: var(--bg-secondary); border-bottom: 0.5px solid var(--border); }
   .cover img { max-width: var(--max-width); width: 100%; margin: 0 auto; display: block; aspect-ratio: 16/8; object-fit: cover; }
   .body { padding: 56px var(--section-pad-x); background: var(--bg-primary); }

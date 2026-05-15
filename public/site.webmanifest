@@ -1,0 +1,38 @@
+{
+  "name": "ASEZ — Save the Earth from A to Z",
+  "short_name": "ASEZ",
+  "description": "A global network of university student volunteers active in 175 countries.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#2060ad",
+  "lang": "en",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "nonprofit", "social"],
+  "shortcuts": [
+    {
+      "name": "Stories",
+      "url": "/stories",
+      "description": "Latest field stories"
+    },
+    {
+      "name": "Get involved",
+      "url": "/get-involved",
+      "description": "Join ASEZ"
+    },
+    {
+      "name": "Search",
+      "url": "/search",
+      "description": "Search the site"
+    }
+  ]
+}

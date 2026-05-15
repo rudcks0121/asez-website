@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import PageHero from "../components/PageHero.astro";
+import Footer from "../components/Footer.astro";
+import legal from "../data/cms/page-legal.json";
+
+const lang = "en" as const;
+const c = legal.privacy[lang];
+---
+
+<BaseLayout title={c.title} description={c.description}>
+  <Header />
+  <PageHero eyebrow={c.hero.eyebrow} icon="ti-shield-lock" title={c.hero.title} />
+  <main>
+    <section class="legal-body reveal">
+      <div class="inner">
+        <p class="updated">Last updated: {legal.lastUpdated}</p>
+        <div class="prose" set:html={c.body}></div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .legal-body {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-primary);
+  }
+  .inner { max-width: 760px; margin: 0 auto; }
+  .updated { font-size: var(--fs-caption); color: var(--text-tertiary); margin: 0 0 36px; letter-spacing: 0.5px; }
+  .prose :global(h2) {
+    font-size: 22px;
+    margin: 40px 0 14px;
+    letter-spacing: -0.3px;
+  }
+  .prose :global(h2:first-child) { margin-top: 0; }
+  .prose :global(p) {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin: 0 0 18px;
+  }
+  .prose :global(ul) {
+    margin: 0 0 18px;
+    padding-left: 22px;
+  }
+  .prose :global(li) {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+  .prose :global(strong) { color: var(--text-primary); font-weight: 600; }
+  .prose :global(a) { color: var(--brand); }
+  @media (max-width: 560px) {
+    .legal-body { padding: 48px 20px; }
+    .prose :global(h2) { font-size: 19px; }
+    .prose :global(p), .prose :global(li) { font-size: 15px; }
+  }
+</style>

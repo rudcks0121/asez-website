@@ -23,6 +23,18 @@ const related = all
   .filter((s) => s.id !== story.id && s.data.category === story.data.category)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
+
+// Reading time: 한글이 있으면 글자 수 / 500, 영문이면 단어 수 / 225
+const body = (story as any).body ?? "";
+const hasKorean = /[ㄱ-힝]/.test(body);
+const wordCount = body.trim().split(/\s+/).filter(Boolean).length;
+const readingMinutes = hasKorean
+  ? Math.max(1, Math.round(body.length / 500))
+  : Math.max(1, Math.round(wordCount / 225));
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site || "https://asez-website.rudcks0121.workers.dev").toString();
+const shareText = encodeURIComponent(story.data.title);
+const shareUrl = encodeURIComponent(canonicalUrl);
 ---
 
 <BaseLayout
@@ -51,6 +63,22 @@ const related = all
           {story.data.location && (
             <span><i class="ti ti-map-pin"></i> {story.data.location}</span>
           )}
+          <span><i class="ti ti-clock"></i> {readingMinutes} min read</span>
+        </div>
+        <div class="share" aria-label="Share this story">
+          <span class="share-label">Share:</span>
+          <a class="share-btn" href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`} target="_blank" rel="noopener" aria-label="Share on X">
+            <i class="ti ti-brand-x"></i>
+          </a>
+          <a class="share-btn" href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} target="_blank" rel="noopener" aria-label="Share on Facebook">
+            <i class="ti ti-brand-facebook"></i>
+          </a>
+          <a class="share-btn" href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`} target="_blank" rel="noopener" aria-label="Share on LinkedIn">
+            <i class="ti ti-brand-linkedin"></i>
+          </a>
+          <button class="share-btn share-copy" type="button" data-url={canonicalUrl} aria-label="Copy link">
+            <i class="ti ti-link"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -93,6 +121,28 @@ const related = all
 
   <Footer />
 </BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".share-copy").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const url = btn.dataset.url;
+      if (!url) return;
+      try {
+        await navigator.clipboard.writeText(url);
+        btn.classList.add("copied");
+        const icon = btn.querySelector("i");
+        const original = icon?.className;
+        if (icon) icon.className = "ti ti-check";
+        setTimeout(() => {
+          btn.classList.remove("copied");
+          if (icon && original) icon.className = original;
+        }, 1800);
+      } catch {
+        prompt("Copy link:", url);
+      }
+    });
+  });
+</script>
 
 <style>
   .story { background: var(--bg-primary); }
@@ -140,6 +190,48 @@ const related = all
     color: var(--text-secondary);
   }
   .meta i { color: var(--brand); margin-right: 4px; }
+
+  .share {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+  }
+  .share-label {
+    font-size: var(--fs-caption);
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-right: 4px;
+  }
+  .share-btn {
+    width: 34px; height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: white;
+    border: 0.5px solid var(--border);
+    color: var(--text-secondary);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
+    padding: 0;
+    font: inherit;
+  }
+  .share-btn:hover {
+    background: var(--brand);
+    color: white;
+    border-color: var(--brand);
+    transform: translateY(-2px);
+  }
+  .share-btn i { font-size: 15px; }
+  .share-btn.copied {
+    background: #16a34a;
+    color: white;
+    border-color: #16a34a;
+  }
 
   .cover {
     background: var(--bg-secondary);

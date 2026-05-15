@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import PageHero from "../../components/PageHero.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<BaseLayout lang="ko" title="검색 — ASEZ" description="ASEZ 스토리, 보고서, 이벤트, 페이지 전체 검색.">
+  <Header />
+  <PageHero
+    eyebrow="검색"
+    icon="ti-search"
+    title="사이트 검색."
+    lead="ASEZ 전체 — 스토리, 보고서, 이벤트, 페이지에서 찾기."
+  />
+  <main>
+    <section class="search-section reveal">
+      <div class="inner">
+        <div id="pagefind-search" data-pagefind-ui></div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
+<script is:inline>
+  window.addEventListener("DOMContentLoaded", () => {
+    if (window.PagefindUI) {
+      new window.PagefindUI({
+        element: "#pagefind-search",
+        showSubResults: true,
+        showImages: true,
+        resetStyles: false,
+        translations: {
+          placeholder: "스토리, 보고서, 이벤트 검색…",
+          clear_search: "지우기",
+          load_more: "더 보기",
+          search_label: "ASEZ 사이트 검색",
+          filters_label: "필터",
+          zero_results: "'[SEARCH_TERM]'에 대한 결과가 없습니다",
+          many_results: "'[SEARCH_TERM]'에 대한 결과 [COUNT]건",
+          one_result: "'[SEARCH_TERM]'에 대한 결과 [COUNT]건",
+          alt_search: "'[SEARCH_TERM]' 결과가 없어 '[DIFFERENT_TERM]' 결과를 표시합니다",
+          search_suggestion: "'[SEARCH_TERM]' 결과가 없습니다. 다음 검색어를 시도해 보세요:",
+          searching: "'[SEARCH_TERM]' 검색 중…",
+        },
+      });
+    }
+  });
+</script>
+
+<style>
+  .search-section {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-primary);
+    min-height: 60vh;
+  }
+  .inner { max-width: 800px; margin: 0 auto; }
+  :global(.pagefind-ui) {
+    --pagefind-ui-primary: var(--brand, #2060ad);
+    --pagefind-ui-text: var(--text-primary, #0f172a);
+    --pagefind-ui-background: white;
+    --pagefind-ui-border: rgba(4, 44, 83, 0.12);
+    --pagefind-ui-tag: var(--bg-secondary, #f8fafc);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 12px;
+    --pagefind-ui-font: inherit;
+    font-family: inherit;
+  }
+  :global(.pagefind-ui__search-input) {
+    font-size: 16px !important;
+    padding: 16px 50px 16px 20px !important;
+    border-radius: 14px !important;
+    border-width: 1px !important;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  :global(.pagefind-ui__search-input:focus) {
+    outline: none;
+    border-color: var(--brand) !important;
+    box-shadow: 0 0 0 4px rgba(32, 96, 173, 0.08) !important;
+  }
+  :global(.pagefind-ui__result) { padding: 22px 0; border-bottom: 0.5px solid var(--border, rgba(4,44,83,0.1)); }
+  :global(.pagefind-ui__result-link) { font-size: 18px; font-weight: 500; color: var(--text-primary) !important; letter-spacing: -0.2px; text-decoration: none; }
+  :global(.pagefind-ui__result-link:hover) { color: var(--brand) !important; text-decoration: underline; }
+  :global(.pagefind-ui__result-excerpt) { font-size: 14.5px; line-height: 1.55; color: var(--text-secondary, #475569); margin-top: 6px; }
+  :global(.pagefind-ui__result mark) { background: var(--brand-100, #dbeafe) !important; color: var(--brand-darker, #1a4d8c); padding: 0 2px; border-radius: 3px; }
+</style>

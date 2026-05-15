@@ -1,52 +1,21 @@
 ---
 import Logo from "./Logo.astro";
-import { useTranslations, getLangFromUrl, pathLocalized } from "../i18n/utils";
+import { getLangFromUrl, pathLocalized } from "../i18n/utils";
+import footer from "../data/cms/footer.json";
 
-const t = useTranslations(Astro.url);
 const lang = getLangFromUrl(Astro.url);
 const p = (path: string) => pathLocalized(path, lang);
+const c = (footer as any)[lang] ?? footer.en;
 
 const year = new Date().getFullYear();
 
-const columns = [
-  {
-    title: t("footer.col.about"),
-    links: [
-      { label: t("link.who-we-are"), href: p("/about") },
-      { label: t("link.our-story"), href: p("/about") },
-      { label: t("link.save-movement"), href: p("/about") },
-      { label: t("link.awards"), href: p("/about") },
-      { label: t("link.partners"), href: p("/about") },
-    ],
-  },
-  {
-    title: t("footer.col.what-we-do"),
-    links: [
-      { label: t("link.climate"), href: p("/what-we-do/climate-action") },
-      { label: t("link.plastic"), href: p("/what-we-do/plastic-free") },
-      { label: t("link.crime"), href: p("/what-we-do/crime-prevention") },
-      { label: t("link.digital"), href: p("/what-we-do/digital-human-rights") },
-      { label: t("link.disaster"), href: p("/what-we-do/disaster-relief") },
-    ],
-  },
-  {
-    title: t("footer.col.get-involved"),
-    links: [
-      { label: t("link.join"), href: p("/get-involved") },
-      { label: t("link.start-chapter"), href: p("/get-involved") },
-      { label: t("link.volunteer"), href: p("/get-involved") },
-      { label: t("link.partner"), href: p("/get-involved") },
-      { label: t("link.events"), href: p("/get-involved/events") },
-    ],
-  },
-];
-
-const sns = [
-  { icon: "ti-brand-instagram", href: "https://www.instagram.com/asezglobal/", label: "Instagram" },
-  { icon: "ti-brand-youtube", href: "https://www.youtube.com/@ASEZ", label: "YouTube" },
-  { icon: "ti-brand-facebook", href: "https://www.facebook.com/asezglobal/", label: "Facebook" },
-  { icon: "ti-brand-x", href: "#", label: "X" },
-];
+const columns = footer.columns.map((col: any) => ({
+  title: (col[lang] ?? col.en).title,
+  links: col.links.map((l: any) => ({
+    label: l[lang] ?? l.en,
+    href: p(l.href),
+  })),
+}));
 ---
 
 <footer class="footer reveal">
@@ -54,44 +23,56 @@ const sns = [
     <div class="top">
       <div class="brand">
         <Logo height={32} />
-        <p class="tagline">{t("footer.tagline")}</p>
-        <p class="mission">{t("footer.mission")}</p>
+        <p class="tagline">{c.tagline}</p>
+        <p class="mission">{c.mission}</p>
       </div>
 
       <div class="cols">
-        {columns.map((col) => (
+        {columns.map((col: any) => (
           <div class="col">
             <h4>{col.title}</h4>
             <ul>
-              {col.links.map((l) => (
+              {col.links.map((l: any) => (
                 <li><a href={l.href}>{l.label}</a></li>
               ))}
             </ul>
           </div>
         ))}
         <div class="col newsletter">
-          <h4>{t("footer.newsletter")}</h4>
-          <p>{t("footer.newsletter.desc")}</p>
-          <form class="form" onsubmit="event.preventDefault();">
-            <input type="email" placeholder={t("footer.newsletter.placeholder")} required />
+          <h4>{c.newsletter.title}</h4>
+          <p>{c.newsletter.desc}</p>
+          <form
+            class="form"
+            id="newsletter-form"
+            data-success={c.newsletter.success}
+            data-error={c.newsletter.error}
+          >
+            <input
+              type="email"
+              name="email"
+              placeholder={c.newsletter.placeholder}
+              required
+              aria-label={c.newsletter.placeholder}
+            />
             <button type="submit" aria-label="Subscribe">
               <i class="ti ti-arrow-right"></i>
             </button>
           </form>
+          <p class="form-status" id="newsletter-status" aria-live="polite"></p>
         </div>
       </div>
     </div>
 
     <div class="bottom">
-      <div class="copy">© {year} ASEZ. {t("footer.rights")}</div>
+      <div class="copy">© {year} ASEZ. {c.rights}</div>
       <div class="bottom-right">
         <div class="legal">
-          <a href={p("/contact")}>{t("footer.privacy")}</a>
-          <a href={p("/contact")}>{t("footer.terms")}</a>
-          <a href={p("/contact")}>{t("footer.contact")}</a>
+          <a href={p(footer.privacyHref)}>{c.privacy}</a>
+          <a href={p(footer.termsHref)}>{c.terms}</a>
+          <a href={p(footer.contactHref)}>{c.contact}</a>
         </div>
         <div class="sns">
-          {sns.map((s) => (
+          {footer.sns.map((s: any) => (
             <a href={s.href} class="sns-icon" target="_blank" rel="noopener" aria-label={s.label}>
               <i class={`ti ${s.icon}`}></i>
             </a>
@@ -101,6 +82,37 @@ const sns = [
     </div>
   </div>
 </footer>
+
+<script>
+  const form = document.getElementById("newsletter-form") as HTMLFormElement | null;
+  const status = document.getElementById("newsletter-status");
+  if (form && status) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const email = String(data.get("email") || "");
+      status.textContent = "...";
+      try {
+        const res = await fetch("/api/subscribe", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        if (res.ok) {
+          status.textContent = form.dataset.success ?? "OK";
+          status.className = "form-status ok";
+          form.reset();
+        } else {
+          status.textContent = form.dataset.error ?? "Error";
+          status.className = "form-status err";
+        }
+      } catch {
+        status.textContent = form.dataset.error ?? "Error";
+        status.className = "form-status err";
+      }
+    });
+  }
+</script>
 
 <style>
   .footer {
@@ -117,109 +129,58 @@ const sns = [
     border-bottom: 0.5px solid rgba(255, 255, 255, 0.15);
   }
   .brand { color: white; max-width: 320px; }
-  .tagline {
-    margin: 14px 0 16px;
-    font-size: var(--fs-small);
-    opacity: 0.85;
-  }
-  .mission {
-    font-size: var(--fs-small);
-    line-height: 1.6;
-    opacity: 0.6;
-    margin: 0;
-  }
-  .cols {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 32px;
-  }
-  .col h4 {
-    font-size: var(--fs-caption);
-    font-weight: 500;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    margin: 0 0 16px;
-    opacity: 0.55;
-  }
+  .tagline { margin: 14px 0 16px; font-size: var(--fs-small); opacity: 0.85; }
+  .mission { font-size: var(--fs-small); line-height: 1.6; opacity: 0.6; margin: 0; }
+  .cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+  .col h4 { font-size: var(--fs-caption); font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; margin: 0 0 16px; opacity: 0.55; }
   .col ul { list-style: none; padding: 0; margin: 0; }
   .col li { margin-bottom: 10px; }
-  .col a {
-    color: white;
-    text-decoration: none;
-    font-size: var(--fs-small);
-    opacity: 0.85;
-  }
+  .col a { color: white; text-decoration: none; font-size: var(--fs-small); opacity: 0.85; }
   .col a:hover { opacity: 1; }
-  .newsletter p {
-    font-size: var(--fs-small);
-    line-height: 1.55;
-    opacity: 0.65;
-    margin: 0 0 14px;
-  }
+  .newsletter p { font-size: var(--fs-small); line-height: 1.55; opacity: 0.65; margin: 0 0 14px; }
   .form {
-    display: flex;
-    align-items: center;
+    display: flex; align-items: center;
     border: 0.5px solid rgba(255, 255, 255, 0.25);
     border-radius: var(--radius-md);
     padding: 2px 2px 2px 12px;
     background: rgba(255, 255, 255, 0.05);
   }
   .form input {
-    flex: 1;
-    min-width: 0;
-    border: none;
-    background: transparent;
-    color: white;
-    font-size: 13px;
-    padding: 10px 0;
-    outline: none;
-    font-family: inherit;
+    flex: 1; min-width: 0; border: none; background: transparent; color: white;
+    font-size: 13px; padding: 10px 0; outline: none; font-family: inherit;
   }
   .form input::placeholder { color: rgba(255, 255, 255, 0.4); }
   .form button {
-    border: none;
-    background: var(--brand-400);
-    color: white;
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    border: none; background: var(--brand-400); color: white;
+    width: 32px; height: 32px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    cursor: pointer;
   }
   .form button:hover { background: var(--brand); }
   .form button i { font-size: 15px; }
+  .form-status {
+    font-size: 12px; line-height: 1.4; margin: 10px 0 0; min-height: 1em;
+    opacity: 0.85;
+  }
+  .form-status.ok { color: #86efac; }
+  .form-status.err { color: #fca5a5; }
   .bottom {
     padding-top: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
   }
   .copy { font-size: var(--fs-caption); opacity: 0.55; }
   .bottom-right { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
   .legal { display: flex; gap: 18px; }
-  .legal a {
-    color: white;
-    opacity: 0.6;
-    text-decoration: none;
-    font-size: var(--fs-caption);
-  }
+  .legal a { color: white; opacity: 0.6; text-decoration: none; font-size: var(--fs-caption); }
   .legal a:hover { opacity: 1; }
   .sns { display: flex; gap: 8px; }
   .sns-icon {
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     border: 0.5px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-decoration: none;
-    opacity: 0.75;
+    display: flex; align-items: center; justify-content: center;
+    color: white; text-decoration: none; opacity: 0.75;
   }
   .sns-icon:hover { opacity: 1; }
   .sns-icon i { font-size: 15px; }

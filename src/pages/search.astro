@@ -1,0 +1,109 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import PageHero from "../components/PageHero.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout title="Search — ASEZ" description="Search ASEZ stories, reports, events, and pages.">
+  <Header />
+  <PageHero
+    eyebrow="Search"
+    icon="ti-search"
+    title="Search the site."
+    lead="Find stories, reports, events, and pages across ASEZ."
+  />
+  <main>
+    <section class="search-section reveal">
+      <div class="inner">
+        <div id="pagefind-search" data-pagefind-ui></div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
+<script is:inline>
+  window.addEventListener("DOMContentLoaded", () => {
+    if (window.PagefindUI) {
+      new window.PagefindUI({
+        element: "#pagefind-search",
+        showSubResults: true,
+        showImages: true,
+        resetStyles: false,
+        translations: {
+          placeholder: "Search stories, reports, events…",
+          clear_search: "Clear",
+          load_more: "Load more results",
+          search_label: "Search the ASEZ site",
+          filters_label: "Filters",
+          zero_results: "No results for [SEARCH_TERM]",
+          many_results: "[COUNT] results for [SEARCH_TERM]",
+          one_result: "[COUNT] result for [SEARCH_TERM]",
+          alt_search: "No results for [SEARCH_TERM]. Showing results for [DIFFERENT_TERM] instead",
+          search_suggestion: "No results for [SEARCH_TERM]. Try one of the following searches:",
+          searching: "Searching for [SEARCH_TERM]…",
+        },
+      });
+    }
+  });
+</script>
+
+<style>
+  .search-section {
+    padding: var(--section-pad-y) var(--section-pad-x);
+    background: var(--bg-primary);
+    min-height: 60vh;
+  }
+  .inner { max-width: 800px; margin: 0 auto; }
+
+  :global(.pagefind-ui) {
+    --pagefind-ui-primary: var(--brand, #2060ad);
+    --pagefind-ui-text: var(--text-primary, #0f172a);
+    --pagefind-ui-background: white;
+    --pagefind-ui-border: rgba(4, 44, 83, 0.12);
+    --pagefind-ui-tag: var(--bg-secondary, #f8fafc);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 12px;
+    --pagefind-ui-font: inherit;
+    font-family: inherit;
+  }
+  :global(.pagefind-ui__search-input) {
+    font-size: 16px !important;
+    padding: 16px 50px 16px 20px !important;
+    border-radius: 14px !important;
+    border-width: 1px !important;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  :global(.pagefind-ui__search-input:focus) {
+    outline: none;
+    border-color: var(--brand) !important;
+    box-shadow: 0 0 0 4px rgba(32, 96, 173, 0.08) !important;
+  }
+  :global(.pagefind-ui__result) {
+    padding: 22px 0;
+    border-bottom: 0.5px solid var(--border, rgba(4,44,83,0.1));
+  }
+  :global(.pagefind-ui__result-link) {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-primary) !important;
+    letter-spacing: -0.2px;
+    text-decoration: none;
+  }
+  :global(.pagefind-ui__result-link:hover) { color: var(--brand) !important; text-decoration: underline; }
+  :global(.pagefind-ui__result-excerpt) {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--text-secondary, #475569);
+    margin-top: 6px;
+  }
+  :global(.pagefind-ui__result mark) {
+    background: var(--brand-100, #dbeafe) !important;
+    color: var(--brand-darker, #1a4d8c);
+    padding: 0 2px;
+    border-radius: 3px;
+  }
+</style>

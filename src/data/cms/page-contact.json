@@ -19,6 +19,9 @@
       "messageLabel": "Message",
       "messagePlaceholder": "What can we help with?",
       "submit": "Send message",
+      "sending": "Sending…",
+      "success": "Thanks! Your message is on its way.",
+      "error": "Could not send. Please try again or email us directly.",
       "fine": "We'll only use your details to reply to this message.",
       "subjects": ["General inquiry", "Press / media", "Partnership proposal", "Volunteer / membership", "Other"]
     },
@@ -49,6 +52,9 @@
       "messageLabel": "메시지",
       "messagePlaceholder": "무엇을 도와드릴까요?",
       "submit": "메시지 보내기",
+      "sending": "보내는 중…",
+      "success": "메시지가 전송되었습니다. 감사합니다!",
+      "error": "전송에 실패했습니다. 다시 시도하거나 이메일로 직접 연락 주세요.",
       "fine": "이 메시지에 답변하기 위해서만 정보를 사용합니다.",
       "subjects": ["일반 문의", "언론 / 미디어", "파트너십 제안", "자원봉사 / 가입", "기타"]
     },

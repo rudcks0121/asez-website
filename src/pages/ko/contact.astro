@@ -44,20 +44,66 @@ const offices = page.offices.map((o: any) => ({ ...o, ...(o[lang] ?? o.en) }));
             <h2>{c.form.title}</h2>
             <p>{c.form.intro}</p>
           </div>
-          <form class="form" onsubmit="event.preventDefault();">
+          <form
+            class="form"
+            id="contact-form"
+            data-success={c.form.success}
+            data-error={c.form.error}
+            data-sending={c.form.sending}
+            data-submit={c.form.submit}
+          >
             <div class="row">
-              <label><span>{c.form.nameLabel}</span><input type="text" placeholder={c.form.namePlaceholder} required /></label>
-              <label><span>{c.form.emailLabel}</span><input type="email" placeholder={c.form.emailPlaceholder} required /></label>
+              <label><span>{c.form.nameLabel}</span><input type="text" name="name" placeholder={c.form.namePlaceholder} required /></label>
+              <label><span>{c.form.emailLabel}</span><input type="email" name="email" placeholder={c.form.emailPlaceholder} required /></label>
             </div>
             <label><span>{c.form.subjectLabel}</span>
-              <select required>{c.form.subjects.map((s: string) => <option>{s}</option>)}</select>
+              <select name="subject" required>{c.form.subjects.map((s: string) => <option>{s}</option>)}</select>
             </label>
             <label><span>{c.form.messageLabel}</span>
-              <textarea rows="6" placeholder={c.form.messagePlaceholder} required></textarea>
+              <textarea name="message" rows="6" placeholder={c.form.messagePlaceholder} required></textarea>
             </label>
-            <button type="submit" class="submit">{c.form.submit} <i class="ti ti-arrow-right"></i></button>
+            <button type="submit" class="submit"><span class="submit-label">{c.form.submit}</span> <i class="ti ti-arrow-right"></i></button>
             <p class="fine">{c.form.fine}</p>
+            <p class="form-status" id="contact-status" aria-live="polite"></p>
           </form>
+          <script>
+            const form = document.getElementById("contact-form") as HTMLFormElement | null;
+            const status = document.getElementById("contact-status");
+            const submitBtn = form?.querySelector<HTMLButtonElement>(".submit");
+            const submitLabel = form?.querySelector<HTMLSpanElement>(".submit-label");
+            if (form && status && submitBtn && submitLabel) {
+              form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const originalLabel = submitLabel.textContent;
+                submitBtn.disabled = true;
+                submitLabel.textContent = form.dataset.sending ?? "...";
+                status.textContent = "";
+                status.className = "form-status";
+                const data = new FormData(form);
+                const payload = Object.fromEntries(data.entries());
+                try {
+                  const res = await fetch("/api/contact", {
+                    method: "POST",
+                    headers: { "content-type": "application/json" },
+                    body: JSON.stringify(payload),
+                  });
+                  if (res.ok) {
+                    status.textContent = form.dataset.success ?? "OK";
+                    status.className = "form-status ok";
+                    form.reset();
+                  } else {
+                    status.textContent = form.dataset.error ?? "Error";
+                    status.className = "form-status err";
+                  }
+                } catch {
+                  status.textContent = form.dataset.error ?? "Error";
+                  status.className = "form-status err";
+                }
+                submitBtn.disabled = false;
+                submitLabel.textContent = originalLabel ?? form.dataset.submit ?? "Send";
+              });
+            }
+          </script>
         </div>
       </div>
     </section>
@@ -114,6 +160,10 @@ const offices = page.offices.map((o: any) => ({ ...o, ...(o[lang] ?? o.en) }));
   .submit i { transition: transform 0.2s; }
   .submit:hover i { transform: translateX(3px); }
   .fine { font-size: var(--fs-caption); color: var(--text-tertiary); margin: 0; }
+  .submit:disabled { opacity: 0.6; cursor: wait; }
+  .form-status { font-size: var(--fs-small); line-height: 1.5; margin: 8px 0 0; min-height: 1em; }
+  .form-status.ok { color: #16a34a; }
+  .form-status.err { color: #dc2626; }
 
   .offices { padding: var(--section-pad-y) var(--section-pad-x); background: var(--bg-primary); border-top: 0.5px solid var(--border); }
   .offices .inner { max-width: var(--max-width); margin: 0 auto; }

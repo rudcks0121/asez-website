@@ -33,6 +33,13 @@ const langs = (Object.keys(languages) as Array<keyof typeof languages>).map((cod
     </div>
 
     <div class="right desktop-only">
+      <a
+        href={pathLocalized("/search", currentLang)}
+        class="icon-btn"
+        aria-label={currentLang === "ko" ? "검색" : "Search"}
+      >
+        <i class="ti ti-search"></i>
+      </a>
       <div class="lang" data-lang-dropdown>
         <button
           class="lang-trigger"
@@ -142,7 +149,25 @@ const langs = (Object.keys(languages) as Array<keyof typeof languages>).map((cod
     color: var(--text-primary);
   }
 
-  .right { gap: 12px; align-items: center; }
+  .right { gap: 10px; align-items: center; }
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    text-decoration: none;
+    background: transparent;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .icon-btn:hover {
+    background: var(--bg-secondary);
+    border-color: var(--text-primary);
+  }
+  .icon-btn i { font-size: 17px; }
   .btn-primary {
     background: var(--brand);
     color: white;

@@ -1,0 +1,76 @@
+{
+  "privacyHref": "/privacy",
+  "termsHref": "/terms",
+  "contactHref": "/contact",
+  "en": {
+    "tagline": "Save the Earth from A to Z.",
+    "mission": "A global network of university student volunteers working to leave a more livable Earth for the next generation.",
+    "newsletter": {
+      "title": "Newsletter",
+      "desc": "Field stories and reports — once a month.",
+      "placeholder": "your@email.com",
+      "success": "Thanks! We'll be in touch.",
+      "error": "Something went wrong. Try again."
+    },
+    "rights": "All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "contact": "Contact"
+  },
+  "ko": {
+    "tagline": "행복한 세상을 위해 A부터 Z까지.",
+    "mission": "다음 세대를 위한 더 살기 좋은 지구를 만들어가는 글로벌 대학생 봉사단 네트워크.",
+    "newsletter": {
+      "title": "뉴스레터",
+      "desc": "현장 소식과 보고서 — 매월 발송.",
+      "placeholder": "이메일 주소",
+      "success": "감사합니다! 곧 연락드릴게요.",
+      "error": "문제가 발생했습니다. 다시 시도해 주세요."
+    },
+    "rights": "모든 권리 보유.",
+    "privacy": "개인정보처리방침",
+    "terms": "이용약관",
+    "contact": "문의"
+  },
+  "columns": [
+    {
+      "en": { "title": "About" },
+      "ko": { "title": "소개" },
+      "links": [
+        { "href": "/about",  "en": "Who we are",     "ko": "우리는 누구인가" },
+        { "href": "/about",  "en": "Our story",      "ko": "우리의 이야기" },
+        { "href": "/about",  "en": "S.A.V.E movement","ko": "S.A.V.E 운동" },
+        { "href": "/about",  "en": "Awards",         "ko": "수상 내역" },
+        { "href": "/about",  "en": "Partners",       "ko": "파트너" }
+      ]
+    },
+    {
+      "en": { "title": "What we do" },
+      "ko": { "title": "활동" },
+      "links": [
+        { "href": "/what-we-do/climate-action",       "en": "Climate action",       "ko": "기후변화 대응" },
+        { "href": "/what-we-do/plastic-free",         "en": "Plastic-free world",   "ko": "플라스틱 프리 세상" },
+        { "href": "/what-we-do/crime-prevention",     "en": "Crime prevention",     "ko": "범죄 예방" },
+        { "href": "/what-we-do/digital-human-rights", "en": "Digital human rights", "ko": "디지털 인권" },
+        { "href": "/what-we-do/disaster-relief",      "en": "Disaster relief",      "ko": "재해 구호" }
+      ]
+    },
+    {
+      "en": { "title": "Get involved" },
+      "ko": { "title": "참여하기" },
+      "links": [
+        { "href": "/get-involved/join",          "en": "Join ASEZ",       "ko": "ASEZ 가입" },
+        { "href": "/get-involved/start-chapter", "en": "Start a chapter", "ko": "챕터 만들기" },
+        { "href": "/get-involved/volunteer",     "en": "Volunteer",       "ko": "자원봉사" },
+        { "href": "/get-involved/partner",       "en": "Partner with us", "ko": "협력 제안" },
+        { "href": "/get-involved/events",        "en": "Upcoming events", "ko": "예정된 행사" }
+      ]
+    }
+  ],
+  "sns": [
+    { "icon": "ti-brand-instagram", "href": "https://www.instagram.com/asezglobal/", "label": "Instagram" },
+    { "icon": "ti-brand-youtube",   "href": "https://www.youtube.com/@ASEZ",         "label": "YouTube" },
+    { "icon": "ti-brand-facebook",  "href": "https://www.facebook.com/asezglobal/",  "label": "Facebook" },
+    { "icon": "ti-brand-x",         "href": "#",                                     "label": "X (Twitter)" }
+  ]
+}
