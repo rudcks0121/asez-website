@@ -1,6 +1,6 @@
 ---
-// Decap CMS bootstrap + 라이브 사이트 미리보기 iframe.
-// config.yml은 /public/admin/config.yml에 있어 /admin/config.yml로 fetch됨.
+// Decap CMS bootstrap + 토글 가능한 분할 미리보기.
+// 기본은 Decap이 전체 화면, 우상단 "미리보기" 버튼으로 우측 패널 열고 닫기.
 ---
 
 <!doctype html>
@@ -17,75 +17,96 @@
     />
     <title>ASEZ 콘텐츠 관리자</title>
     <style is:inline>
-      html, body { margin: 0; padding: 0; }
-      body { font-family: -apple-system, BlinkMacSystemFont, "Inter", "Pretendard", system-ui, sans-serif; }
+      :root { --preview-w: 40vw; }
+      html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Inter", "Pretendard", system-ui, sans-serif;
+        background: #f1f5f9;
+      }
 
-      /* === 페이지 레이아웃: 좌측 Decap, 우측 사이트 iframe === */
-      body { display: flex; min-height: 100vh; }
+      /* === Decap 컨테이너 === */
       #nc-root {
-        flex: 1;
-        min-width: 0;
-        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: white;
+        transition: right 0.25s cubic-bezier(0.22, 1, 0.36, 1);
         overflow: hidden;
       }
+      body.preview-open #nc-root { right: var(--preview-w); }
+      /* Decap 내부 fixed 자식들을 강제로 컨테이너 안으로 — 보험용 */
+      body.preview-open #nc-root > *,
+      body.preview-open #nc-root > * > *[class*="AppWrapper"] {
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
 
-      /* === 우측 라이브 미리보기 패널 === */
+      /* === 미리보기 패널 === */
       .live-pane {
-        width: 40vw;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: var(--preview-w);
         min-width: 280px;
         max-width: 90vw;
-        flex-shrink: 0;
-        border-left: 1px solid rgba(4, 44, 83, 0.12);
+        z-index: 100;
         background: white;
+        border-left: 1px solid rgba(4, 44, 83, 0.12);
         display: flex;
         flex-direction: column;
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        z-index: 100;
-        transition: transform 0.3s ease;
-      }
-      .live-pane.collapsed {
-        width: 0 !important;
-        min-width: 0;
         transform: translateX(100%);
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        box-shadow: -12px 0 28px rgba(4, 44, 83, 0.08);
       }
-      .live-pane.dragging {
-        transition: none;
-        user-select: none;
-      }
+      body.preview-open .live-pane { transform: translateX(0); }
+      body.dragging .live-pane,
+      body.dragging #nc-root { transition: none !important; }
+      body.dragging * { user-select: none !important; }
 
-      /* === 드래그 핸들 (좌측 가장자리) — Chrome DevTools 스타일 === */
+      /* === 드래그 핸들 (Chrome DevTools 스타일) === */
       .live-resizer {
         position: absolute;
-        left: -3px;
+        left: -6px;
         top: 0;
         bottom: 0;
-        width: 6px;
+        width: 12px;
         cursor: col-resize;
         z-index: 101;
         background: transparent;
-        transition: background 0.15s;
-      }
-      .live-resizer:hover,
-      .live-resizer.active {
-        background: rgba(32, 96, 173, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       .live-resizer::before {
         content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 2px;
-        height: 32px;
-        background: rgba(4, 44, 83, 0.25);
+        width: 3px;
+        height: 36px;
+        background: rgba(4, 44, 83, 0.18);
         border-radius: 2px;
+        transition: background 0.15s;
       }
       .live-resizer:hover::before,
       .live-resizer.active::before {
         background: #2060ad;
       }
+      .live-resizer::after {
+        content: "";
+        position: absolute;
+        inset: 0 5px;
+        background: transparent;
+        transition: background 0.15s;
+      }
+      .live-resizer:hover::after,
+      .live-resizer.active::after {
+        background: rgba(32, 96, 173, 0.12);
+      }
+      body.dragging .live-iframe { pointer-events: none; }
+
+      /* === 패널 툴바 === */
       .live-toolbar {
         flex: 0 0 auto;
         display: flex;
@@ -102,7 +123,7 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        margin-right: auto;
+        flex-shrink: 0;
       }
       .live-toolbar .title i { font-size: 16px; color: #2060ad; }
       .live-toolbar button,
@@ -121,6 +142,7 @@
         transition: background 0.15s, color 0.15s, border-color 0.15s;
         font-family: inherit;
         font-size: 13px;
+        flex-shrink: 0;
       }
       .live-toolbar button:hover,
       .live-toolbar a:hover {
@@ -130,9 +152,33 @@
       }
       .live-toolbar button i,
       .live-toolbar a i { font-size: 14px; }
+
+      .device-group {
+        display: inline-flex;
+        gap: 2px;
+        background: rgba(4, 44, 83, 0.06);
+        border-radius: 7px;
+        padding: 2px;
+        flex-shrink: 0;
+      }
+      .device-btn {
+        width: 26px !important;
+        height: 24px !important;
+        border: 0 !important;
+        background: transparent !important;
+        color: #475569;
+      }
+      .device-btn:hover { background: rgba(255,255,255,0.6) !important; color: #2060ad !important; }
+      .device-btn.active {
+        background: white !important;
+        color: #2060ad !important;
+        box-shadow: 0 1px 3px rgba(4, 44, 83, 0.15);
+      }
+      .device-btn i { font-size: 13px !important; }
+
       .live-url {
         flex: 1;
-        min-width: 0;
+        min-width: 60px;
         padding: 6px 10px;
         background: white;
         border: 1px solid rgba(4, 44, 83, 0.12);
@@ -143,10 +189,12 @@
         outline: none;
       }
       .live-url:focus { border-color: #2060ad; }
+
+      /* === iframe wrapper === */
       .live-iframe-wrap {
         flex: 1;
         position: relative;
-        background: #f1f5f9;
+        background: #e5e7eb;
         overflow: auto;
         display: flex;
         align-items: flex-start;
@@ -158,82 +206,64 @@
         max-width: 100%;
         border: 0;
         background: white;
-        transition: max-width 0.25s ease, box-shadow 0.25s ease;
+        transition: max-width 0.25s ease, height 0.25s ease, box-shadow 0.25s ease, border-radius 0.25s ease, margin 0.25s ease;
       }
-      /* 기기 프리뷰 — iframe을 좁혀서 모바일/태블릿처럼 보이게 */
+      .live-iframe-wrap.device-mobile {
+        padding: 16px 0;
+      }
       .live-iframe-wrap.device-mobile .live-iframe {
         max-width: 390px;
-        height: 100%;
-        margin: 12px 0;
+        height: calc(100% - 32px);
         box-shadow: 0 0 0 8px #1f2937, 0 12px 36px rgba(0, 0, 0, 0.25);
         border-radius: 24px;
       }
+      .live-iframe-wrap.device-tablet {
+        padding: 16px 0;
+      }
       .live-iframe-wrap.device-tablet .live-iframe {
         max-width: 820px;
-        height: 100%;
-        margin: 12px 0;
+        height: calc(100% - 32px);
         box-shadow: 0 0 0 8px #1f2937, 0 12px 36px rgba(0, 0, 0, 0.2);
         border-radius: 16px;
       }
-      .device-group {
-        display: inline-flex;
-        gap: 2px;
-        margin: 0 4px;
-        background: rgba(4, 44, 83, 0.06);
-        border-radius: 7px;
-        padding: 2px;
-      }
-      .device-btn {
-        width: 28px !important;
-        height: 26px !important;
-        border: 0 !important;
-        background: transparent !important;
-        color: #475569;
-      }
-      .device-btn.active {
-        background: white !important;
-        color: #2060ad !important;
-        box-shadow: 0 1px 3px rgba(4, 44, 83, 0.15);
-      }
-      .device-btn i { font-size: 13px !important; }
-      .live-hint {
-        padding: 12px 14px;
-        background: linear-gradient(135deg, #eff6ff, #f8fafc);
-        border-bottom: 1px solid rgba(4, 44, 83, 0.06);
-        font-size: 12px;
-        color: #475569;
-        line-height: 1.5;
-      }
-      .live-hint strong { color: #042c53; }
 
-      /* === 미리보기 패널 토글 버튼 (collapsed 상태에서만 보임) === */
+      /* === "미리보기 열기" 토글 버튼 — 패널 닫혀있을 때만 === */
       .live-show {
         position: fixed;
         top: 50%;
         right: 0;
         transform: translateY(-50%);
-        z-index: 99999;
+        z-index: 99998;
         background: #2060ad;
         color: white;
         border: 0;
-        padding: 12px 8px;
-        border-radius: 8px 0 0 8px;
+        padding: 12px 10px 12px 14px;
+        border-radius: 10px 0 0 10px;
         cursor: pointer;
         font-family: inherit;
-        font-size: 12px;
+        font-size: 12.5px;
+        font-weight: 500;
+        box-shadow: -4px 0 14px rgba(4, 44, 83, 0.18);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
         writing-mode: vertical-rl;
-        letter-spacing: 2px;
-        box-shadow: -4px 0 12px rgba(4, 44, 83, 0.2);
-        display: none;
+        letter-spacing: 1.5px;
+        transition: background 0.15s, padding-right 0.2s;
       }
-      .live-pane.collapsed + .live-show { display: block; }
+      .live-show:hover {
+        background: #194b88;
+        padding-right: 14px;
+      }
+      .live-show i { font-size: 16px; writing-mode: horizontal-tb; }
+      body.preview-open .live-show { display: none; }
 
       /* === 상단 도움말 toolbar === */
       .admin-toolbar {
         position: fixed;
         top: 12px;
-        right: calc(40vw + 16px);
-        z-index: 999999;
+        right: 16px;
+        z-index: 99997;
         display: flex;
         gap: 8px;
         align-items: center;
@@ -245,10 +275,10 @@
         padding: 6px 6px 6px 14px;
         box-shadow: 0 4px 16px rgba(4, 44, 83, 0.1);
         font-size: 13px;
-        transition: right 0.3s ease;
+        transition: right 0.25s ease;
       }
-      .live-pane.collapsed ~ .admin-toolbar {
-        right: 16px;
+      body.preview-open .admin-toolbar {
+        right: calc(var(--preview-w) + 16px);
       }
       .admin-toolbar .label {
         color: #2060ad;
@@ -262,7 +292,8 @@
         width: 1px; height: 18px;
         background: rgba(4, 44, 83, 0.15);
       }
-      .admin-toolbar a.btn {
+      .admin-toolbar a.btn,
+      .admin-toolbar button.btn {
         display: inline-flex;
         align-items: center;
         gap: 6px;
@@ -274,9 +305,14 @@
         font-weight: 500;
         font-size: 12.5px;
         transition: background 0.15s, transform 0.15s;
+        border: 0;
+        cursor: pointer;
+        font-family: inherit;
       }
-      .admin-toolbar a.btn:hover { background: #194b88; transform: translateY(-1px); }
-      .admin-toolbar a.btn i { font-size: 15px; }
+      .admin-toolbar a.btn:hover,
+      .admin-toolbar button.btn:hover { background: #194b88; transform: translateY(-1px); }
+      .admin-toolbar a.btn i,
+      .admin-toolbar button.btn i { font-size: 15px; }
       .admin-toolbar a.btn-secondary {
         background: transparent;
         color: #2060ad;
@@ -284,41 +320,42 @@
       }
       .admin-toolbar a.btn-secondary:hover { background: rgba(32, 96, 173, 0.08); }
 
-      @media (max-width: 1100px) {
-        .live-pane { width: 50vw; min-width: 320px; }
-      }
       @media (max-width: 900px) {
-        body { flex-direction: column; }
-        #nc-root { height: auto; min-height: 60vh; }
-        .live-pane { width: 100%; max-width: none; min-width: 0; height: 50vh; position: relative; border-left: 0; border-top: 1px solid rgba(4, 44, 83, 0.12); }
-        .live-pane.collapsed { height: 0; transform: translateY(100%); }
-        .admin-toolbar { right: 10px; padding: 4px 4px 4px 10px; font-size: 12px; }
-        .admin-toolbar .label span { display: none; }
-        .admin-toolbar a.btn span { display: none; }
-        .live-pane.collapsed ~ .admin-toolbar { right: 10px; }
+        .live-pane { width: 100vw !important; min-width: 100vw; }
+        body.preview-open #nc-root { right: 0; }
+        .live-resizer { display: none; }
+        .admin-toolbar { right: 10px !important; padding: 4px 4px 4px 10px; font-size: 12px; }
+        body.preview-open .admin-toolbar { right: 10px !important; }
+        .admin-toolbar .label span,
+        .admin-toolbar a.btn span,
+        .admin-toolbar button.btn span { display: none; }
       }
     </style>
   </head>
   <body>
-    <!-- Decap CMS는 자동으로 body에 마운트되므로 다른 자식 요소가 있어도 OK.
-         단, position: fixed/sticky 요소만 viewport에 떠 있게 안정적 -->
-    <div id="nc-root" aria-hidden="false"></div>
+    <div id="nc-root"></div>
 
-    <aside class="live-pane" id="live-pane">
-      <div class="live-resizer" id="live-resizer" title="드래그해서 너비 조절" role="separator" aria-orientation="vertical" aria-label="미리보기 패널 너비 조절"></div>
+    <aside class="live-pane" id="live-pane" aria-hidden="true">
+      <div
+        class="live-resizer"
+        id="live-resizer"
+        role="separator"
+        aria-orientation="vertical"
+        aria-label="미리보기 패널 너비 조절 (드래그)"
+        tabindex="0"
+      ></div>
       <div class="live-toolbar">
         <span class="title">
           <i class="ti ti-eye"></i>
-          실시간 미리보기
         </span>
         <div class="device-group" role="group" aria-label="기기 미리보기">
-          <button class="device-btn active" type="button" data-device="desktop" title="데스크탑" aria-label="데스크탑">
+          <button class="device-btn active" type="button" data-device="desktop" title="데스크탑">
             <i class="ti ti-device-desktop"></i>
           </button>
-          <button class="device-btn" type="button" data-device="tablet" title="태블릿" aria-label="태블릿">
+          <button class="device-btn" type="button" data-device="tablet" title="태블릿">
             <i class="ti ti-device-tablet"></i>
           </button>
-          <button class="device-btn" type="button" data-device="mobile" title="모바일" aria-label="모바일">
+          <button class="device-btn" type="button" data-device="mobile" title="모바일">
             <i class="ti ti-device-mobile"></i>
           </button>
         </div>
@@ -339,37 +376,37 @@
           <i class="ti ti-x"></i>
         </button>
       </div>
-      <div class="live-hint">
-        <strong>편집 후 저장(게시)</strong>하면 약 1분 뒤 빌드가 끝나고 이 패널이
-        자동 새로고침됩니다. 실시간 변경은 우측 패널에서 바로 보이지 않을 수 있어요.
-      </div>
-      <div class="live-iframe-wrap">
+      <div class="live-iframe-wrap" id="live-iframe-wrap">
         <iframe
           class="live-iframe"
           id="live-iframe"
-          src="/?cms=1"
           title="ASEZ 사이트 미리보기"
-          loading="lazy"
         ></iframe>
       </div>
     </aside>
+
     <button class="live-show" id="live-show" type="button" aria-label="미리보기 패널 열기">
-      미리보기 열기
+      <i class="ti ti-eye"></i>
+      미리보기
     </button>
 
     <div class="admin-toolbar" role="toolbar" aria-label="관리자 도구">
-      <span class="label" aria-hidden="true">
+      <span class="label">
         <i class="ti ti-shield-lock"></i>
         <span>ASEZ 관리자</span>
       </span>
       <span class="divider"></span>
+      <button class="btn" type="button" id="toolbar-preview-toggle" title="분할 미리보기 열기/닫기">
+        <i class="ti ti-layout-sidebar-right"></i>
+        <span>분할 미리보기</span>
+      </button>
       <a class="btn" href="/admin-guide" target="_blank" rel="noopener">
         <i class="ti ti-book-2"></i>
-        <span>사용 가이드</span>
+        <span>가이드</span>
       </a>
       <a class="btn btn-secondary" href="/" target="_blank" rel="noopener" aria-label="사이트 새 창에서 열기">
         <i class="ti ti-external-link"></i>
-        <span>사이트 보기</span>
+        <span>새 창</span>
       </a>
     </div>
 
@@ -378,7 +415,7 @@
       src="https://unpkg.com/decap-cms@^3.4.0/dist/decap-cms.js"
     ></script>
 
-    <!-- Decap CMS 미리보기 패널에 사이트 스타일 + 커스텀 템플릿 등록 -->
+    <!-- Decap markdown 미리보기 패널에 사이트 CSS + 커스텀 템플릿 -->
     <script is:inline>
       (function setupPreview() {
         if (!window.CMS) { setTimeout(setupPreview, 100); return; }
@@ -386,9 +423,8 @@
         CMS.registerPreviewStyle("/admin/preview.css");
 
         const h = window.h || (window.React && window.React.createElement);
-        if (!h) return; // h 없으면 커스텀 템플릿 등록 안 함, raw preview만 사용
+        if (!h) return;
 
-        // === Story preview === //
         function StoryPreview({ entry, widgetFor }) {
           const data = entry.get("data");
           const title = data.get("title") || "(제목 없음)";
@@ -398,16 +434,10 @@
           const image = data.get("image");
           const pillBg = data.get("pillBg") || "var(--brand-50)";
           const pillColor = data.get("pillColor") || "var(--brand-darker)";
-          const fmtDate = date ? new Date(date).toLocaleDateString("en-US", {
-            year: "numeric", month: "long", day: "numeric",
-          }) : null;
-
+          const fmtDate = date ? new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : null;
           return h("article", { className: "story-preview" },
             h("div", { className: "cms-preview-hero" },
-              category && h("span", {
-                className: "pill",
-                style: { background: pillBg, color: pillColor },
-              }, category),
+              category && h("span", { className: "pill", style: { background: pillBg, color: pillColor } }, category),
               h("h1", null, title),
               h("p", { className: "meta" },
                 fmtDate && h("span", null, "📅 " + fmtDate),
@@ -420,7 +450,6 @@
         }
         CMS.registerPreviewTemplate("stories", StoryPreview);
 
-        // === Report preview === //
         function ReportPreview({ entry, widgetFor }) {
           const data = entry.get("data");
           const title = data.get("title") || "(제목 없음)";
@@ -431,7 +460,6 @@
           const pillBg = data.get("pillBg") || "var(--brand-50)";
           const pillColor = data.get("pillColor") || "var(--brand-darker)";
           const fmtDate = date ? new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "long" }) : null;
-
           return h("article", null,
             h("div", { className: "cms-preview-hero" },
               type && h("span", { className: "pill", style: { background: pillBg, color: pillColor } }, type),
@@ -447,7 +475,6 @@
         }
         CMS.registerPreviewTemplate("reports", ReportPreview);
 
-        // === Event preview === //
         function EventPreview({ entry }) {
           const data = entry.get("data");
           const title = data.get("title") || "(제목 없음)";
@@ -459,10 +486,7 @@
           const pillBg = data.get("pillBg") || "var(--brand-50)";
           const pillColor = data.get("pillColor") || "var(--brand-darker)";
           const fmtDate = (d) => d ? new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : null;
-          const dateStr = endDate
-            ? fmtDate(date) + " — " + fmtDate(endDate)
-            : fmtDate(date);
-
+          const dateStr = endDate ? fmtDate(date) + " — " + fmtDate(endDate) : fmtDate(date);
           return h("article", null,
             h("div", { className: "cms-preview-hero" },
               type && h("span", { className: "pill", style: { background: pillBg, color: pillColor } }, type),
@@ -477,13 +501,11 @@
         }
         CMS.registerPreviewTemplate("events", EventPreview);
 
-        // === Issue (활동) preview === //
         function IssuePreview({ entry, widgetFor }) {
           const data = entry.get("data");
           const title = data.get("title") || "(제목 없음)";
           const tagline = data.get("tagline");
           const summary = data.get("summary");
-
           return h("article", null,
             h("div", { className: "cms-preview-hero" },
               h("h1", null, title),
@@ -497,159 +519,182 @@
       })();
     </script>
 
+    <!-- 분할 미리보기 컨트롤러 -->
     <script is:inline>
-      // === Preview Pane 토글 + URL 입력 + 드래그 리사이즈 + 기기 전환 === //
+      const body = document.body;
       const pane = document.getElementById("live-pane");
       const showBtn = document.getElementById("live-show");
+      const toggleBtn = document.getElementById("toolbar-preview-toggle");
       const collapseBtn = document.getElementById("live-collapse");
       const refreshBtn = document.getElementById("live-refresh");
       const openLink = document.getElementById("live-open");
       const urlInput = document.getElementById("live-url");
       const iframe = document.getElementById("live-iframe");
-      const iframeWrap = iframe.parentElement;
+      const iframeWrap = document.getElementById("live-iframe-wrap");
       const resizer = document.getElementById("live-resizer");
 
-      const SAVED = "asez_cms_preview_path";
-      const SAVED_W = "asez_cms_preview_w";
-      const SAVED_DEVICE = "asez_cms_preview_device";
+      const K_PATH = "asez_cms_preview_path";
+      const K_OPEN = "asez_cms_preview_open";
+      const K_W = "asez_cms_preview_w";
+      const K_DEVICE = "asez_cms_preview_device";
 
-      // 저장된 너비 복원
-      const savedW = parseInt(localStorage.getItem(SAVED_W) || "0", 10);
-      if (savedW > 200 && savedW < window.innerWidth - 200) {
-        pane.style.width = savedW + "px";
+      function appendCmsFlag(p) {
+        if (!p) p = "/";
+        if (!p.startsWith("/")) p = "/" + p;
+        return p + (p.includes("?") ? "&" : "?") + "cms=1";
       }
 
-      // 저장된 기기 프리셋 복원
-      const savedDevice = localStorage.getItem(SAVED_DEVICE) || "desktop";
-      applyDevice(savedDevice);
-
-      const initialPath = localStorage.getItem(SAVED) || "/";
-      urlInput.value = initialPath;
-      iframe.src = appendCmsFlag(initialPath);
-      openLink.href = initialPath;
-
-      function appendCmsFlag(path) {
-        if (!path.startsWith("/")) path = "/" + path;
-        return path + (path.includes("?") ? "&" : "?") + "cms=1";
+      function loadUrl(p) {
+        if (!p) p = "/";
+        if (!p.startsWith("/")) p = "/" + p;
+        localStorage.setItem(K_PATH, p);
+        iframe.src = appendCmsFlag(p);
+        openLink.href = p;
+        urlInput.value = p;
       }
 
-      function loadUrl(path) {
-        if (!path) path = "/";
-        if (!path.startsWith("/")) path = "/" + path;
-        localStorage.setItem(SAVED, path);
-        iframe.src = appendCmsFlag(path);
-        openLink.href = path;
-        urlInput.value = path;
+      function setOpen(open) {
+        body.classList.toggle("preview-open", open);
+        pane.setAttribute("aria-hidden", open ? "false" : "true");
+        localStorage.setItem(K_OPEN, open ? "1" : "0");
+        if (open && !iframe.src) {
+          // lazy load — 첫 열림에만
+          const p = localStorage.getItem(K_PATH) || "/";
+          loadUrl(p);
+        }
       }
 
-      urlInput.addEventListener("change", () => loadUrl(urlInput.value));
-      urlInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") { e.preventDefault(); loadUrl(urlInput.value); }
-      });
-      refreshBtn.addEventListener("click", () => {
-        iframe.src = iframe.src; // force reload
-      });
-      collapseBtn.addEventListener("click", () => {
-        pane.classList.add("collapsed");
-        localStorage.setItem("asez_cms_preview_collapsed", "1");
-      });
-      showBtn.addEventListener("click", () => {
-        pane.classList.remove("collapsed");
-        localStorage.removeItem("asez_cms_preview_collapsed");
-      });
-      if (localStorage.getItem("asez_cms_preview_collapsed") === "1") {
-        pane.classList.add("collapsed");
-      }
-
-      // === 드래그 리사이즈 === //
-      let dragging = false;
-      let startX = 0;
-      let startW = 0;
-      resizer.addEventListener("mousedown", (e) => {
-        dragging = true;
-        startX = e.clientX;
-        startW = pane.getBoundingClientRect().width;
-        pane.classList.add("dragging");
-        resizer.classList.add("active");
-        document.body.style.cursor = "col-resize";
-        e.preventDefault();
-      });
-      window.addEventListener("mousemove", (e) => {
-        if (!dragging) return;
-        const dx = startX - e.clientX; // 왼쪽으로 드래그 = 더 넓게
-        const min = 280;
-        const max = Math.min(window.innerWidth * 0.9, window.innerWidth - 320);
-        const newW = Math.max(min, Math.min(max, startW + dx));
-        pane.style.width = newW + "px";
-      });
-      window.addEventListener("mouseup", () => {
-        if (!dragging) return;
-        dragging = false;
-        pane.classList.remove("dragging");
-        resizer.classList.remove("active");
-        document.body.style.cursor = "";
-        localStorage.setItem(SAVED_W, String(pane.getBoundingClientRect().width));
-      });
-      // 더블클릭으로 기본 너비 복귀
-      resizer.addEventListener("dblclick", () => {
-        pane.style.width = "";
-        localStorage.removeItem(SAVED_W);
-      });
-
-      // === 기기 전환 === //
       function applyDevice(device) {
         iframeWrap.classList.remove("device-mobile", "device-tablet", "device-desktop");
         if (device !== "desktop") iframeWrap.classList.add("device-" + device);
         document.querySelectorAll(".device-btn").forEach((b) => {
           b.classList.toggle("active", b.dataset.device === device);
         });
-        localStorage.setItem(SAVED_DEVICE, device);
+        localStorage.setItem(K_DEVICE, device);
       }
+
+      // === 너비 복원 === //
+      const savedW = parseInt(localStorage.getItem(K_W) || "0", 10);
+      if (savedW > 200 && savedW < window.innerWidth - 200) {
+        document.documentElement.style.setProperty("--preview-w", savedW + "px");
+      }
+
+      // === 기기 복원 === //
+      applyDevice(localStorage.getItem(K_DEVICE) || "desktop");
+
+      // === 상태 복원 === //
+      const wasOpen = localStorage.getItem(K_OPEN) === "1";
+      if (wasOpen) setOpen(true);
+
+      // === 토글 === //
+      showBtn.addEventListener("click", () => setOpen(true));
+      toggleBtn.addEventListener("click", () => setOpen(!body.classList.contains("preview-open")));
+      collapseBtn.addEventListener("click", () => setOpen(false));
+
+      // === URL 입력 + 새로고침 === //
+      urlInput.addEventListener("change", () => loadUrl(urlInput.value));
+      urlInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") { e.preventDefault(); loadUrl(urlInput.value); }
+      });
+      refreshBtn.addEventListener("click", () => { iframe.src = iframe.src; });
+
+      // === 드래그 리사이즈 === //
+      let dragging = false;
+      let startX = 0;
+      let startW = 0;
+      function paneWidth() {
+        return pane.getBoundingClientRect().width;
+      }
+      function onDragStart(clientX) {
+        dragging = true;
+        startX = clientX;
+        startW = paneWidth();
+        resizer.classList.add("active");
+        body.classList.add("dragging");
+      }
+      function onDragMove(clientX) {
+        if (!dragging) return;
+        const dx = startX - clientX;
+        const min = 280;
+        const max = Math.min(window.innerWidth * 0.92, window.innerWidth - 200);
+        const w = Math.max(min, Math.min(max, startW + dx));
+        document.documentElement.style.setProperty("--preview-w", w + "px");
+      }
+      function onDragEnd() {
+        if (!dragging) return;
+        dragging = false;
+        resizer.classList.remove("active");
+        body.classList.remove("dragging");
+        localStorage.setItem(K_W, String(paneWidth()));
+      }
+      resizer.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        onDragStart(e.clientX);
+      });
+      window.addEventListener("mousemove", (e) => onDragMove(e.clientX));
+      window.addEventListener("mouseup", onDragEnd);
+      resizer.addEventListener("touchstart", (e) => {
+        if (e.touches[0]) { e.preventDefault(); onDragStart(e.touches[0].clientX); }
+      }, { passive: false });
+      window.addEventListener("touchmove", (e) => {
+        if (e.touches[0]) onDragMove(e.touches[0].clientX);
+      });
+      window.addEventListener("touchend", onDragEnd);
+      // 더블클릭으로 기본 너비 복귀
+      resizer.addEventListener("dblclick", () => {
+        document.documentElement.style.removeProperty("--preview-w");
+        localStorage.removeItem(K_W);
+      });
+
+      // === 기기 버튼 === //
       document.querySelectorAll(".device-btn").forEach((btn) => {
         btn.addEventListener("click", () => applyDevice(btn.dataset.device));
       });
 
-      // === Decap CMS와 연동: 현재 편집 중인 entry의 preview_path로 자동 점프 === //
-      // Decap이 마운트되면 URL 해시 변경을 감지해서 preview_path를 갱신
+      // === 키보드 단축키 === //
+      // Cmd/Ctrl + Shift + P → 미리보기 토글
+      window.addEventListener("keydown", (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.key === "P" || e.key === "p")) {
+          e.preventDefault();
+          setOpen(!body.classList.contains("preview-open"));
+        }
+        // ESC → 패널 닫기
+        if (e.key === "Escape" && body.classList.contains("preview-open") && document.activeElement === urlInput) {
+          // URL 입력 중에는 ESC가 닫지 않게 — 입력 blur만
+          urlInput.blur();
+        }
+      });
+
+      // === Decap entry 해시 → 자동으로 해당 페이지 URL 로드 === //
+      const pathMap = {
+        stories: (slug) => slug ? `/stories/${slug}` : "/stories",
+        reports: () => "/reports",
+        events: () => "/get-involved/events",
+        issues: (slug) => slug ? `/what-we-do/${slug}` : "/what-we-do",
+      };
+      const filePathMap = {
+        hero: "/", catchphrase: "/", stats: "/", projects: "/",
+        regions: "/", recognition: "/", videos: "/", sns: "/", footer: "/",
+        about: "/about", contact: "/contact",
+        where_we_work: "/where-we-work", what_we_do: "/what-we-do",
+        get_involved: "/get-involved",
+        join: "/get-involved/join", start_chapter: "/get-involved/start-chapter",
+        volunteer: "/get-involved/volunteer", partner: "/get-involved/partner",
+      };
       function syncPathFromHash() {
-        // 해시 형태: #/collections/{coll}/entries/{slug}
         const m = location.hash.match(/^#\/collections\/([^/]+)\/(?:entries\/([^/]+)|new)/);
         if (!m) return;
         const coll = m[1];
         const slug = m[2];
-
-        // Static mapping based on config.yml preview_path
-        const pathMap = {
-          stories: slug ? `/stories/${slug}` : "/stories",
-          reports: "/reports",
-          events: "/get-involved/events",
-          issues: slug ? `/what-we-do/${slug}` : "/what-we-do",
-          home: "/", // file collection — handled by entry-specific paths below
-          pages: null, // ditto
-        };
-        const filePathMap = {
-          hero: "/", catchphrase: "/", stats: "/", projects: "/",
-          regions: "/", recognition: "/", videos: "/", sns: "/",
-          about: "/about", contact: "/contact",
-          where_we_work: "/where-we-work", what_we_do: "/what-we-do",
-          get_involved: "/get-involved",
-          join: "/get-involved/join", start_chapter: "/get-involved/start-chapter",
-          volunteer: "/get-involved/volunteer", partner: "/get-involved/partner",
-        };
-
         let target = null;
-        if (pathMap[coll] !== undefined && pathMap[coll] !== null) {
-          target = pathMap[coll];
-        } else if (filePathMap[slug]) {
-          target = filePathMap[slug];
-        }
-        if (target && target !== urlInput.value) {
+        if (pathMap[coll]) target = pathMap[coll](slug);
+        else if (filePathMap[slug]) target = filePathMap[slug];
+        if (target && body.classList.contains("preview-open") && target !== urlInput.value) {
           loadUrl(target);
         }
       }
       window.addEventListener("hashchange", syncPathFromHash);
-      // 초기 1회 (이미 entry URL로 진입한 경우)
-      setTimeout(syncPathFromHash, 300);
+      setTimeout(syncPathFromHash, 500);
     </script>
   </body>
 </html>
