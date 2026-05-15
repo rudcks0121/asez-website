@@ -1,21 +1,18 @@
 /**
  * Cloudflare Image Resizing helper.
  *
- * Workers Paid plan ($5+) 이상에서 자동 활성화되는 cdn-cgi/image/ URL 변환을 사용.
- * 원본 이미지가 같은 도메인(또는 Cloudflare-proxied 도메인)에 있어야 동작.
+ * Workers Paid plan + 커스텀 도메인 + Image Resizing 활성화 시 동작.
+ * workers.dev 도메인에서는 /cdn-cgi/image/ 변환을 지원 안 함 → 비활성화.
  *
- * 사용법:
- *   <img src={cfImage("/images/foo.jpg", { w: 800, q: 80 })} />
+ * 커스텀 도메인 연결 후:
+ *   1. Cloudflare Dashboard → 해당 zone → Speed → Optimization → Image Resizing 활성화
+ *   2. 아래 CF_IMAGES_ENABLED를 true로 변경
  *
- *   <img
- *     src={cfImage("/images/foo.jpg", { w: 800 })}
- *     srcset={cfSrcset("/images/foo.jpg", [400, 800, 1200])}
- *     sizes="(max-width: 768px) 100vw, 800px"
- *   />
- *
- * 외부 URL(https://...) 이미지는 변환 없이 그대로 반환.
- * /uploads/* 같은 상대 경로는 변환 URL로 감쌈.
+ * 비활성화 상태에서도 함수는 src를 그대로 반환하므로 사용처 코드는 그대로.
  */
+
+// 도메인 이전 시 true로 변경 — Image Resizing 활성화된 zone 필요.
+const CF_IMAGES_ENABLED = false;
 
 export interface CfImageOptions {
   w?: number;       // width
@@ -32,6 +29,8 @@ const DEFAULT_QUALITY = 85;
 
 export function cfImage(src: string, opts: CfImageOptions = {}): string {
   if (!src) return src;
+  // 도메인 이전 전까지는 원본 그대로
+  if (!CF_IMAGES_ENABLED) return src;
   // 외부 절대 URL은 그대로 반환 (cdn-cgi는 same-origin만 동작)
   if (/^https?:\/\//i.test(src)) return src;
   // data: / blob: 등도 그대로
@@ -61,9 +60,10 @@ export function cfSrcset(
   src: string,
   widths: number[],
   opts: Omit<CfImageOptions, "w"> = {},
-): string {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src)) return ""; // 외부 URL은 srcset 미지원
+): string | undefined {
+  if (!src) return undefined;
+  if (!CF_IMAGES_ENABLED) return undefined;
+  if (/^https?:\/\//i.test(src)) return undefined; // 외부 URL은 srcset 미지원
   return widths
     .map((w) => `${cfImage(src, { ...opts, w })} ${w}w`)
     .join(", ");
