@@ -13,6 +13,9 @@
     if (params.get("cms") !== "1") return;
     document.documentElement.classList.add("cms-mode");
 
+    // iframe 안에서 실행 중인지 — 안에서 클릭하면 부모 창(/admin)을 navigate
+    const inIframe = window.parent !== window && window.parent.location;
+
     // 1) 데이터 속성으로 마킹된 섹션에 편집 버튼 부착
     function attachButtons() {
       const sections = document.querySelectorAll("[data-cms-section]");
@@ -23,10 +26,24 @@
         const a = document.createElement("a");
         a.className = "cms-edit-btn";
         a.href = href;
-        a.target = "_blank";
-        a.rel = "noopener";
+        if (!inIframe) {
+          a.target = "_blank";
+          a.rel = "noopener";
+        }
         a.setAttribute("aria-label", "이 섹션 편집: " + name);
         a.innerHTML = '<i class="ti ti-edit"></i><span>' + name + ' 편집</span>';
+        // iframe 안이면 부모 창을 이동 (Decap 패널이 이미 열려있는 동일 창)
+        if (inIframe) {
+          a.addEventListener("click", function (e) {
+            try {
+              e.preventDefault();
+              window.parent.location.href = href;
+            } catch (err) {
+              // cross-origin (커스텀 도메인 다른 경우)이면 fallback
+              window.open(href, "_blank", "noopener");
+            }
+          });
+        }
         // 컨테이너에 position이 없으면 relative로
         const pos = getComputedStyle(el).position;
         if (pos === "static") el.style.position = "relative";
