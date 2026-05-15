@@ -1,0 +1,108 @@
+---
+/**
+ * CmsEditOverlay — ?cms=1 URL param이 있으면 사이트의 각 섹션에 "편집" 버튼을 띄움.
+ * 각 섹션 컴포넌트에 data-cms-section="이름" data-cms-href="/admin/#/collections/..." 추가하면 자동 인식.
+ *
+ * BaseLayout에 한 번만 include하면 사이트 전체에서 동작.
+ */
+---
+
+<script is:inline>
+  (function cmsOverlay() {
+    const params = new URLSearchParams(location.search);
+    if (params.get("cms") !== "1") return;
+    document.documentElement.classList.add("cms-mode");
+
+    // 1) 데이터 속성으로 마킹된 섹션에 편집 버튼 부착
+    function attachButtons() {
+      const sections = document.querySelectorAll("[data-cms-section]");
+      sections.forEach((el) => {
+        if (el.querySelector(":scope > .cms-edit-btn")) return;
+        const name = el.getAttribute("data-cms-section");
+        const href = el.getAttribute("data-cms-href") || "/admin";
+        const a = document.createElement("a");
+        a.className = "cms-edit-btn";
+        a.href = href;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.setAttribute("aria-label", "이 섹션 편집: " + name);
+        a.innerHTML = '<i class="ti ti-edit"></i><span>' + name + ' 편집</span>';
+        // 컨테이너에 position이 없으면 relative로
+        const pos = getComputedStyle(el).position;
+        if (pos === "static") el.style.position = "relative";
+        el.appendChild(a);
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", attachButtons);
+    } else {
+      attachButtons();
+    }
+  })();
+</script>
+
+<style is:global>
+  html.cms-mode body {
+    /* 살짝 위쪽 여백으로 floating CMS 표시줄 위해 */
+    padding-top: 0;
+  }
+  html.cms-mode [data-cms-section] {
+    outline: 2px dashed rgba(32, 96, 173, 0.35);
+    outline-offset: -4px;
+    transition: outline-color 0.2s;
+  }
+  html.cms-mode [data-cms-section]:hover {
+    outline-color: rgba(32, 96, 173, 0.8);
+  }
+  .cms-edit-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 9999;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: #2060ad;
+    color: white;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: "Inter", -apple-system, system-ui, sans-serif;
+    box-shadow: 0 4px 12px rgba(4, 44, 83, 0.25);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition: opacity 0.2s, transform 0.2s, background 0.15s;
+  }
+  [data-cms-section]:hover > .cms-edit-btn {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .cms-edit-btn:hover { background: #194b88; }
+  .cms-edit-btn i { font-size: 14px; }
+
+  /* CMS 모드 상시 표시 배너 */
+  html.cms-mode::before {
+    content: "👀 CMS 미리보기 모드 — 섹션에 마우스 올리면 [편집] 버튼이 뜹니다";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99998;
+    background: linear-gradient(90deg, #2060ad, #042c53);
+    color: white;
+    text-align: center;
+    padding: 8px 12px;
+    font-size: 12.5px;
+    font-weight: 500;
+    font-family: "Inter", -apple-system, system-ui, sans-serif;
+    box-shadow: 0 2px 8px rgba(4, 44, 83, 0.2);
+    letter-spacing: 0.2px;
+    pointer-events: none;
+  }
+  html.cms-mode body { padding-top: 36px; }
+</style>

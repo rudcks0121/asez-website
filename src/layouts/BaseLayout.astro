@@ -12,6 +12,7 @@
  */
 import "../styles/global.css";
 import { getLangFromUrl } from "../i18n/utils";
+import CmsEditOverlay from "../components/CmsEditOverlay.astro";
 
 interface Props {
   title?: string;
@@ -106,6 +107,7 @@ const altLang = lang === "ko" ? "en" : "ko";
     <title>{title}</title>
   </head>
   <body>
+    <CmsEditOverlay />
     <slot />
     <script>
       /* IntersectionObserver — .reveal 클래스가 붙은 요소가 화면에 들어오면

@@ -1,6 +1,7 @@
 ---
 import { getLangFromUrl, pathLocalized } from "../i18n/utils";
 import { countriesByContinent, continentViewBox } from "../lib/world-map";
+import { cfImage, cfSrcset } from "../lib/img";
 import regionsData from "../data/cms/regions.json";
 
 const lang = getLangFromUrl(Astro.url);
@@ -20,7 +21,11 @@ const regions = regionsData.items.map((r: any) => {
 });
 ---
 
-<section class="by-region reveal">
+<section
+  class="by-region reveal"
+  data-cms-section="Activity by Region"
+  data-cms-href="/admin/#/collections/home/entries/regions"
+>
   <div class="inner">
     <div class="head">
       <div class="head-text">
@@ -37,7 +42,14 @@ const regions = regionsData.items.map((r: any) => {
       {regions.map((r) => (
         <a class="region" href={r.href}>
           <div class="media">
-            <img src={r.img} alt={r.name} loading="lazy" />
+            <img
+              src={cfImage(r.img, { w: 600, fit: "cover" })}
+              srcset={cfSrcset(r.img, [400, 600, 900], { fit: "cover" })}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 250px"
+              alt={r.name}
+              loading="lazy"
+              decoding="async"
+            />
             <div class="cnt-badge">
               <span class="cnt">{r.countries}</span>
               <span class="cnt-lbl">{c.countries}</span>

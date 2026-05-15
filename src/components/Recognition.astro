@@ -6,7 +6,11 @@ const lang = getLangFromUrl(Astro.url);
 const c = (recognition as any)[lang] ?? recognition.en;
 ---
 
-<section class="recognition reveal">
+<section
+  class="recognition reveal"
+  data-cms-section="Recognition"
+  data-cms-href="/admin/#/collections/home/entries/recognition"
+>
   <div class="inner">
     <div class="head">
       <div class="head-text">

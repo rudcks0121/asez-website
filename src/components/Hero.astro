@@ -1,12 +1,19 @@
 ---
 import { getLangFromUrl, pathLocalized } from "../i18n/utils";
+import { cfImage } from "../lib/img";
 import hero from "../data/cms/hero.json";
 
 const lang = getLangFromUrl(Astro.url);
 const c = (hero as any)[lang] ?? hero.en;
+const heroUrl = cfImage(hero.heroImage, { w: 1920, q: 80, fit: "cover" });
 ---
 
-<section class="hero" style={`background-image: url('${hero.heroImage}');`}>
+<section
+  class="hero"
+  style={`background-image: url('${heroUrl}');`}
+  data-cms-section="Hero (메인 배너)"
+  data-cms-href="/admin/#/collections/home/entries/hero"
+>
   <div class="overlay"></div>
   <div class="inner">
     <p class="eyebrow light">{c.eyebrow}</p>

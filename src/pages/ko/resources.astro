@@ -1,0 +1,142 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import PageHero from "../../components/PageHero.astro";
+import Footer from "../../components/Footer.astro";
+import CtaBanner from "../../components/CtaBanner.astro";
+
+const allReports = await getCollection("reports", ({ data }) => !data.draft);
+const reports = allReports.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const fmt = (d: Date) => d.toLocaleDateString("ko-KR", { year: "numeric", month: "long" });
+
+const toolkits = [
+  { icon: "ti-leaf",         title: "나무 심기 플레이북", desc: "챕터 주최 나무 심기 행사 가이드 — 부지 선정, 수종 선택, 사후 관리.", file: "#" },
+  { icon: "ti-trash",        title: "정화 활동 키트",      desc: "해변, 공원, 캠퍼스 정화 활동 — 허가, 준비물 체크리스트, 봉사자 안내 템플릿.", file: "#" },
+  { icon: "ti-presentation", title: "워크숍 슬라이드",     desc: "기후, 플라스틱, 디지털 인권, 지역 안전 주제의 발표 자료.", file: "#" },
+  { icon: "ti-microphone",   title: "포럼 운영 가이드",     desc: "캠퍼스·지역 포럼 — 연사 섭외, 일정 설계, 후속 작업.", file: "#" },
+];
+
+const typeIcons: Record<string, string> = {
+  "Annual report": "ti-calendar-stats",
+  "SDG progress": "ti-target-arrow",
+  "Research brief": "ti-microscope",
+  "Policy paper": "ti-gavel",
+};
+const typeKo: Record<string, string> = {
+  "Annual report": "연간 보고서",
+  "SDG progress": "SDG 진행",
+  "Research brief": "리서치",
+  "Policy paper": "정책 페이퍼",
+};
+---
+
+<BaseLayout
+  lang="ko"
+  title="자료실 — ASEZ"
+  description="ASEZ 연간 보고서, 리서치, 툴킷, 교육 자료."
+>
+  <Header />
+  <PageHero
+    eyebrow="자료실"
+    icon="ti-folders"
+    title="보고서, 리서치, 툴킷."
+    lead="공개 보고서와 현장 검증된 툴킷 — 파트너, 연구자, 기자, 챕터 운영자를 위해."
+  />
+  <main>
+    <section class="reports reveal">
+      <div class="inner">
+        <p class="eyebrow">보고서 & 리서치</p>
+        <h2>공개된 리서치와 연간 보고서.</h2>
+        <div class="grid">
+          {reports.map((r) => (
+            <a class="report" href={r.data.pdfUrl || "#"} target={r.data.pdfUrl && r.data.pdfUrl !== "#" ? "_blank" : undefined} rel="noopener">
+              <div class="report-icon" style={`background: ${r.data.pillBg}; color: ${r.data.pillColor};`}>
+                <i class={`ti ${typeIcons[r.data.type] || "ti-file-text"}`}></i>
+              </div>
+              <div class="report-body">
+                <span class="pill" style={`background: ${r.data.pillBg}; color: ${r.data.pillColor};`}>{typeKo[r.data.type] || r.data.type}</span>
+                <h3>{r.data.title}</h3>
+                <p class="excerpt">{r.data.excerpt}</p>
+                <p class="meta">
+                  <span>{fmt(r.data.date)}</span>
+                  <span>·</span>
+                  <span>{r.data.pages}p</span>
+                </p>
+              </div>
+              <i class="ti ti-download download-icon"></i>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="toolkits reveal">
+      <div class="inner">
+        <p class="eyebrow">현장 툴킷</p>
+        <h2>챕터 운영자를 위해.</h2>
+        <p class="intro">먼저 해본 챕터들의 검증된 가이드 — 우리 팀 회의에서 바로 활용.</p>
+        <div class="grid">
+          {toolkits.map((t) => (
+            <article class="toolkit">
+              <i class={`ti ${t.icon}`}></i>
+              <h3>{t.title}</h3>
+              <p>{t.desc}</p>
+              <a href={t.file} class="tk-link">
+                <span>요청하기</span>
+                <i class="ti ti-arrow-right"></i>
+              </a>
+            </article>
+          ))}
+        </div>
+        <p class="hint">툴킷은 활동 중인 ASEZ 챕터 코디네이터에게 공유됩니다. 접근이 필요하면 문의해 주세요.</p>
+      </div>
+    </section>
+
+    <CtaBanner variant="contact" />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { padding: var(--section-pad-y) var(--section-pad-x); }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--brand); margin: 0 0 14px; }
+  section h2 { font-size: var(--fs-h2); margin: 0 0 14px; letter-spacing: -0.4px; max-width: 640px; }
+  .intro { font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.6; margin: 0 0 36px; max-width: 640px; }
+  .reports { background: var(--bg-primary); }
+  .reports .grid { display: flex; flex-direction: column; gap: 12px; margin-top: 36px; }
+  .report { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px; padding: 24px; background: var(--bg-secondary); border-radius: var(--radius-lg); border: 0.5px solid var(--border); color: var(--text-primary); text-decoration: none; transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; }
+  .report:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(4, 44, 83, 0.08); }
+  .report-icon { width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; border-radius: 14px; flex-shrink: 0; }
+  .report-icon i { font-size: 26px; }
+  .report-body { min-width: 0; }
+  .report-body .pill { display: inline-block; font-size: var(--fs-caption); padding: 3px 10px; border-radius: var(--radius-pill); font-weight: 500; margin-bottom: 8px; }
+  .report-body h3 { font-size: 17px; margin: 0 0 6px; letter-spacing: -0.2px; }
+  .report-body .excerpt { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.5; margin: 0 0 8px; }
+  .report-body .meta { font-size: var(--fs-caption); color: var(--text-tertiary); margin: 0; display: flex; gap: 8px; }
+  .download-icon { font-size: 22px; color: var(--text-tertiary); flex-shrink: 0; transition: color 0.2s, transform 0.2s; }
+  .report:hover .download-icon { color: var(--brand); transform: translate(2px, -2px); }
+  .toolkits { background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .toolkits .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .toolkit { padding: 28px; background: var(--bg-primary); border-radius: var(--radius-lg); border: 0.5px solid var(--border); transition: border-color 0.2s, transform 0.2s; }
+  .toolkit:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .toolkit > i { font-size: 28px; color: var(--brand); margin-bottom: 14px; display: inline-block; }
+  .toolkit h3 { font-size: var(--fs-h3); margin: 0 0 8px; }
+  .toolkit p { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.55; margin: 0 0 14px; }
+  .tk-link { display: inline-flex; align-items: center; gap: 6px; color: var(--brand); font-weight: 500; font-size: var(--fs-small); text-decoration: none; }
+  .tk-link i { transition: transform 0.2s; }
+  .tk-link:hover i { transform: translateX(3px); }
+  .hint { font-size: var(--fs-small); color: var(--text-tertiary); margin: 32px 0 0; }
+  @media (max-width: 900px) {
+    .toolkits .grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    section { padding: 56px 20px; }
+    .report { grid-template-columns: auto 1fr; gap: 16px; }
+    .report-icon { width: 44px; height: 44px; border-radius: 10px; }
+    .report-icon i { font-size: 22px; }
+    .download-icon { grid-column: 2; justify-self: end; }
+  }
+</style>

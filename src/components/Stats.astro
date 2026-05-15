@@ -6,7 +6,11 @@ const lang = getLangFromUrl(Astro.url);
 const c = (stats as any)[lang] ?? stats.en;
 ---
 
-<section class="stats reveal">
+<section
+  class="stats reveal"
+  data-cms-section="Stats (숫자)"
+  data-cms-href="/admin/#/collections/home/entries/stats"
+>
   <div class="inner">
     <div class="head">
       <p class="eyebrow">{c.eyebrow}</p>

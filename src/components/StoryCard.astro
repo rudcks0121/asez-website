@@ -1,4 +1,6 @@
 ---
+import { cfImage, cfSrcset } from "../lib/img";
+
 interface Props {
   category: string;
   title: string;
@@ -21,12 +23,22 @@ const {
   pillColor,
   href = "#",
 } = Astro.props;
+
+const optimizedSrc = imgUrl ? cfImage(imgUrl, { w: 600, fit: "cover" }) : undefined;
+const srcset = imgUrl ? cfSrcset(imgUrl, [400, 600, 900], { fit: "cover" }) : undefined;
 ---
 
 <a class="card" href={href}>
   <div class="media" style={!imgUrl ? `background: ${bg};` : undefined}>
     {imgUrl ? (
-      <img src={imgUrl} alt={title} loading="lazy" />
+      <img
+        src={optimizedSrc}
+        srcset={srcset || undefined}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+        alt={title}
+        loading="lazy"
+        decoding="async"
+      />
     ) : (
       <i class="ti ti-photo" style={`color: ${iconColor};`}></i>
     )}

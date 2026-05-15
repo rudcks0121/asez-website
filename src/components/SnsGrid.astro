@@ -6,7 +6,11 @@ const lang = getLangFromUrl(Astro.url);
 const c = (sns as any)[lang] ?? sns.en;
 ---
 
-<section class="section reveal">
+<section
+  class="section reveal"
+  data-cms-section="SNS Grid"
+  data-cms-href="/admin/#/collections/home/entries/sns"
+>
   <div class="inner">
     <div class="head">
       <div>

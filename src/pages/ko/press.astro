@@ -1,0 +1,153 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import PageHero from "../../components/PageHero.astro";
+import Footer from "../../components/Footer.astro";
+import StoryCard from "../../components/StoryCard.astro";
+import CtaBanner from "../../components/CtaBanner.astro";
+
+const allStories = await getCollection("stories", ({ data }) => !data.draft);
+const pressStories = allStories
+  .filter((s) =>
+    ["Recognition", "Diplomacy"].includes(s.data.category) ||
+    s.data.category === "Press"
+  )
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const fmt = (d: Date) => d.toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" });
+
+const mediaContacts = [
+  { name: "언론 문의", email: "press@asez.org", note: "인터뷰 요청, 성명서, 미디어 키트" },
+  { name: "일반 미디어", email: "contact@asez.org", note: "사진 사용 권한, 일반 문의" },
+];
+
+const kit = [
+  { icon: "ti-photo",    title: "사진 라이브러리", desc: "전 세계 챕터의 고해상도 현장 사진.",                                            note: "press@asez.org로 요청" },
+  { icon: "ti-vector",   title: "로고 + 브랜드 자료", desc: "ASEZ 로고, 컬러 팔레트, 타이포그래피 가이드라인.",                              note: "press@asez.org로 브랜드 키트 요청" },
+  { icon: "ti-file-text", title: "팩트 시트",         desc: "조직 정보, 리더십, 지역 활동, 최근 성과.",                                     note: "요청 시 제공" },
+  { icon: "ti-quote",    title: "보일러플레이트",      desc: "보도자료용 공식 단체 소개문.",                                                note: "아래 참고" },
+];
+
+const boilerplate = `ASEZ (Save the Earth from A to Z)는 전 세계 175개국 7,500여 캠퍼스에서 활동하는 대학생 봉사단 글로벌 네트워크입니다. S.A.V.E 프레임워크(사회봉사, 인식개선, 재해구호, 환경보호)를 통해 ASEZ 챕터들은 지역 기후 행동, 플라스틱 감축, 재해 대응, 지역사회 봉사를 이끌어 갑니다. UN 기관, 각국 정부, 글로벌 NGO 등 80여 기관과 MOU를 체결했으며, UNCCD 사무총장상, 미국 대통령 봉사상, Green Apple Awards를 수상한 바 있습니다.`;
+---
+
+<BaseLayout
+  lang="ko"
+  title="언론 & 미디어 — ASEZ"
+  description="ASEZ 보도자료, 수상 스토리, 미디어 자료."
+>
+  <Header />
+  <PageHero
+    eyebrow="언론 & 미디어"
+    icon="ti-news"
+    title="미디어 센터."
+    lead="보도자료, 수상 스토리, ASEZ 활동을 다루는 데 필요한 자료들."
+  />
+  <main>
+    <section class="kit reveal">
+      <div class="inner">
+        <p class="eyebrow">미디어 키트</p>
+        <h2>기자·편집자를 위한 자료.</h2>
+        <div class="grid">
+          {kit.map((k) => (
+            <div class="card">
+              <i class={`ti ${k.icon}`}></i>
+              <h3>{k.title}</h3>
+              <p class="desc">{k.desc}</p>
+              <p class="note">{k.note}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="boilerplate reveal">
+      <div class="inner">
+        <p class="eyebrow">보일러플레이트</p>
+        <h2>공식 단체 소개문.</h2>
+        <blockquote>{boilerplate}</blockquote>
+        <p class="hint">보도자료에 그대로 사용 가능합니다. 업데이트나 번역 문의는 press@asez.org로.</p>
+      </div>
+    </section>
+
+    {pressStories.length > 0 && (
+      <section class="recent reveal">
+        <div class="inner">
+          <p class="eyebrow">최근 언론 보도</p>
+          <h2>뉴스 & 수상 소식.</h2>
+          <div class="grid stories">
+            {pressStories.slice(0, 9).map((s) => (
+              <StoryCard
+                category={s.data.category}
+                title={s.data.title}
+                date={fmt(s.data.date)}
+                imgUrl={s.data.image}
+                pillBg={s.data.pillBg}
+                pillColor={s.data.pillColor}
+                href={`/ko/stories/${s.id}`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <section class="contacts reveal">
+      <div class="inner">
+        <p class="eyebrow">연락처</p>
+        <h2>언론팀에 연락하기.</h2>
+        <div class="contact-grid">
+          {mediaContacts.map((c) => (
+            <div class="contact">
+              <i class="ti ti-mail"></i>
+              <h3>{c.name}</h3>
+              <a href={`mailto:${c.email}`}>{c.email}</a>
+              <p>{c.note}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <CtaBanner variant="contact" />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { padding: var(--section-pad-y) var(--section-pad-x); }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--brand); margin: 0 0 14px; }
+  section h2 { font-size: var(--fs-h2); margin: 0 0 32px; letter-spacing: -0.4px; max-width: 640px; }
+  .kit { background: var(--bg-primary); }
+  .kit .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .kit .card { padding: 26px; border-radius: var(--radius-lg); border: 0.5px solid var(--border); background: var(--bg-secondary); transition: border-color 0.2s, transform 0.3s; }
+  .kit .card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .kit .card i { font-size: 28px; color: var(--brand); margin-bottom: 14px; display: inline-block; }
+  .kit .card h3 { font-size: var(--fs-h3); margin: 0 0 8px; }
+  .kit .card .desc { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.55; margin: 0 0 10px; }
+  .kit .card .note { font-size: var(--fs-caption); color: var(--brand); font-weight: 500; margin: 0; }
+  .boilerplate { background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .boilerplate blockquote { margin: 0 0 16px; padding: 28px 32px; border-left: 4px solid var(--brand); background: var(--bg-primary); font-size: 17px; line-height: 1.7; border-radius: 0 12px 12px 0; }
+  .boilerplate .hint { font-size: var(--fs-small); color: var(--text-tertiary); margin: 0; }
+  .recent { background: var(--bg-primary); border-top: 0.5px solid var(--border); }
+  .recent .stories { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .contacts { background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .contact-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .contact { padding: 28px; border-radius: var(--radius-lg); background: var(--bg-primary); border: 0.5px solid var(--border); }
+  .contact i { font-size: 28px; color: var(--brand); margin-bottom: 12px; display: inline-block; }
+  .contact h3 { font-size: var(--fs-h3); margin: 0 0 8px; }
+  .contact a { color: var(--brand); font-weight: 500; font-size: var(--fs-body); text-decoration: none; }
+  .contact a:hover { text-decoration: underline; }
+  .contact p { font-size: var(--fs-small); color: var(--text-secondary); margin: 8px 0 0; line-height: 1.55; }
+  @media (max-width: 900px) {
+    .kit .grid, .contact-grid { grid-template-columns: 1fr; }
+    .recent .stories { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    section { padding: 56px 20px; }
+    .recent .stories { grid-template-columns: 1fr; }
+    .boilerplate blockquote { padding: 22px 24px; font-size: 16px; }
+  }
+</style>

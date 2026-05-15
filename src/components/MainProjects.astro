@@ -7,7 +7,11 @@ const c = (projects as any)[lang] ?? projects.en;
 const p = (path: string) => pathLocalized(path, lang);
 ---
 
-<section class="main-projects reveal">
+<section
+  class="main-projects reveal"
+  data-cms-section="Major Projects"
+  data-cms-href="/admin/#/collections/home/entries/projects"
+>
   <div class="inner">
     <div class="head">
       <div class="head-text">

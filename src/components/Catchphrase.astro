@@ -6,7 +6,11 @@ const lang = getLangFromUrl(Astro.url);
 const c = (catchphrase as any)[lang] ?? catchphrase.en;
 ---
 
-<section class="catchphrase reveal">
+<section
+  class="catchphrase reveal"
+  data-cms-section="Catchphrase"
+  data-cms-href="/admin/#/collections/home/entries/catchphrase"
+>
   <div class="inner">
     <p class="eyebrow">{c.eyebrow}</p>
     <p class="line" set:html={c.line}></p>

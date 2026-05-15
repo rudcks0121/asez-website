@@ -1,0 +1,194 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import PageHero from "../components/PageHero.astro";
+import Footer from "../components/Footer.astro";
+import CtaBanner from "../components/CtaBanner.astro";
+
+// Reports 컬렉션을 종류별로 묶음
+const allReports = await getCollection("reports", ({ data }) => !data.draft);
+const reports = allReports.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const fmt = (d: Date) => d.toLocaleDateString("en-US", { year: "numeric", month: "long" });
+
+// Toolkit / educational materials (정적 데이터, 추후 CMS화 가능)
+const toolkits = [
+  { icon: "ti-leaf",         title: "Tree planting playbook", desc: "Step-by-step guide for chapter-led tree planting events — site selection, species choice, post-care.", file: "#" },
+  { icon: "ti-trash",        title: "Cleanup organizing kit",  desc: "Plan beach, park, or campus cleanups: permits, supplies checklist, volunteer briefing template.",    file: "#" },
+  { icon: "ti-presentation", title: "Workshop slide decks",    desc: "Ready-to-present decks for climate, plastic, digital rights, and community safety topics.",         file: "#" },
+  { icon: "ti-microphone",   title: "Forum hosting guide",      desc: "Run a campus or community forum — speaker outreach, agenda design, follow-up.",                    file: "#" },
+];
+
+const typeIcons: Record<string, string> = {
+  "Annual report": "ti-calendar-stats",
+  "SDG progress": "ti-target-arrow",
+  "Research brief": "ti-microscope",
+  "Policy paper": "ti-gavel",
+};
+---
+
+<BaseLayout
+  title="Resources — ASEZ"
+  description="Annual reports, research briefs, toolkits, and educational materials from ASEZ."
+>
+  <Header />
+  <PageHero
+    eyebrow="Resources"
+    icon="ti-folders"
+    title="Reports, research, toolkits."
+    lead="Public reports and field-tested toolkits — for partners, researchers, journalists, and chapter organizers."
+  />
+  <main>
+    <!-- Reports list -->
+    <section class="reports reveal">
+      <div class="inner">
+        <p class="eyebrow">Reports & research</p>
+        <h2>Published research and annual reports.</h2>
+        <div class="grid">
+          {reports.map((r) => (
+            <a class="report" href={r.data.pdfUrl || "#"} target={r.data.pdfUrl && r.data.pdfUrl !== "#" ? "_blank" : undefined} rel="noopener">
+              <div class="report-icon" style={`background: ${r.data.pillBg}; color: ${r.data.pillColor};`}>
+                <i class={`ti ${typeIcons[r.data.type] || "ti-file-text"}`}></i>
+              </div>
+              <div class="report-body">
+                <span class="pill" style={`background: ${r.data.pillBg}; color: ${r.data.pillColor};`}>{r.data.type}</span>
+                <h3>{r.data.title}</h3>
+                <p class="excerpt">{r.data.excerpt}</p>
+                <p class="meta">
+                  <span>{fmt(r.data.date)}</span>
+                  <span>·</span>
+                  <span>{r.data.pages}p</span>
+                </p>
+              </div>
+              <i class="ti ti-download download-icon"></i>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Toolkits -->
+    <section class="toolkits reveal">
+      <div class="inner">
+        <p class="eyebrow">Field toolkits</p>
+        <h2>For chapter organizers.</h2>
+        <p class="intro">Battle-tested guides from chapters that have done it — drop into your local team's planning meeting.</p>
+        <div class="grid">
+          {toolkits.map((t) => (
+            <article class="toolkit">
+              <i class={`ti ${t.icon}`}></i>
+              <h3>{t.title}</h3>
+              <p>{t.desc}</p>
+              <a href={t.file} class="tk-link">
+                <span>Request access</span>
+                <i class="ti ti-arrow-right"></i>
+              </a>
+            </article>
+          ))}
+        </div>
+        <p class="hint">Toolkits are shared with active ASEZ chapter coordinators. Contact us if your team needs access.</p>
+      </div>
+    </section>
+
+    <CtaBanner variant="contact" />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { padding: var(--section-pad-y) var(--section-pad-x); }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--brand); margin: 0 0 14px; }
+  section h2 { font-size: var(--fs-h2); margin: 0 0 14px; letter-spacing: -0.4px; max-width: 640px; }
+  .intro { font-size: var(--fs-body); color: var(--text-secondary); line-height: 1.6; margin: 0 0 36px; max-width: 640px; }
+
+  .reports { background: var(--bg-primary); }
+  .reports .grid { display: flex; flex-direction: column; gap: 12px; margin-top: 36px; }
+  .report {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+    padding: 24px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .report:hover {
+    border-color: var(--brand);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(4, 44, 83, 0.08);
+  }
+  .report-icon {
+    width: 56px; height: 56px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 14px;
+    flex-shrink: 0;
+  }
+  .report-icon i { font-size: 26px; }
+  .report-body { min-width: 0; }
+  .report-body .pill {
+    display: inline-block;
+    font-size: var(--fs-caption);
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .report-body h3 { font-size: 17px; margin: 0 0 6px; letter-spacing: -0.2px; }
+  .report-body .excerpt { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.5; margin: 0 0 8px; }
+  .report-body .meta { font-size: var(--fs-caption); color: var(--text-tertiary); margin: 0; display: flex; gap: 8px; }
+  .download-icon {
+    font-size: 22px;
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+    transition: color 0.2s, transform 0.2s;
+  }
+  .report:hover .download-icon { color: var(--brand); transform: translate(2px, -2px); }
+
+  .toolkits { background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .toolkits .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .toolkit {
+    padding: 28px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .toolkit:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .toolkit > i {
+    font-size: 28px;
+    color: var(--brand);
+    margin-bottom: 14px;
+    display: inline-block;
+  }
+  .toolkit h3 { font-size: var(--fs-h3); margin: 0 0 8px; }
+  .toolkit p { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.55; margin: 0 0 14px; }
+  .tk-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--brand);
+    font-weight: 500;
+    font-size: var(--fs-small);
+    text-decoration: none;
+  }
+  .tk-link i { transition: transform 0.2s; }
+  .tk-link:hover i { transform: translateX(3px); }
+  .hint { font-size: var(--fs-small); color: var(--text-tertiary); margin: 32px 0 0; }
+
+  @media (max-width: 900px) {
+    .toolkits .grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    section { padding: 56px 20px; }
+    .report { grid-template-columns: auto 1fr; gap: 16px; }
+    .report-icon { width: 44px; height: 44px; border-radius: 10px; }
+    .report-icon i { font-size: 22px; }
+    .download-icon { grid-column: 2; justify-self: end; }
+  }
+</style>

@@ -5,6 +5,7 @@ import Header from "../../../components/Header.astro";
 import Footer from "../../../components/Footer.astro";
 import StoryCard from "../../../components/StoryCard.astro";
 import CtaBanner from "../../../components/CtaBanner.astro";
+import { cfImage, cfSrcset } from "../../../lib/img";
 
 export async function getStaticPaths() {
   const stories = await getCollection("stories", ({ data }) => !data.draft);
@@ -64,7 +65,18 @@ const shareUrl = encodeURIComponent(canonicalUrl);
       </div>
     </div>
 
-    {story.data.image && (<div class="cover"><img src={story.data.image} alt={story.data.title} /></div>)}
+    {story.data.image && (
+      <div class="cover">
+        <img
+          src={cfImage(story.data.image, { w: 1600, fit: "cover" })}
+          srcset={cfSrcset(story.data.image, [800, 1200, 1600, 2000], { fit: "cover" })}
+          sizes="(max-width: 768px) 100vw, 1200px"
+          alt={story.data.title}
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+    )}
 
     <div class="body">
       <div class="inner prose"><Content /></div>

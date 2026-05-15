@@ -1,0 +1,67 @@
+---
+/**
+ * Img — Cloudflare Image Resizing을 사용하는 반응형 이미지 컴포넌트.
+ *
+ * 사용:
+ *   <Img src="/images/hero.jpg" alt="..." width={1200} />
+ *   <Img src="/images/card.jpg" alt="..." width={600} sizes="(max-width: 768px) 100vw, 33vw" />
+ *
+ * 외부 URL(https://...)이면 변환 없이 <img>로만 출력.
+ * 같은 도메인 자원이면 cdn-cgi/image/ 변환을 거쳐 WebP/AVIF로 자동 변환.
+ */
+import { cfImage, cfSrcset, defaultSizes, type CfImageOptions } from "../lib/img";
+
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  sizes?: string;
+  /** 반응형 srcset에 사용할 너비 배열. 없으면 [width/2, width, width*1.5] 자동 생성 */
+  srcWidths?: number[];
+  /** "lazy" (default) / "eager" — above-the-fold 이미지는 "eager" 권장 */
+  loading?: "lazy" | "eager";
+  /** "async" (default) / "sync" / "auto" */
+  decoding?: "async" | "sync" | "auto";
+  class?: string;
+  style?: string;
+  fit?: CfImageOptions["fit"];
+  gravity?: CfImageOptions["gravity"];
+  quality?: number;
+}
+
+const {
+  src,
+  alt,
+  width = 1200,
+  height,
+  sizes = defaultSizes(width),
+  srcWidths,
+  loading = "lazy",
+  decoding = "async",
+  fit = "cover",
+  gravity = "auto",
+  quality,
+  class: className = "",
+  style = "",
+} = Astro.props;
+
+const widths = srcWidths ?? [Math.round(width / 2), width, Math.round(width * 1.5)];
+const isExternal = /^https?:\/\//i.test(src) || /^(data|blob):/i.test(src);
+const opts: CfImageOptions = { w: width, q: quality, fit, gravity };
+const finalSrc = cfImage(src, opts);
+const srcset = isExternal ? undefined : cfSrcset(src, widths, { q: quality, fit, gravity });
+---
+
+<img
+  src={finalSrc}
+  srcset={srcset}
+  sizes={srcset ? sizes : undefined}
+  alt={alt}
+  width={width}
+  height={height}
+  loading={loading}
+  decoding={decoding}
+  class={className}
+  style={style}
+/>

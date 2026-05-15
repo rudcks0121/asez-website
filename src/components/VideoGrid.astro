@@ -6,7 +6,11 @@ const lang = getLangFromUrl(Astro.url);
 const c = (videos as any)[lang] ?? videos.en;
 ---
 
-<section class="section reveal">
+<section
+  class="section reveal"
+  data-cms-section="Video Grid"
+  data-cms-href="/admin/#/collections/home/entries/videos"
+>
   <div class="inner">
     <div class="head">
       <div>

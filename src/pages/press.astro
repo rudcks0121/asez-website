@@ -1,0 +1,171 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import PageHero from "../components/PageHero.astro";
+import Footer from "../components/Footer.astro";
+import StoryCard from "../components/StoryCard.astro";
+import CtaBanner from "../components/CtaBanner.astro";
+
+// Stories 중 Press/Recognition 관련 카테고리만
+const allStories = await getCollection("stories", ({ data }) => !data.draft);
+const pressStories = allStories
+  .filter((s) =>
+    ["Recognition", "Diplomacy"].includes(s.data.category) ||
+    s.data.category === "Press"
+  )
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const fmt = (d: Date) => d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+const mediaContacts = [
+  { name: "Press inquiries", email: "press@asez.org", note: "Interview requests, statements, media kit" },
+  { name: "General media", email: "contact@asez.org", note: "Photo permissions, general questions" },
+];
+
+const kit = [
+  { icon: "ti-photo",    title: "Photo library",     desc: "High-resolution field photos from chapters worldwide.",            note: "Available on request — email press@asez.org" },
+  { icon: "ti-vector",   title: "Logo + brand assets", desc: "ASEZ logo, color palette, typography guidelines.",               note: "Email press@asez.org for the brand kit" },
+  { icon: "ti-file-text", title: "Fact sheet",         desc: "Org facts, leadership, regional reach, recent accomplishments.", note: "Available on request" },
+  { icon: "ti-quote",    title: "Boilerplate",         desc: "Approved organization description for press releases.",          note: "See below" },
+];
+
+const boilerplate = `ASEZ (Save the Earth from A to Z) is a global network of university student volunteers active in 175 countries and 7,500 campuses. Through the S.A.V.E framework — Social service, Awareness, Victim relief, and Environmental protection — ASEZ chapters lead local climate action, plastic reduction, disaster response, and community service. The organization has signed 80+ MOUs with UN agencies, national governments, and global NGOs, and has received the UNCCD Executive Secretary's Award, U.S. President's Volunteer Service Award, and Green Apple Awards.`;
+---
+
+<BaseLayout
+  title="Press & Media — ASEZ"
+  description="Press releases, recognition stories, and media resources from ASEZ."
+>
+  <Header />
+  <PageHero
+    eyebrow="Press & Media"
+    icon="ti-news"
+    title="Media center."
+    lead="Press releases, recognition stories, and the resources you'll need to cover ASEZ's work."
+  />
+  <main>
+    <!-- Media kit -->
+    <section class="kit reveal">
+      <div class="inner">
+        <p class="eyebrow">Media kit</p>
+        <h2>For journalists and editors.</h2>
+        <div class="grid">
+          {kit.map((k) => (
+            <div class="card">
+              <i class={`ti ${k.icon}`}></i>
+              <h3>{k.title}</h3>
+              <p class="desc">{k.desc}</p>
+              <p class="note">{k.note}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Boilerplate -->
+    <section class="boilerplate reveal">
+      <div class="inner">
+        <p class="eyebrow">Boilerplate</p>
+        <h2>Approved organization description.</h2>
+        <blockquote>{boilerplate}</blockquote>
+        <p class="hint">Use this verbatim in press releases. For updates or translations, contact press@asez.org.</p>
+      </div>
+    </section>
+
+    <!-- Recent press stories -->
+    {pressStories.length > 0 && (
+      <section class="recent reveal">
+        <div class="inner">
+          <p class="eyebrow">Recent press</p>
+          <h2>News & recognition.</h2>
+          <div class="grid stories">
+            {pressStories.slice(0, 9).map((s) => (
+              <StoryCard
+                category={s.data.category}
+                title={s.data.title}
+                date={fmt(s.data.date)}
+                imgUrl={s.data.image}
+                pillBg={s.data.pillBg}
+                pillColor={s.data.pillColor}
+                href={`/stories/${s.id}`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Media contacts -->
+    <section class="contacts reveal">
+      <div class="inner">
+        <p class="eyebrow">Contacts</p>
+        <h2>Reach our press team.</h2>
+        <div class="contact-grid">
+          {mediaContacts.map((c) => (
+            <div class="contact">
+              <i class="ti ti-mail"></i>
+              <h3>{c.name}</h3>
+              <a href={`mailto:${c.email}`}>{c.email}</a>
+              <p>{c.note}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <CtaBanner variant="contact" />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  section { padding: var(--section-pad-y) var(--section-pad-x); }
+  .inner { max-width: var(--max-width); margin: 0 auto; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--brand); margin: 0 0 14px; }
+  section h2 { font-size: var(--fs-h2); margin: 0 0 32px; letter-spacing: -0.4px; max-width: 640px; }
+
+  .kit { background: var(--bg-primary); }
+  .kit .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .kit .card { padding: 26px; border-radius: var(--radius-lg); border: 0.5px solid var(--border); background: var(--bg-secondary); transition: border-color 0.2s, transform 0.3s; }
+  .kit .card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .kit .card i { font-size: 28px; color: var(--brand); margin-bottom: 14px; display: inline-block; }
+  .kit .card h3 { font-size: var(--fs-h3); margin: 0 0 8px; }
+  .kit .card .desc { font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.55; margin: 0 0 10px; }
+  .kit .card .note { font-size: var(--fs-caption); color: var(--brand); font-weight: 500; margin: 0; }
+
+  .boilerplate { background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .boilerplate blockquote {
+    margin: 0 0 16px;
+    padding: 28px 32px;
+    border-left: 4px solid var(--brand);
+    background: var(--bg-primary);
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text-primary);
+    border-radius: 0 12px 12px 0;
+  }
+  .boilerplate .hint { font-size: var(--fs-small); color: var(--text-tertiary); margin: 0; }
+
+  .recent { background: var(--bg-primary); border-top: 0.5px solid var(--border); }
+  .recent .stories { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+
+  .contacts { background: var(--bg-secondary); border-top: 0.5px solid var(--border); }
+  .contact-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .contact { padding: 28px; border-radius: var(--radius-lg); background: var(--bg-primary); border: 0.5px solid var(--border); }
+  .contact i { font-size: 28px; color: var(--brand); margin-bottom: 12px; display: inline-block; }
+  .contact h3 { font-size: var(--fs-h3); margin: 0 0 8px; }
+  .contact a { color: var(--brand); font-weight: 500; font-size: var(--fs-body); text-decoration: none; }
+  .contact a:hover { text-decoration: underline; }
+  .contact p { font-size: var(--fs-small); color: var(--text-secondary); margin: 8px 0 0; line-height: 1.55; }
+
+  @media (max-width: 900px) {
+    .kit .grid, .contact-grid { grid-template-columns: 1fr; }
+    .recent .stories { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    section { padding: 56px 20px; }
+    .recent .stories { grid-template-columns: 1fr; }
+    .boilerplate blockquote { padding: 22px 24px; font-size: 16px; }
+  }
+</style>

@@ -41,6 +41,8 @@ collections:
     slug: "{{slug}}"
     extension: "md"
     format: "frontmatter"
+    preview_path: "stories/{{slug}}"
+    preview_path_date_field: "date"
     summary: "{{title}} — {{date | date('YYYY-MM-DD')}}"
     sortable_fields: ["date", "title", "category"]
     view_filters:
@@ -103,6 +105,7 @@ collections:
     slug: "{{slug}}"
     extension: "md"
     format: "frontmatter"
+    preview_path: "reports"
     summary: "{{title}} — {{date | date('YYYY-MM')}} · {{pages}}p"
     sortable_fields: ["date", "title", "type"]
     fields:
@@ -151,6 +154,7 @@ collections:
     slug: "{{slug}}"
     extension: "md"
     format: "frontmatter"
+    preview_path: "get-involved/events"
     summary: "{{title}} — {{date | date('YYYY-MM-DD')}} · {{location}}"
     sortable_fields: ["date", "title", "type"]
     fields:
@@ -195,6 +199,7 @@ collections:
     slug: "{{slug}}"
     extension: "md"
     format: "frontmatter"
+    preview_path: "what-we-do/{{slug}}"
     summary: "{{title}} — {{tagline}}"
     sortable_fields: ["order", "title"]
     fields:
@@ -221,6 +226,7 @@ collections:
       - name: "hero"
         label: "1. Hero (메인 배너)"
         file: "src/data/cms/hero.json"
+        preview_path: "/"
         format: "json"
         fields:
           - { label: "Hero image URL", name: "heroImage", widget: "string" }
@@ -251,6 +257,7 @@ collections:
       - name: "catchphrase"
         label: "2. Catchphrase (메인 메시지)"
         file: "src/data/cms/catchphrase.json"
+        preview_path: "/"
         format: "json"
         fields:
           - label: "English"
@@ -270,6 +277,7 @@ collections:
       - name: "stats"
         label: "3. Stats (숫자 통계)"
         file: "src/data/cms/stats.json"
+        preview_path: "/"
         format: "json"
         fields:
           - label: "English"
@@ -309,6 +317,7 @@ collections:
       - name: "projects"
         label: "4. Major Projects (주요 활동 4개)"
         file: "src/data/cms/projects.json"
+        preview_path: "/"
         format: "json"
         fields:
           - label: "English"
@@ -356,6 +365,7 @@ collections:
       - name: "regions"
         label: "5. Activity by Region (5개 대륙)"
         file: "src/data/cms/regions.json"
+        preview_path: "/"
         format: "json"
         fields:
           - label: "English"
@@ -401,6 +411,7 @@ collections:
       - name: "recognition"
         label: "6. Recognition (수상 및 협력)"
         file: "src/data/cms/recognition.json"
+        preview_path: "/"
         format: "json"
         fields:
           - { label: "전체 보기 링크", name: "viewAllHref", widget: "string", default: "/about" }
@@ -461,6 +472,7 @@ collections:
       - name: "videos"
         label: "7. Video Grid (YouTube 영상)"
         file: "src/data/cms/videos.json"
+        preview_path: "/"
         format: "json"
         fields:
           - { label: "YouTube 채널 URL", name: "channelUrl", widget: "string", default: "https://www.youtube.com/@ASEZ" }
@@ -502,6 +514,7 @@ collections:
       - name: "sns"
         label: "8. SNS Grid (소셜 + 사진 타일)"
         file: "src/data/cms/sns.json"
+        preview_path: "/"
         format: "json"
         fields:
           - { label: "타일 클릭 시 이동할 URL", name: "tilesHref", widget: "string", default: "https://www.instagram.com/asezglobal/" }
@@ -533,6 +546,85 @@ collections:
               - { label: "Image URL", name: "image", widget: "string" }
               - { label: "Alt text", name: "alt", widget: "string" }
 
+      # ── Footer (모든 페이지 하단)
+      - name: "footer"
+        label: "9. Footer (전체 페이지 하단)"
+        file: "src/data/cms/footer.json"
+        preview_path: "/"
+        format: "json"
+        fields:
+          - { label: "Privacy 페이지 링크", name: "privacyHref", widget: "string", default: "/privacy" }
+          - { label: "Terms 페이지 링크", name: "termsHref", widget: "string", default: "/terms" }
+          - { label: "Contact 링크", name: "contactHref", widget: "string", default: "/contact" }
+          - label: "English"
+            name: "en"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Tagline", name: "tagline", widget: "string" }
+              - { label: "Mission", name: "mission", widget: "text" }
+              - { label: "Privacy 텍스트", name: "privacy", widget: "string" }
+              - { label: "Terms 텍스트", name: "terms", widget: "string" }
+              - { label: "Contact 텍스트", name: "contact", widget: "string" }
+              - { label: "Rights 텍스트", name: "rights", widget: "string" }
+              - label: "Newsletter"
+                name: "newsletter"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "string" }
+                  - { label: "Placeholder", name: "placeholder", widget: "string" }
+                  - { label: "Success 메시지", name: "success", widget: "string" }
+                  - { label: "Error 메시지", name: "error", widget: "string" }
+          - label: "한국어"
+            name: "ko"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Tagline", name: "tagline", widget: "string" }
+              - { label: "Mission", name: "mission", widget: "text" }
+              - { label: "Privacy 텍스트", name: "privacy", widget: "string" }
+              - { label: "Terms 텍스트", name: "terms", widget: "string" }
+              - { label: "Contact 텍스트", name: "contact", widget: "string" }
+              - { label: "Rights 텍스트", name: "rights", widget: "string" }
+              - label: "Newsletter"
+                name: "newsletter"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "desc", widget: "string" }
+                  - { label: "Placeholder", name: "placeholder", widget: "string" }
+                  - { label: "Success 메시지", name: "success", widget: "string" }
+                  - { label: "Error 메시지", name: "error", widget: "string" }
+          - label: "Nav 컬럼 (3개)"
+            name: "columns"
+            widget: "list"
+            fields:
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+              - label: "한국어"
+                name: "ko"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+              - label: "링크들"
+                name: "links"
+                widget: "list"
+                fields:
+                  - { label: "URL", name: "href", widget: "string" }
+                  - { label: "EN label", name: "en", widget: "string" }
+                  - { label: "KO label", name: "ko", widget: "string" }
+          - label: "SNS 링크 (4개)"
+            name: "sns"
+            widget: "list"
+            fields:
+              - { label: "Icon (Tabler)", name: "icon", widget: "string" }
+              - { label: "URL", name: "href", widget: "string" }
+              - { label: "Label", name: "label", widget: "string" }
+
   # ─────────────────────────────────────────────────────────
   # PAGES — 메인 페이지 외 정적 페이지들
   # 파일: src/data/cms/page-*.json
@@ -545,6 +637,7 @@ collections:
       - name: "about"
         label: "About 페이지"
         file: "src/data/cms/page-about.json"
+        preview_path: "about"
         format: "json"
         fields:
           - label: "English"
@@ -659,6 +752,7 @@ collections:
       - name: "contact"
         label: "Contact 페이지"
         file: "src/data/cms/page-contact.json"
+        preview_path: "contact"
         format: "json"
         fields:
           - label: "English (전체 페이지 텍스트)"
@@ -786,6 +880,7 @@ collections:
       - name: "where_we_work"
         label: "Where we work 페이지"
         file: "src/data/cms/page-where-we-work.json"
+        preview_path: "where-we-work"
         format: "json"
         fields:
           - { label: "Get involved CTA 링크", name: "ctaPrimaryHref", widget: "string", default: "/get-involved" }
@@ -933,6 +1028,7 @@ collections:
       - name: "what_we_do"
         label: "What we do 페이지"
         file: "src/data/cms/page-what-we-do.json"
+        preview_path: "what-we-do"
         format: "json"
         fields:
           - label: "English"
@@ -1006,6 +1102,7 @@ collections:
       - name: "get_involved"
         label: "Get involved 메인"
         file: "src/data/cms/page-get-involved.json"
+        preview_path: "get-involved"
         format: "json"
         fields:
           - label: "English"
@@ -1128,6 +1225,7 @@ collections:
       - name: "join"
         label: "Get involved — Join"
         file: "src/data/cms/page-join.json"
+        preview_path: "get-involved/join"
         format: "json"
         fields:
           - label: "English"
@@ -1221,6 +1319,7 @@ collections:
       - name: "start_chapter"
         label: "Get involved — Start chapter"
         file: "src/data/cms/page-start-chapter.json"
+        preview_path: "get-involved/start-chapter"
         format: "json"
         fields:
           - label: "English"
@@ -1316,6 +1415,7 @@ collections:
       - name: "volunteer"
         label: "Get involved — Volunteer"
         file: "src/data/cms/page-volunteer.json"
+        preview_path: "get-involved/volunteer"
         format: "json"
         fields:
           - label: "English"
@@ -1411,6 +1511,7 @@ collections:
       - name: "partner"
         label: "Get involved — Partner"
         file: "src/data/cms/page-partner.json"
+        preview_path: "get-involved/partner"
         format: "json"
         fields:
           - label: "English"
